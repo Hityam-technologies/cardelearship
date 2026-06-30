@@ -176,7 +176,7 @@ export default function CollectionScreen() {
 
     return (
         <div className="w-full max-w-full min-h-screen bg-[#fafafa] p-2 sm:p-4 flex flex-col overflow-x-clip box-border font-sans">
-            <div className={`w-full bg-[#111111] rounded-[20px] sm:rounded-[30px] lg:rounded-[40px] relative shrink-0 isolate h-[calc(100dvh-1rem)] sm:h-[calc(100dvh-2rem)] ${isShowingDetails ? 'min-h-[850px] lg:min-h-[640px] overflow-y-auto lg:overflow-hidden custom-scrollbar' : 'min-h-[640px] overflow-hidden [contain:paint]'}`}>
+            <div className={`w-full bg-[#111111] rounded-[20px] sm:rounded-[30px] lg:rounded-[40px] relative shrink-0 isolate h-[calc(100dvh-1rem)] sm:h-[calc(100dvh-2rem)] ${isShowingDetails ? 'min-h-[850px] lg:min-h-[640px] overflow-y-auto custom-scrollbar' : 'min-h-[640px] overflow-hidden [contain:paint]'}`}>
                 <Header
                     viewMode={viewMode}
                     setViewMode={setViewMode}
