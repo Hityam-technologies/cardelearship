@@ -236,9 +236,7 @@ export default function HomeScreen() {
                     <div className="flex flex-col justify-between flex-1 min-w-0 xl:min-h-[640px] gap-14 xl:gap-0 mt-4 xl:mt-0">
                         {/* About Us */}
                         <div className="flex flex-col gap-3">
-                            <button type="button" onClick={goToAbout} className="text-left bg-transparent border-none p-0 cursor-pointer">
-                                <span className="text-[#d32f2f] font-michroma text-[12px] font-bold tracking-[2px]">[ ABOUT US_ ]</span>
-                            </button>
+                            
                             <h1 className="font-michroma text-[34px] md:text-[44px] leading-[1.15] font-normal uppercase text-black m-0">
                                 Built for those<br />who choose differently
                             </h1>

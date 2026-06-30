@@ -17,11 +17,19 @@ const LightningIcon = () => (
     </svg>
 );
 
+const TorqueIcon = () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="3" />
+        <path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.93 4.93l2.12 2.12M16.95 16.95l2.12 2.12M4.93 19.07l2.12-2.12M16.95 7.05l2.12-2.12" />
+    </svg>
+);
+
 const SPRING = { type: 'spring', stiffness: 260, damping: 32 };
 const FADE = { duration: 0.4, ease: [0.4, 0, 0.2, 1] };
 
 import { COLLECTION_CARS, getCategories } from '../../data/cars';
 import { readCollectionParams, navigateToTestDrive, buildCollectionPath } from '../../utils/navigation';
+import { useIsMobile, useIsTablet } from '../../hooks/useMediaQuery';
 
 function BrandInfo({ car, isCenter }) {
     if (!car) return null;
@@ -43,10 +51,10 @@ function BrandInfo({ car, isCenter }) {
                     />
                 )}
             </div>
-            <div className={`${isCenter ? 'text-4xl' : 'text-2xl'} font-bold font-michroma mb-1 tracking-wide truncate max-w-[90vw] px-2`}>
+            <div className={`${isCenter ? 'text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl' : 'text-sm sm:text-base md:text-lg lg:text-2xl'} font-bold font-michroma mb-0.5 sm:mb-1 tracking-wide truncate max-w-full px-1`}>
                 {car.brand}
             </div>
-            <div className={`${isCenter ? 'text-sm text-white/70' : 'text-xs text-white/50'} tracking-wider truncate max-w-[90vw] px-2`}>
+            <div className={`${isCenter ? 'text-[10px] sm:text-xs md:text-sm text-white/70' : 'text-[9px] sm:text-[10px] md:text-xs text-white/50'} tracking-wider truncate max-w-full px-1`}>
                 {car.model}
             </div>
         </motion.div>
@@ -78,6 +86,8 @@ export default function CollectionScreen() {
     const [activeIndex, setActiveIndex] = useState(1);
     const [viewMode, setViewMode] = useState('carousel');
     const [activeCategory, setActiveCategory] = useState('All');
+    const isMobile = useIsMobile();
+    const isTablet = useIsTablet();
 
     const categories = getCategories(COLLECTION_CARS);
 
@@ -160,7 +170,7 @@ export default function CollectionScreen() {
 
     return (
         <div className="w-full max-w-full min-h-screen bg-[#fafafa] p-2 sm:p-4 flex flex-col overflow-x-clip box-border font-sans">
-            <div className="w-full h-[calc(100vh-1rem)] sm:h-[calc(100vh-2rem)] min-h-[600px] bg-[#111111] rounded-[20px] sm:rounded-[30px] lg:rounded-[40px] relative overflow-hidden shrink-0 isolate [contain:paint]">
+            <div className={`w-full bg-[#111111] rounded-[20px] sm:rounded-[30px] lg:rounded-[40px] relative shrink-0 isolate h-[calc(100dvh-1rem)] sm:h-[calc(100dvh-2rem)] min-h-[640px] ${isShowingDetails ? 'overflow-y-auto custom-scrollbar' : 'overflow-hidden [contain:paint]'}`}>
                 <Header
                     viewMode={viewMode}
                     setViewMode={setViewMode}
@@ -181,8 +191,12 @@ export default function CollectionScreen() {
                     className="absolute top-0 bottom-0 z-0 bg-[#da2525]"
                     animate={{
                         clipPath: isShowingDetails
-                            ? 'polygon(72% -20%, 95% -20%, 82% 120%, 58% 120%)'
-                            : 'polygon(65% -20%, 90% -20%, 75% 120%, 50% 120%)',
+                            ? (isMobile
+                                ? 'polygon(0% 72%, 100% 60%, 100% 100%, 0% 100%)'
+                                : 'polygon(72% -20%, 95% -20%, 82% 120%, 58% 120%)')
+                            : (isMobile
+                                ? 'polygon(55% -20%, 100% -20%, 100% 120%, 35% 120%)'
+                                : 'polygon(65% -20%, 90% -20%, 75% 120%, 50% 120%)'),
                     }}
                     transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] }}
                     style={{ width: '100%', height: '100%' }}
@@ -192,34 +206,53 @@ export default function CollectionScreen() {
                     {/* Brand nav — hidden in detail view */}
                     <AnimatePresence>
                         {viewMode === 'carousel' && !isShowingDetails && (
-                            <motion.div
-                                key="brand-nav"
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                exit={{ opacity: 0, y: -20 }}
-                                transition={FADE}
-                                className="absolute top-28 w-full z-10 flex justify-center pointer-events-none"
-                            >
-                                <div className="flex w-[90%] max-w-[1400px] justify-between relative h-32 items-center">
-                                    <div className="absolute left-[33%] top-4 bottom-4 w-px bg-white/30" />
-                                    <div className="absolute right-[33%] top-4 bottom-4 w-px bg-white/30" />
-                                    <div className="w-[33%] flex justify-center">
+                            <>
+                                {/* Mobile / small tablet: active car only */}
+                                <motion.div
+                                    key="brand-nav-mobile"
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    exit={{ opacity: 0, y: -20 }}
+                                    transition={FADE}
+                                    className="absolute top-[10.5rem] sm:top-[11rem] md:top-28 left-0 right-0 z-10 flex justify-center px-4 pointer-events-none lg:hidden"
+                                >
+                                    <div className="w-full max-w-[320px] sm:max-w-[400px]">
                                         <AnimatePresence mode="wait">
-                                            {leftCar && <BrandInfo key={`left-${leftCar.id}`} car={leftCar} isCenter={false} />}
+                                            <BrandInfo key={`mobile-${activeCar.id}`} car={activeCar} isCenter={true} />
                                         </AnimatePresence>
                                     </div>
-                                    <div className="w-[34%] flex justify-center">
-                                        <AnimatePresence mode="wait">
-                                            <BrandInfo key={`center-${activeCar.id}`} car={activeCar} isCenter={true} />
-                                        </AnimatePresence>
+                                </motion.div>
+
+                                {/* Desktop: three-column brand strip */}
+                                <motion.div
+                                    key="brand-nav-desktop"
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    exit={{ opacity: 0, y: -20 }}
+                                    transition={FADE}
+                                    className="absolute top-28 w-full z-10 hidden lg:flex justify-center pointer-events-none"
+                                >
+                                    <div className="flex w-[90%] max-w-[1400px] justify-between relative h-32 items-center">
+                                        <div className="absolute left-[33%] top-4 bottom-4 w-px bg-white/30" />
+                                        <div className="absolute right-[33%] top-4 bottom-4 w-px bg-white/30" />
+                                        <div className="w-[33%] flex justify-center px-2">
+                                            <AnimatePresence mode="wait">
+                                                {leftCar && <BrandInfo key={`left-${leftCar.id}`} car={leftCar} isCenter={false} />}
+                                            </AnimatePresence>
+                                        </div>
+                                        <div className="w-[34%] flex justify-center px-2">
+                                            <AnimatePresence mode="wait">
+                                                <BrandInfo key={`center-${activeCar.id}`} car={activeCar} isCenter={true} />
+                                            </AnimatePresence>
+                                        </div>
+                                        <div className="w-[33%] flex justify-center px-2">
+                                            <AnimatePresence mode="wait">
+                                                {rightCar && <BrandInfo key={`right-${rightCar.id}`} car={rightCar} isCenter={false} />}
+                                            </AnimatePresence>
+                                        </div>
                                     </div>
-                                    <div className="w-[33%] flex justify-center">
-                                        <AnimatePresence mode="wait">
-                                            {rightCar && <BrandInfo key={`right-${rightCar.id}`} car={rightCar} isCenter={false} />}
-                                        </AnimatePresence>
-                                    </div>
-                                </div>
-                            </motion.div>
+                                </motion.div>
+                            </>
                         )}
                     </AnimatePresence>
 
@@ -230,6 +263,7 @@ export default function CollectionScreen() {
                             const offset = index - activeIndex;
                             const isCenter = offset === 0;
 
+                            if (isTablet && !isCenter && !isShowingDetails) return null;
                             if (Math.abs(offset) > 1 || (isShowingDetails && !isCenter)) {
                                 return null;
                             }
@@ -239,22 +273,22 @@ export default function CollectionScreen() {
                                     key={car.id}
                                     className={`absolute flex items-center justify-center origin-center ${isCenter ? (isShowingDetails ? 'pointer-events-none z-20' : 'cursor-pointer pointer-events-auto z-20') : 'pointer-events-none z-10'}`}
                                     initial={{
-                                        top: '50%',
+                                        top: isMobile ? '40%' : '50%',
                                         left: '50%',
                                         x: offset > 0 ? '20%' : offset < 0 ? '-120%' : '-50%',
-                                        y: '-38%',
+                                        y: isMobile ? '-40%' : '-36%',
                                         scale: 0.6,
                                         opacity: 0,
-                                        width: '75%',
-                                        maxWidth: 1100,
+                                        width: isMobile ? '85%' : '75%',
+                                        maxWidth: isMobile ? 480 : 1100,
                                     }}
                                     animate={{
-                                        top: isCenter && isShowingDetails ? '7%' : '50%',
-                                        left: isCenter && isShowingDetails ? '0%' : '50%',
-                                        x: isCenter ? (isShowingDetails ? '0%' : '-50%') : (offset > 0 ? '20%' : '-120%'),
-                                        y: isCenter && isShowingDetails ? '0%' : '-38%',
-                                        width: isCenter && isShowingDetails ? '40%' : '75%',
-                                        maxWidth: isCenter && isShowingDetails ? 520 : 1100,
+                                        top: isCenter && isShowingDetails ? (isMobile ? '45%' : '7%') : '50%',
+                                        left: isCenter && isShowingDetails ? (isMobile ? '50%' : '0%') : '50%',
+                                        x: isCenter ? (isShowingDetails ? (isMobile ? '-50%' : '0%') : '-50%') : (offset > 0 ? '20%' : '-120%'),
+                                        y: isCenter && isShowingDetails ? (isMobile ? '-50%' : '0%') : (isMobile ? '-40%' : '-38%'),
+                                        width: isCenter && isShowingDetails ? (isMobile ? '95%' : '42%') : (isMobile ? '85%' : '75%'),
+                                        maxWidth: isCenter && isShowingDetails ? (isMobile ? 500 : 560) : (isMobile ? 480 : 1100),
                                         scale: isCenter ? 1 : 0.6,
                                         opacity: isCenter ? 1 : 0.4,
                                         zIndex: isCenter ? 20 : 15,
@@ -274,10 +308,12 @@ export default function CollectionScreen() {
                                     <motion.img
                                         src={car.image}
                                         alt={car.brand}
-                                        className="w-full h-auto object-contain drop-shadow-2xl select-none origin-top-left"
+                                        className={`w-full h-auto object-contain drop-shadow-2xl select-none ${isMobile ? 'origin-center' : 'origin-top-left'}`}
                                         animate={{
-                                            maxHeight: isCenter && isShowingDetails ? '44vh' : '75vh',
-                                            scale: isCenter && isShowingDetails ? 1.5 : 1,
+                                            maxHeight: isCenter && isShowingDetails
+                                                ? (isMobile ? '32vh' : '46vh')
+                                                : (isMobile ? '48vh' : '75vh'),
+                                            scale: isCenter && isShowingDetails ? (isMobile ? 1.3 : 1.25) : 1,
                                             opacity: isCenter ? 1 : 0.6,
                                         }}
                                         transition={SPRING}
@@ -305,20 +341,20 @@ export default function CollectionScreen() {
                                 <button
                                     onClick={goPrev}
                                     disabled={activeIndex === 0}
-                                    className={`absolute left-4 sm:left-6 md:left-10 top-1/2 -translate-y-1/2 z-40 text-white transition-all duration-300 ${activeIndex === 0 ? 'opacity-30 cursor-not-allowed' : 'opacity-100 hover:opacity-70 hover:-translate-x-2 cursor-pointer'}`}
+                                    className={`absolute left-2 sm:left-4 md:left-10 top-1/2 -translate-y-1/2 z-40 text-white transition-all duration-300 ${activeIndex === 0 ? 'opacity-30 cursor-not-allowed' : 'opacity-100 hover:opacity-70 hover:-translate-x-2 cursor-pointer'}`}
                                     aria-label="Previous car"
                                 >
-                                    <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                                    <svg className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                                         <polyline points="15 18 9 12 15 6" />
                                     </svg>
                                 </button>
                                 <button
                                     onClick={goNext}
                                     disabled={activeIndex === totalCars - 1}
-                                    className={`absolute right-4 sm:right-6 md:right-10 top-1/2 -translate-y-1/2 z-40 text-white transition-all duration-300 ${activeIndex === totalCars - 1 ? 'opacity-30 cursor-not-allowed' : 'opacity-100 hover:opacity-70 hover:translate-x-2 cursor-pointer'}`}
+                                    className={`absolute right-2 sm:right-4 md:right-10 top-1/2 -translate-y-1/2 z-40 text-white transition-all duration-300 ${activeIndex === totalCars - 1 ? 'opacity-30 cursor-not-allowed' : 'opacity-100 hover:opacity-70 hover:translate-x-2 cursor-pointer'}`}
                                     aria-label="Next car"
                                 >
-                                    <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                                    <svg className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                                         <polyline points="9 18 15 12 9 6" />
                                     </svg>
                                 </button>
@@ -335,89 +371,96 @@ export default function CollectionScreen() {
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: 30 }}
                                 transition={FADE}
+                                className="absolute bottom-0 inset-x-0 z-30 pointer-events-none"
                             >
-                                <div className="absolute bottom-16 left-[8%] z-30 pointer-events-auto">
-                                    <AnimatePresence mode="wait">
-                                        <motion.div
-                                            key={`price-${activeCar.id}`}
-                                            initial={{ opacity: 0, y: 10 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            exit={{ opacity: 0, y: -10 }}
-                                        >
-                                            <div className="text-white text-5xl font-medium tracking-tight mb-2">{activeCar.price}</div>
-                                            <div className="text-white/60 text-sm mb-8 tracking-wide">Inclusive of applicable buyer&apos;s Fee</div>
-                                        </motion.div>
-                                    </AnimatePresence>
-                                    <button
-                                        type="button"
-                                        onClick={handleViewDetails}
-                                        className="bg-transparent hover:bg-[#da2525] border-2 border-[#da2525] text-white rounded-full px-8 py-3 flex items-center gap-3 transition-colors group"
-                                    >
-                                        <span className="text-[16px] font-medium tracking-wide">View Details</span>
-                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="transition-transform group-hover:translate-x-1">
-                                            <line x1="5" y1="12" x2="19" y2="12" />
-                                            <polyline points="12 5 19 12 12 19" />
-                                        </svg>
-                                    </button>
-                                </div>
-
-                                <div className="absolute bottom-16 right-[8%] z-30 flex items-end gap-16 pointer-events-auto">
-                                    <AnimatePresence mode="wait">
-                                        <motion.div
-                                            key={`stats-${activeCar.id}`}
-                                            initial={{ opacity: 0, x: 20 }}
-                                            animate={{ opacity: 1, x: 0 }}
-                                            exit={{ opacity: 0, x: -20 }}
-                                            className="flex items-center gap-12 mr-6"
-                                        >
-                                            <div className="flex flex-col items-center text-white">
-                                                <SpeedometerIcon />
-                                                <div className="text-[18px] font-medium mt-3 mb-0.5">{activeCar.topSpeed}</div>
-                                                <div className="text-[10px] text-white/70 uppercase tracking-widest">Top Speed</div>
-                                            </div>
-                                            <div className="flex flex-col items-center text-white">
-                                                <LightningIcon />
-                                                <div className="text-[18px] font-medium mt-3 mb-0.5">{activeCar.maxPower}</div>
-                                                <div className="text-[10px] text-white/70 uppercase tracking-widest">Max Power</div>
-                                            </div>
-                                            <div className="flex flex-col items-center text-white">
-                                                <SpeedometerIcon />
-                                                <div className="text-[18px] font-medium mt-3 mb-0.5">{activeCar.torque}</div>
-                                                <div className="text-[10px] text-white/70 uppercase tracking-widest">Torque</div>
-                                            </div>
-                                        </motion.div>
-                                    </AnimatePresence>
-
-                                    <div className="flex items-center gap-4 pb-2">
-                                        <span className="text-white text-[16px] font-medium w-5">
-                                            {String(activeIndex + 1).padStart(2, '0')}
-                                        </span>
-                                        <div
-                                            className="w-[120px] h-[3px] bg-white/20 relative cursor-pointer rounded-full"
-                                            onClick={(e) => {
-                                                const rect = e.currentTarget.getBoundingClientRect();
-                                                const ratio = (e.clientX - rect.left) / rect.width;
-                                                setActiveIndex(Math.max(0, Math.min(totalCars - 1, Math.round(ratio * (totalCars - 1)))));
-                                            }}
-                                        >
-                                            <motion.div
-                                                className="absolute top-0 left-0 h-full bg-[#da2525] rounded-full"
-                                                animate={{ width: `${progress * 100}%` }}
-                                                transition={{ type: 'tween', duration: 0.3 }}
-                                            />
-                                            <motion.div
-                                                className="absolute top-1/2 -translate-y-1/2 w-4 h-6 bg-[#da2525] rounded-full cursor-grab active:cursor-grabbing flex items-center justify-center z-10"
-                                                animate={{ left: `calc(${progress * 100}% - 8px)` }}
-                                                transition={{ type: 'tween', duration: 0.3 }}
-                                                drag="x"
-                                                dragConstraints={{ left: 0, right: 0 }}
-                                                onDragEnd={(_, info) => {
-                                                    if (info.offset.x > 20) goNext();
-                                                    else if (info.offset.x < -20) goPrev();
-                                                }}
+                                <div className="pointer-events-auto px-4 sm:px-6 md:px-10 pb-4 sm:pb-6 md:pb-8 pt-12 sm:pt-16">
+                                    <div className="max-w-[1400px] mx-auto flex flex-col gap-4 md:gap-5 lg:flex-row lg:items-end lg:justify-between">
+                                        {/* Price + CTA */}
+                                        <div className="order-2 lg:order-1 w-full lg:w-auto lg:max-w-[50%]">
+                                            <AnimatePresence mode="wait">
+                                                <motion.div
+                                                    key={`price-${activeCar.id}`}
+                                                    initial={{ opacity: 0, y: 10 }}
+                                                    animate={{ opacity: 1, y: 0 }}
+                                                    exit={{ opacity: 0, y: -10 }}
+                                                >
+                                                    <div className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium tracking-tight mb-1 sm:mb-2">{activeCar.price}</div>
+                                                    <div className="text-white/60 text-[11px] sm:text-xs md:text-sm mb-3 sm:mb-4 tracking-wide">Inclusive of applicable buyer&apos;s Fee</div>
+                                                </motion.div>
+                                            </AnimatePresence>
+                                            <button
+                                                type="button"
+                                                onClick={handleViewDetails}
+                                                className="bg-transparent hover:bg-[#da2525] border-2 border-[#da2525] text-white rounded-full px-5 sm:px-8 py-2.5 sm:py-3 flex items-center gap-2 sm:gap-3 transition-colors group w-full sm:w-auto justify-center sm:justify-start"
                                             >
-                                                <div className="w-1 h-3 bg-white/40 rounded-full pointer-events-none" />
-                                            </motion.div>
+                                                <span className="text-[14px] sm:text-[16px] font-medium tracking-wide">View Details</span>
+                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="transition-transform group-hover:translate-x-1 shrink-0">
+                                                    <line x1="5" y1="12" x2="19" y2="12" />
+                                                    <polyline points="12 5 19 12 12 19" />
+                                                </svg>
+                                            </button>
+                                        </div>
+
+                                        {/* Stats + progress */}
+                                        <div className="order-1 lg:order-2 flex flex-col gap-4 sm:gap-5 w-full lg:w-auto lg:items-end">
+                                            <AnimatePresence mode="wait">
+                                                <motion.div
+                                                    key={`stats-${activeCar.id}`}
+                                                    initial={{ opacity: 0, x: 20 }}
+                                                    animate={{ opacity: 1, x: 0 }}
+                                                    exit={{ opacity: 0, x: -20 }}
+                                                    className="flex items-center justify-between sm:justify-center lg:justify-end gap-4 sm:gap-8 md:gap-10 lg:gap-12 w-full"
+                                                >
+                                                    <div className="flex flex-col items-center text-white min-w-0 flex-1 sm:flex-none">
+                                                        <SpeedometerIcon />
+                                                        <div className="text-[14px] sm:text-[16px] md:text-[18px] font-medium mt-2 sm:mt-3 mb-0.5 whitespace-nowrap">{activeCar.topSpeed}</div>
+                                                        <div className="text-[9px] sm:text-[10px] text-white/70 uppercase tracking-widest text-center">Top Speed</div>
+                                                    </div>
+                                                    <div className="flex flex-col items-center text-white min-w-0 flex-1 sm:flex-none">
+                                                        <LightningIcon />
+                                                        <div className="text-[14px] sm:text-[16px] md:text-[18px] font-medium mt-2 sm:mt-3 mb-0.5 whitespace-nowrap">{activeCar.maxPower}</div>
+                                                        <div className="text-[9px] sm:text-[10px] text-white/70 uppercase tracking-widest text-center">Max Power</div>
+                                                    </div>
+                                                    <div className="flex flex-col items-center text-white min-w-0 flex-1 sm:flex-none">
+                                                        <TorqueIcon />
+                                                        <div className="text-[14px] sm:text-[16px] md:text-[18px] font-medium mt-2 sm:mt-3 mb-0.5 whitespace-nowrap">{activeCar.torque}</div>
+                                                        <div className="text-[9px] sm:text-[10px] text-white/70 uppercase tracking-widest text-center">Torque</div>
+                                                    </div>
+                                                </motion.div>
+                                            </AnimatePresence>
+
+                                            <div className="flex items-center justify-center lg:justify-end gap-3 sm:gap-4 w-full">
+                                                <span className="text-white text-[14px] sm:text-[16px] font-medium w-5 shrink-0">
+                                                    {String(activeIndex + 1).padStart(2, '0')}
+                                                </span>
+                                                <div
+                                                    className="w-full max-w-[200px] sm:max-w-[120px] lg:w-[120px] h-[3px] bg-white/20 relative cursor-pointer rounded-full shrink"
+                                                    onClick={(e) => {
+                                                        const rect = e.currentTarget.getBoundingClientRect();
+                                                        const ratio = (e.clientX - rect.left) / rect.width;
+                                                        setActiveIndex(Math.max(0, Math.min(totalCars - 1, Math.round(ratio * (totalCars - 1)))));
+                                                    }}
+                                                >
+                                                    <motion.div
+                                                        className="absolute top-0 left-0 h-full bg-[#da2525] rounded-full"
+                                                        animate={{ width: `${progress * 100}%` }}
+                                                        transition={{ type: 'tween', duration: 0.3 }}
+                                                    />
+                                                    <motion.div
+                                                        className="absolute top-1/2 -translate-y-1/2 w-4 h-6 bg-[#da2525] rounded-full cursor-grab active:cursor-grabbing flex items-center justify-center z-10"
+                                                        animate={{ left: `calc(${progress * 100}% - 8px)` }}
+                                                        transition={{ type: 'tween', duration: 0.3 }}
+                                                        drag="x"
+                                                        dragConstraints={{ left: 0, right: 0 }}
+                                                        onDragEnd={(_, info) => {
+                                                            if (info.offset.x > 20) goNext();
+                                                            else if (info.offset.x < -20) goPrev();
+                                                        }}
+                                                    >
+                                                        <div className="w-1 h-3 bg-white/40 rounded-full pointer-events-none" />
+                                                    </motion.div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -425,7 +468,7 @@ export default function CollectionScreen() {
                         )}
                     </AnimatePresence>
 
-                    {/* Detail view — info right, cards bottom */}
+                    {/* Detail view — car left, info right, cards bottom (laptop/desktop) */}
                     <AnimatePresence>
                         {isShowingDetails && (
                             <motion.div
@@ -434,20 +477,22 @@ export default function CollectionScreen() {
                                 animate={{ opacity: 1 }}
                                 exit={{ opacity: 0 }}
                                 transition={FADE}
-                                className="absolute inset-0 z-30 pointer-events-none"
+                                className={`z-30 ${isMobile ? 'relative flex flex-col px-4 pt-48 pb-10 gap-5 min-h-full' : 'relative h-full min-h-[640px] pb-8'}`}
                             >
-                                {/* Right panel — car info & quick stats */}
+                                {/* Info panel — right on laptop, stacked on mobile */}
                                 <motion.div
-                                    initial={{ opacity: 0, x: 40 }}
+                                    initial={{ opacity: 0, x: isMobile ? 0 : 40 }}
                                     animate={{ opacity: 1, x: 0 }}
                                     exit={{ opacity: 0, x: 30 }}
                                     transition={{ ...FADE, delay: 0.15 }}
-                                    className="absolute top-[16%] left-[48%] right-[5%] pointer-events-auto"
+                                    className={isMobile
+                                        ? 'relative w-full flex flex-col flex-1'
+                                        : 'absolute top-[14%] left-[46%] right-[4%] z-30'}
                                 >
-                                    <div className="flex items-start justify-between gap-4 mb-6">
-                                        <div>
-                                            <div className="text-white text-3xl lg:text-4xl font-medium tracking-wide mb-1 truncate max-w-full px-1">{activeCar.brand}</div>
-                                            <div className="text-white/60 text-sm tracking-wider mb-3 truncate max-w-full px-1">{activeCar.model}</div>
+                                    <div className={`flex items-start justify-between gap-4 ${isMobile ? 'w-full' : 'mb-5'}`}>
+                                        <div className="min-w-0 flex-1">
+                                            <div className="text-white text-2xl md:text-3xl lg:text-4xl font-medium tracking-wide mb-1">{activeCar.brand}</div>
+                                            <div className="text-white/60 text-sm tracking-wider mb-2">{activeCar.model}</div>
                                             <div className="text-white/40 text-xs">{activeCar.color} · {activeCar.engine} · {activeCar.fuelType}</div>
                                         </div>
                                         <button
@@ -462,51 +507,56 @@ export default function CollectionScreen() {
                                         </button>
                                     </div>
 
-                                    <div className="text-white text-4xl lg:text-5xl font-medium tracking-tight mb-1">{activeCar.price}</div>
-                                    <div className="text-white/50 text-sm mb-8">EMI from {activeCar.emi} · Inclusive of buyer&apos;s fee</div>
+                                    {/* Mobile spacer for absolute car */}
+                                    {isMobile && <div className="w-full h-[28vh] min-h-[200px]" />}
 
-                                    <div className="flex flex-wrap gap-8 lg:gap-12">
-                                        <div className="flex flex-col items-start text-white">
-                                            <SpeedometerIcon />
-                                            <div className="text-lg font-medium mt-2">{activeCar.topSpeed}</div>
-                                            <div className="text-[10px] text-white/60 uppercase tracking-widest">Top Speed</div>
-                                        </div>
-                                        <div className="flex flex-col items-start text-white">
-                                            <LightningIcon />
-                                            <div className="text-lg font-medium mt-2">{activeCar.maxPower}</div>
-                                            <div className="text-[10px] text-white/60 uppercase tracking-widest">Max Power</div>
-                                        </div>
-                                        <div className="flex flex-col items-start text-white">
-                                            <SpeedometerIcon />
-                                            <div className="text-lg font-medium mt-2">{activeCar.torque}</div>
-                                            <div className="text-[10px] text-white/60 uppercase tracking-widest">Torque</div>
-                                        </div>
-                                        <div className="flex flex-col items-start text-white">
-                                            <div className="text-lg font-medium mt-2">★ {activeCar.rating}</div>
-                                            <div className="text-[10px] text-white/60 uppercase tracking-widest">{activeCar.reviewCount} Reviews</div>
-                                        </div>
-                                    </div>
+                                    {/* Bottom Content Container for Mobile */}
+                                    <div className={`${isMobile ? 'mt-auto pt-6' : ''}`}>
+                                        <div className="text-white text-3xl lg:text-4xl xl:text-5xl font-medium tracking-tight mb-1">{activeCar.price}</div>
+                                        <div className="text-white/50 text-sm mb-6 lg:mb-8">EMI from {activeCar.emi} · Inclusive of buyer&apos;s fee</div>
 
-                                    {/* Action Buttons */}
-                                    <div className="flex items-center gap-4 mt-10">
-                                        <button
-                                            type="button"
-                                            className="bg-[#da2525] hover:bg-[#b01e1e] text-white rounded-full px-8 py-3 transition-colors text-sm font-medium tracking-wide shadow-lg shadow-[#da2525]/20"
-                                        >
-                                            Enquire Now
-                                        </button>
-                                        <button
-                                            type="button"
-                                            onClick={() => navigateToTestDrive(navigate, activeCar.id)}
-                                            className="bg-transparent hover:bg-white/10 border border-white/30 text-white rounded-full px-8 py-3 transition-colors text-sm font-medium tracking-wide"
-                                        >
-                                            Book Test Drive
-                                        </button>
+                                        <div className="flex flex-wrap gap-6 lg:gap-10 xl:gap-12">
+                                            <div className="flex flex-col items-start text-white">
+                                                <SpeedometerIcon />
+                                                <div className="text-base lg:text-lg font-medium mt-2">{activeCar.topSpeed}</div>
+                                                <div className="text-[10px] text-white/60 uppercase tracking-widest">Top Speed</div>
+                                            </div>
+                                            <div className="flex flex-col items-start text-white">
+                                                <LightningIcon />
+                                                <div className="text-base lg:text-lg font-medium mt-2">{activeCar.maxPower}</div>
+                                                <div className="text-[10px] text-white/60 uppercase tracking-widest">Max Power</div>
+                                            </div>
+                                            <div className="flex flex-col items-start text-white">
+                                                <TorqueIcon />
+                                                <div className="text-base lg:text-lg font-medium mt-2">{activeCar.torque}</div>
+                                                <div className="text-[10px] text-white/60 uppercase tracking-widest">Torque</div>
+                                            </div>
+                                            <div className="flex flex-col items-start text-white">
+                                                <div className="text-base lg:text-lg font-medium mt-2 lg:mt-0">★ {activeCar.rating}</div>
+                                                <div className="text-[10px] text-white/60 uppercase tracking-widest">{activeCar.reviewCount} Reviews</div>
+                                            </div>
+                                        </div>
+
+                                        <div className="flex flex-wrap items-center gap-3 lg:gap-4 mt-8 lg:mt-10">
+                                            <button
+                                                type="button"
+                                                className="bg-white hover:bg-gray-100 text-black rounded-full px-8 py-3 transition-colors text-sm font-bold tracking-wide shadow-lg shadow-black/10"
+                                            >
+                                                Enquire Now
+                                            </button>
+                                            <button
+                                                type="button"
+                                                onClick={() => navigateToTestDrive(navigate, activeCar.id)}
+                                                className="bg-transparent hover:bg-white/10 border border-white/30 text-white rounded-full px-8 py-3 transition-colors text-sm font-medium tracking-wide"
+                                            >
+                                                Book Test Drive
+                                            </button>
+                                        </div>
                                     </div>
                                 </motion.div>
 
                                 {/* Bottom detail cards */}
-                                <div className="absolute bottom-6 left-[5%] right-[5%] grid grid-cols-1 md:grid-cols-3 gap-3 pointer-events-auto">
+                                <div className={`grid grid-cols-1 md:grid-cols-3 gap-3 px-4 md:px-[5%] ${isMobile ? 'relative w-full mt-2' : 'absolute bottom-6 left-0 right-0 z-30'}`}>
                                     <DetailCard title="Key Features" delay={0.2}>
                                         <ul className="space-y-1.5">
                                             {activeCar.features.map((f) => (
@@ -569,7 +619,7 @@ export default function CollectionScreen() {
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: 20 }}
                                 transition={{ duration: 0.4 }}
-                                className="absolute inset-0 top-[120px] lg:top-[140px] px-4 sm:px-8 lg:px-12 pb-8 overflow-y-auto z-20 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-white/10 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-white/20"
+                                className="absolute inset-0 top-[11.5rem] sm:top-[10.5rem] md:top-[120px] lg:top-[140px] px-4 sm:px-8 lg:px-12 pb-8 overflow-y-auto z-20 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-white/10 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-white/20"
                             >
                                 {/* Grid Container */}
                                 {filteredCars.length > 0 ? (

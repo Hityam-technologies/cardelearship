@@ -83,8 +83,8 @@ export default function TestDriveScreen() {
     const selectedCarModel = COLLECTION_CARS.find(c => c.id === formData.carId);
 
     return (
-        <div className="w-full max-w-full min-h-screen bg-[#fafafa] p-2 sm:p-4 flex flex-col box-border font-sans">
-            <div className="w-full min-h-[calc(100vh-1rem)] sm:min-h-[calc(100vh-2rem)] bg-[#111111] rounded-[20px] sm:rounded-[30px] lg:rounded-[40px] relative overflow-hidden flex flex-col isolate">
+        <div className="w-full max-w-full min-h-screen min-h-[100dvh] bg-[#fafafa] p-2 sm:p-4 flex flex-col box-border font-sans">
+            <div className="w-full min-h-[calc(100dvh-1rem)] sm:min-h-[calc(100dvh-2rem)] bg-[#111111] rounded-[20px] sm:rounded-[30px] lg:rounded-[40px] relative overflow-hidden flex flex-col isolate">
                 
                 <Header />
 
@@ -92,7 +92,7 @@ export default function TestDriveScreen() {
                 <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-[#da2525] rounded-full blur-[150px] opacity-20 pointer-events-none z-0" />
                 <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] bg-[#1a1a1a] rounded-full blur-[120px] opacity-80 pointer-events-none z-0" />
 
-                <div className="flex-1 w-full flex flex-col lg:flex-row relative z-10 pt-[60px] lg:pt-[70px] px-6 lg:px-16 xl:px-24 pb-6 gap-8 lg:gap-8 items-center">
+                <div className="flex-1 w-full flex flex-col lg:flex-row relative z-10 pt-[60px] lg:pt-[70px] px-4 sm:px-6 lg:px-16 xl:px-24 pb-6 gap-6 lg:gap-8 items-center overflow-y-auto lg:overflow-visible">
                     
                     {/* Left Side: Typography and Image */}
                     <div className="w-full lg:w-1/2 flex flex-col justify-center h-full relative">
@@ -123,12 +123,12 @@ export default function TestDriveScreen() {
                             initial={{ opacity: 0, x: -50 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-                            className="relative w-full lg:w-[110%] lg:-ml-[5%] mt-auto pointer-events-none"
+                            className="relative w-full lg:w-[110%] lg:-ml-[5%] mt-2 lg:mt-auto pointer-events-none max-h-[32vh] sm:max-h-[38vh] lg:max-h-none"
                         >
                             {/* Glow behind car */}
                             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] h-[50%] bg-gradient-to-t from-[#da2525]/50 to-transparent blur-[70px] rounded-full mix-blend-screen pointer-events-none" />
                             
-                            <div className="relative w-full h-[40vh] lg:h-[45vh] flex items-end justify-center transform scale-[1.3] lg:scale-[1.55] translate-y-12 lg:translate-y-24 origin-bottom">
+                            <div className="relative w-full h-[28vh] sm:h-[34vh] lg:h-[45vh] flex items-end justify-center transform scale-100 sm:scale-110 lg:scale-[1.55] translate-y-4 sm:translate-y-8 lg:translate-y-24 origin-bottom">
                                 <AnimatePresence mode="wait">
                                     <motion.img 
                                         key={displayImage + isSilhouette}

@@ -104,7 +104,7 @@ const TestimonialCard = ({ name, role, text, rating, image, isBlue, carName, onC
             ref={cardRef} 
             whileHover={{ y: -8, scale: 1.01 }}
             transition={{ type: "spring", stiffness: 300 }}
-            className={`relative w-[260px] sm:w-[280px] md:w-[300px] h-[280px] sm:h-[320px] shrink-0 snap-start ${onClick ? 'cursor-pointer' : ''}`}
+            className={`relative w-[min(280px,82vw)] sm:w-[280px] md:w-[300px] h-[260px] sm:h-[320px] shrink-0 snap-start ${onClick ? 'cursor-pointer' : ''}`}
             data-testimonial-card
             onClick={onClick}
             onKeyDown={onClick ? (e) => e.key === 'Enter' && onClick() : undefined}

@@ -29,12 +29,12 @@ const AboutScreen = () => {
     const stats = getDealershipStats();
 
     return (
-        <div className="w-full max-w-full h-screen bg-[#fafafa] p-2 sm:p-4 flex flex-col box-border font-sans overflow-hidden">
-            <div className="w-full h-full bg-[#111111] rounded-[20px] sm:rounded-[30px] lg:rounded-[40px] relative overflow-hidden flex flex-col isolate">
+        <div className="w-full max-w-full min-h-screen min-h-[100dvh] bg-[#fafafa] p-2 sm:p-4 flex flex-col box-border font-sans">
+            <div className="w-full min-h-[calc(100dvh-1rem)] sm:min-h-[calc(100dvh-2rem)] bg-[#111111] rounded-[20px] sm:rounded-[30px] lg:rounded-[40px] relative overflow-hidden flex flex-col isolate">
 
                 <Header />
 
-                <main className="flex-1 flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-0 px-6 sm:px-10 lg:px-16 xl:px-24 pt-[72px] lg:pt-[76px] pb-6 min-h-0 relative z-10 overflow-y-auto lg:overflow-hidden custom-scrollbar">
+                <main className="flex-1 flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-0 px-6 sm:px-10 lg:px-16 xl:px-24 pt-[100px] lg:pt-[76px] pb-6 min-h-0 relative z-10 overflow-y-auto lg:overflow-hidden custom-scrollbar">
 
                     {/* Left — about */}
                     <div className="w-full lg:w-[44%] flex flex-col gap-4 lg:pr-14 xl:pr-20">

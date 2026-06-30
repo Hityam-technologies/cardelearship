@@ -14,17 +14,17 @@ const Header = ({ viewMode, setViewMode, categories, activeCategory, setActiveCa
     const [searchQuery, setSearchQuery] = useState('');
 
     return (
-        <>
+        <header className="absolute top-0 left-0 w-full z-50 pointer-events-none flex justify-between items-start">
             {/* Top Nav Bar */}
-            <div className="absolute top-0 left-0 right-0 lg:right-auto lg:w-auto h-[64px] sm:h-[72px] lg:h-[90px] bg-white rounded-br-[20px] sm:rounded-br-[30px] lg:rounded-br-[40px] flex items-center justify-between lg:justify-start px-4 sm:px-6 lg:pl-12 lg:pr-16 z-20 drop-shadow-[0px_10px_20px_rgba(0,0,0,0.5)] lg:after:content-[''] lg:after:absolute lg:after:-right-[40px] lg:after:top-0 lg:after:w-[40px] lg:after:h-[40px] lg:after:bg-transparent lg:after:rounded-tl-[40px] lg:after:shadow-[-20px_-20px_0_20px_#ffffff]">
-                <div className="font-michroma text-[22px] sm:text-[26px] lg:text-[28px] font-bold text-black lg:mr-[80px] shrink-0 mt-[2px]">ACN</div>
-                <nav className="hidden lg:flex items-center gap-[40px]">
+            <div className="relative pointer-events-auto w-full lg:w-auto h-[64px] sm:h-[72px] lg:h-[90px] bg-white rounded-br-[20px] sm:rounded-br-[30px] lg:rounded-br-[40px] flex items-center justify-between lg:justify-start px-4 sm:px-6 lg:pl-6 xl:pl-8 lg:pr-6 xl:pr-10 drop-shadow-[0px_10px_20px_rgba(0,0,0,0.5)] lg:after:content-[''] lg:after:absolute lg:after:-right-[40px] lg:after:top-0 lg:after:w-[40px] lg:after:h-[40px] lg:after:bg-transparent lg:after:rounded-tl-[40px] lg:after:shadow-[-20px_-20px_0_20px_#ffffff] shrink-0">
+                <div className="font-michroma text-[22px] sm:text-[26px] lg:text-[28px] font-bold text-black lg:mr-6 xl:mr-[40px] shrink-0 mt-[2px]">ACN</div>
+                <nav className="hidden lg:flex items-center gap-4 xl:gap-6 2xl:gap-[40px]">
                     {NAV_TABS.map((link) => (
                         <button
                             key={link.id}
                             type="button"
                             onClick={() => navigate(link.path)}
-                            className={`font-michroma bg-transparent border-none cursor-pointer no-underline text-[#888] text-[12px] font-bold tracking-[1.5px] transition-all duration-300 hover:text-black hover:[text-shadow:0_0_1px_rgba(0,0,0,0.2)] ${location.pathname === link.path ? '!text-black [text-shadow:0_0_1px_rgba(0,0,0,0.2)]' : ''}`}
+                            className={`font-michroma bg-transparent border-none cursor-pointer no-underline text-[#888] text-[11px] xl:text-[12px] font-bold tracking-[1.2px] xl:tracking-[1.5px] transition-all duration-300 hover:text-black hover:[text-shadow:0_0_1px_rgba(0,0,0,0.2)] whitespace-nowrap ${location.pathname === link.path ? '!text-black [text-shadow:0_0_1px_rgba(0,0,0,0.2)]' : ''}`}
                         >
                             {link.label}
                         </button>
@@ -60,7 +60,7 @@ const Header = ({ viewMode, setViewMode, categories, activeCategory, setActiveCa
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -8 }}
                         transition={{ duration: 0.2 }}
-                        className="absolute top-[64px] sm:top-[72px] left-0 right-0 z-30 bg-white/95 backdrop-blur-md border-b border-black/5 px-4 py-4 lg:hidden"
+                        className="absolute top-[64px] sm:top-[72px] left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-black/5 px-4 py-4 lg:hidden pointer-events-auto"
                     >
                         <nav className="flex flex-col gap-1">
                             {NAV_TABS.map((link) => (
@@ -90,17 +90,121 @@ const Header = ({ viewMode, setViewMode, categories, activeCategory, setActiveCa
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.5, ease: "easeOut" }}
                         onClick={() => setCategoryDropdownOpen(false)}
-                        className="fixed inset-0 z-[45] bg-gradient-to-t from-black/90 via-black/40 to-black/10 backdrop-blur-md"
+                        className="fixed inset-0 z-[45] bg-gradient-to-t from-black/90 via-black/40 to-black/10 backdrop-blur-md pointer-events-auto"
                     />
                 )}
             </AnimatePresence>
 
-            {/* Top Right Header Buttons */}
-            <div className="absolute top-[76px] sm:top-[84px] lg:top-[30px] right-3 sm:right-4 lg:right-[120px] flex items-center gap-4 z-50 drop-shadow-[0_5px_15px_rgba(0,0,0,0.5)] max-w-[calc(100%-24px)]">
+            {/* Collection toolbar — below header on small screens only */}
+            {location.pathname === ROUTES.COLLECTION && setViewMode && (
+                <div className="absolute top-[64px] sm:top-[72px] left-0 right-0 z-40 lg:hidden px-3 sm:px-4 pt-2 pb-3 bg-gradient-to-b from-black/70 to-transparent pointer-events-auto">
+                    {categories && categories.length > 0 && setActiveCategory && (
+                        <div className="flex gap-2 overflow-x-auto scrollbar-none pb-2 -mx-1 px-1">
+                            {categories.map((cat) => (
+                                <button
+                                    key={cat}
+                                    type="button"
+                                    onClick={() => setActiveCategory(cat)}
+                                    className={`shrink-0 rounded-full px-3 py-1.5 text-[10px] sm:text-[11px] font-bold tracking-wide uppercase transition-colors ${activeCategory === cat ? 'bg-[#da2525] text-white' : 'bg-white/10 text-white/70 hover:bg-white/20 hover:text-white'}`}
+                                >
+                                    {cat}
+                                </button>
+                            ))}
+                        </div>
+                    )}
+                    <div className="flex items-center gap-2 sm:gap-3">
+                        <div className="relative flex-1 min-w-0 flex items-center group">
+                            <div className="absolute left-3 text-white/50 group-focus-within:text-white transition-colors pointer-events-none">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                    <circle cx="11" cy="11" r="8" />
+                                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                                </svg>
+                            </div>
+                            <input
+                                type="text"
+                                placeholder="Search cars..."
+                                value={searchQuery || ''}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                className="w-full bg-black/40 backdrop-blur-md border border-white/10 text-white text-[12px] sm:text-[13px] font-medium tracking-wide rounded-full py-2.5 pl-9 pr-4 focus:outline-none focus:border-white/40 focus:bg-black/60 transition-all placeholder:text-white/40 min-h-[40px]"
+                            />
+                            <AnimatePresence>
+                                {searchQuery.trim().length > 0 && (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: 10 }}
+                                        transition={{ duration: 0.2 }}
+                                        className="absolute top-[calc(100%+8px)] left-0 right-0 bg-gradient-to-b from-[#2d2d2d] to-[#1f1f1f] border border-white/20 rounded-[16px] shadow-[0_20px_40px_rgba(0,0,0,0.9)] overflow-hidden z-[100] max-h-[280px] overflow-y-auto"
+                                    >
+                                        {cars && cars.filter(car =>
+                                            car.brand.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                                            car.model.toLowerCase().includes(searchQuery.toLowerCase())
+                                        ).length > 0 ? (
+                                            cars.filter(car =>
+                                                car.brand.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                                                car.model.toLowerCase().includes(searchQuery.toLowerCase())
+                                            ).map(car => (
+                                                <button
+                                                    key={car.id}
+                                                    type="button"
+                                                    onClick={() => {
+                                                        if (onSelectCar) onSelectCar(car.id);
+                                                        setSearchQuery('');
+                                                    }}
+                                                    className="w-full flex items-center gap-3 p-2.5 hover:bg-white/5 cursor-pointer text-left border-none bg-transparent"
+                                                >
+                                                    <div className="w-14 h-10 bg-[#111] rounded-lg flex items-center justify-center shrink-0 border border-white/5 overflow-hidden">
+                                                        <img src={car.image} alt={car.brand} className="w-full h-full object-contain" />
+                                                    </div>
+                                                    <div className="min-w-0">
+                                                        <div className="text-white text-[13px] font-bold truncate">{car.brand}</div>
+                                                        <div className="text-white/60 text-[11px] truncate">{car.model}</div>
+                                                    </div>
+                                                </button>
+                                            ))
+                                        ) : (
+                                            <div className="p-3 text-center text-white/50 text-sm">No cars found</div>
+                                        )}
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        </div>
+                        <div className="flex bg-black/40 backdrop-blur-md border border-white/20 rounded-full p-1 gap-1 shrink-0">
+                            <button
+                                type="button"
+                                onClick={() => setViewMode('carousel')}
+                                className={`w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 ${viewMode === 'carousel' ? 'bg-white text-black' : 'text-white hover:bg-white/10'}`}
+                                aria-label="Carousel View"
+                            >
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+                                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                                </svg>
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => setViewMode('grid')}
+                                className={`w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 ${viewMode === 'grid' ? 'bg-white text-black' : 'text-white hover:bg-white/10'}`}
+                                aria-label="Grid View"
+                            >
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                    <rect x="3" y="3" width="7" height="7" />
+                                    <rect x="14" y="3" width="7" height="7" />
+                                    <rect x="14" y="14" width="7" height="7" />
+                                    <rect x="3" y="14" width="7" height="7" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Top Right Header Buttons — laptop/desktop collection tools */}
+            <div className="relative pointer-events-auto hidden lg:flex items-center gap-3 mt-[30px] pr-4 lg:pr-4 xl:pr-8 2xl:pr-[120px] shrink min-w-0 justify-end z-[55]">
                 {location.pathname === ROUTES.COLLECTION && setViewMode && (
                     <>                        {/* Category Dropdown */}
                         {categories && categories.length > 0 && (
-                            <div className="relative hidden xl:block">
+                            <div className="relative hidden lg:block">
                                 <button
                                     type="button"
                                     onClick={() => setCategoryDropdownOpen(!categoryDropdownOpen)}
@@ -158,7 +262,7 @@ const Header = ({ viewMode, setViewMode, categories, activeCategory, setActiveCa
                         )}
 
                         {/* Search Box */}
-                        <div className="relative hidden sm:flex items-center group">
+                        <div className="relative hidden lg:flex items-center group">
                             <div className="absolute left-4 text-white/50 group-focus-within:text-white transition-colors">
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                                     <circle cx="11" cy="11" r="8"></circle>
@@ -170,7 +274,7 @@ const Header = ({ viewMode, setViewMode, categories, activeCategory, setActiveCa
                                 placeholder="Search Cars..."
                                 value={searchQuery || ''}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="bg-black/20 backdrop-blur-md border border-white/10 text-white text-[14px] font-medium tracking-wide rounded-full py-3 pl-12 pr-5 w-[220px] lg:w-[280px] focus:outline-none focus:border-white/40 focus:bg-black/40 focus:ring-2 focus:ring-white/10 focus:shadow-[0_0_15px_rgba(255,255,255,0.1)] transition-all placeholder:text-white/40"
+                                className="bg-black/20 backdrop-blur-md border border-white/10 text-white text-[14px] font-medium tracking-wide rounded-full py-3 pl-12 pr-5 w-[130px] xl:w-[180px] 2xl:w-[280px] focus:outline-none focus:border-white/40 focus:bg-black/40 focus:ring-2 focus:ring-white/10 focus:shadow-[0_0_15px_rgba(255,255,255,0.1)] transition-all placeholder:text-white/40"
                             />
                             
                             {/* Search Dropdown */}
@@ -247,7 +351,7 @@ const Header = ({ viewMode, setViewMode, categories, activeCategory, setActiveCa
                     </>
                 )}
             </div>
-        </>
+        </header>
     );
 };
 

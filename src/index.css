@@ -45,8 +45,16 @@ a {
   width: 100%;
   max-width: 100%;
   min-height: 100%;
+  min-height: 100dvh;
   overflow-x: clip;
   background-color: #fff;
+}
+
+@supports (padding: env(safe-area-inset-bottom)) {
+  body {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
 }
 
 /* Custom scrollbar for dark sections */
