@@ -283,10 +283,10 @@ export default function CollectionScreen() {
                                         maxWidth: isMobile ? 480 : 1100,
                                     }}
                                     animate={{
-                                        top: isCenter && isShowingDetails ? (isMobile ? '45%' : '7%') : '50%',
-                                        left: isCenter && isShowingDetails ? (isMobile ? '50%' : '0%') : '50%',
+                                        top: isCenter && isShowingDetails ? (isMobile ? '45%' : '40%') : '50%',
+                                        left: isCenter && isShowingDetails ? (isMobile ? '50%' : '2%') : '50%',
                                         x: isCenter ? (isShowingDetails ? (isMobile ? '-50%' : '0%') : '-50%') : (offset > 0 ? '20%' : '-120%'),
-                                        y: isCenter && isShowingDetails ? (isMobile ? '-50%' : '0%') : (isMobile ? '-40%' : '-38%'),
+                                        y: isCenter && isShowingDetails ? '-50%' : (isMobile ? '-40%' : '-38%'),
                                         width: isCenter && isShowingDetails ? (isMobile ? '95%' : '42%') : (isMobile ? '85%' : '75%'),
                                         maxWidth: isCenter && isShowingDetails ? (isMobile ? 500 : 560) : (isMobile ? 480 : 1100),
                                         scale: isCenter ? 1 : 0.6,
@@ -487,11 +487,11 @@ export default function CollectionScreen() {
                                     transition={{ ...FADE, delay: 0.15 }}
                                     className={isMobile
                                         ? 'relative w-full flex flex-col flex-1'
-                                        : 'absolute top-[14%] left-[46%] right-[4%] z-30'}
+                                        : 'absolute top-[12%] xl:top-[15%] left-[46%] right-[4%] z-30 flex flex-col gap-8 xl:gap-12'}
                                 >
-                                    <div className={`flex items-start justify-between gap-4 ${isMobile ? 'w-full' : 'mb-5'}`}>
+                                    <div className={`flex items-start justify-between gap-4 ${isMobile ? 'w-full' : ''}`}>
                                         <div className="min-w-0 flex-1">
-                                            <div className="text-white text-2xl md:text-3xl lg:text-4xl font-medium tracking-wide mb-1">{activeCar.brand}</div>
+                                            <div className="text-white text-2xl md:text-3xl lg:text-3xl xl:text-4xl font-medium tracking-wide mb-1">{activeCar.brand}</div>
                                             <div className="text-white/60 text-sm tracking-wider mb-2">{activeCar.model}</div>
                                             <div className="text-white/40 text-xs">{activeCar.color} · {activeCar.engine} · {activeCar.fuelType}</div>
                                         </div>
@@ -511,43 +511,45 @@ export default function CollectionScreen() {
                                     {isMobile && <div className="w-full h-[28vh] min-h-[200px]" />}
 
                                     {/* Bottom Content Container for Mobile */}
-                                    <div className={`${isMobile ? 'mt-auto pt-6' : ''}`}>
-                                        <div className="text-white text-3xl lg:text-4xl xl:text-5xl font-medium tracking-tight mb-1">{activeCar.price}</div>
-                                        <div className="text-white/50 text-sm mb-6 lg:mb-8">EMI from {activeCar.emi} · Inclusive of buyer&apos;s fee</div>
+                                    <div className={`${isMobile ? 'mt-auto pt-6' : 'flex flex-col gap-6 xl:gap-10'}`}>
+                                        <div>
+                                            <div className="text-white text-3xl lg:text-3xl xl:text-5xl font-medium tracking-tight mb-1">{activeCar.price}</div>
+                                            <div className="text-white/50 text-sm">EMI from {activeCar.emi} · Inclusive of buyer's fee</div>
+                                        </div>
 
-                                        <div className="flex flex-wrap gap-6 lg:gap-10 xl:gap-12">
+                                        <div className="flex flex-wrap gap-4 lg:gap-6 xl:gap-12">
                                             <div className="flex flex-col items-start text-white">
                                                 <SpeedometerIcon />
-                                                <div className="text-base lg:text-lg font-medium mt-2">{activeCar.topSpeed}</div>
+                                                <div className="text-base xl:text-lg font-medium mt-2">{activeCar.topSpeed}</div>
                                                 <div className="text-[10px] text-white/60 uppercase tracking-widest">Top Speed</div>
                                             </div>
                                             <div className="flex flex-col items-start text-white">
                                                 <LightningIcon />
-                                                <div className="text-base lg:text-lg font-medium mt-2">{activeCar.maxPower}</div>
+                                                <div className="text-base xl:text-lg font-medium mt-2">{activeCar.maxPower}</div>
                                                 <div className="text-[10px] text-white/60 uppercase tracking-widest">Max Power</div>
                                             </div>
                                             <div className="flex flex-col items-start text-white">
                                                 <TorqueIcon />
-                                                <div className="text-base lg:text-lg font-medium mt-2">{activeCar.torque}</div>
+                                                <div className="text-base xl:text-lg font-medium mt-2">{activeCar.torque}</div>
                                                 <div className="text-[10px] text-white/60 uppercase tracking-widest">Torque</div>
                                             </div>
                                             <div className="flex flex-col items-start text-white">
-                                                <div className="text-base lg:text-lg font-medium mt-2 lg:mt-0">★ {activeCar.rating}</div>
+                                                <div className="text-base xl:text-lg font-medium mt-2 lg:mt-0">★ {activeCar.rating}</div>
                                                 <div className="text-[10px] text-white/60 uppercase tracking-widest">{activeCar.reviewCount} Reviews</div>
                                             </div>
                                         </div>
 
-                                        <div className="flex flex-wrap items-center gap-3 lg:gap-4 mt-8 lg:mt-10">
+                                        <div className="flex flex-wrap items-center gap-3 lg:gap-4 mt-2">
                                             <button
                                                 type="button"
-                                                className="bg-white hover:bg-gray-100 text-black rounded-full px-8 py-3 transition-colors text-sm font-bold tracking-wide shadow-lg shadow-black/10"
+                                                className="bg-white hover:bg-gray-100 text-black rounded-full px-6 py-2.5 xl:px-8 xl:py-3 transition-colors text-sm font-bold tracking-wide shadow-lg shadow-black/10"
                                             >
                                                 Enquire Now
                                             </button>
                                             <button
                                                 type="button"
                                                 onClick={() => navigateToTestDrive(navigate, activeCar.id)}
-                                                className="bg-transparent hover:bg-white/10 border border-white/30 text-white rounded-full px-8 py-3 transition-colors text-sm font-medium tracking-wide"
+                                                className="bg-transparent hover:bg-white/10 border border-white/30 text-white rounded-full px-6 py-2.5 xl:px-8 xl:py-3 transition-colors text-sm font-medium tracking-wide"
                                             >
                                                 Book Test Drive
                                             </button>
