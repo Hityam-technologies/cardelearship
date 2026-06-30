@@ -24,6 +24,12 @@ const TorqueIcon = () => (
     </svg>
 );
 
+const StarIcon = () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+    </svg>
+);
+
 const SPRING = { type: 'spring', stiffness: 260, damping: 32 };
 const FADE = { duration: 0.4, ease: [0.4, 0, 0.2, 1] };
 
@@ -51,10 +57,10 @@ function BrandInfo({ car, isCenter }) {
                     />
                 )}
             </div>
-            <div className={`${isCenter ? 'text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl' : 'text-sm sm:text-base md:text-lg lg:text-2xl'} font-bold font-michroma mb-0.5 sm:mb-1 tracking-wide truncate max-w-full px-1`}>
+            <div className={`${isCenter ? 'text-3xl sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl' : 'text-xl sm:text-base md:text-lg lg:text-2xl'} font-bold font-michroma mb-0.5 sm:mb-1 tracking-wide truncate max-w-full px-1`}>
                 {car.brand}
             </div>
-            <div className={`${isCenter ? 'text-[10px] sm:text-xs md:text-sm text-white/70' : 'text-[9px] sm:text-[10px] md:text-xs text-white/50'} tracking-wider truncate max-w-full px-1`}>
+            <div className={`${isCenter ? 'text-sm sm:text-xs md:text-sm text-white/70' : 'text-xs sm:text-[10px] md:text-xs text-white/50'} tracking-wider truncate max-w-full px-1`}>
                 {car.model}
             </div>
         </motion.div>
@@ -170,7 +176,7 @@ export default function CollectionScreen() {
 
     return (
         <div className="w-full max-w-full min-h-screen bg-[#fafafa] p-2 sm:p-4 flex flex-col overflow-x-clip box-border font-sans">
-            <div className={`w-full bg-[#111111] rounded-[20px] sm:rounded-[30px] lg:rounded-[40px] relative shrink-0 isolate h-[calc(100dvh-1rem)] sm:h-[calc(100dvh-2rem)] min-h-[640px] ${isShowingDetails ? 'overflow-y-auto custom-scrollbar' : 'overflow-hidden [contain:paint]'}`}>
+            <div className={`w-full bg-[#111111] rounded-[20px] sm:rounded-[30px] lg:rounded-[40px] relative shrink-0 isolate h-[calc(100dvh-1rem)] sm:h-[calc(100dvh-2rem)] ${isShowingDetails ? 'min-h-[850px] overflow-y-auto custom-scrollbar' : 'min-h-[640px] overflow-hidden [contain:paint]'}`}>
                 <Header
                     viewMode={viewMode}
                     setViewMode={setViewMode}
@@ -284,11 +290,11 @@ export default function CollectionScreen() {
                                     }}
                                     animate={{
                                         top: isCenter && isShowingDetails ? (isMobile ? '45%' : '40%') : '50%',
-                                        left: isCenter && isShowingDetails ? (isMobile ? '50%' : '2%') : '50%',
+                                        left: isCenter && isShowingDetails ? (isMobile ? '50%' : '1%') : '50%',
                                         x: isCenter ? (isShowingDetails ? (isMobile ? '-50%' : '0%') : '-50%') : (offset > 0 ? '20%' : '-120%'),
                                         y: isCenter && isShowingDetails ? '-50%' : (isMobile ? '-40%' : '-38%'),
-                                        width: isCenter && isShowingDetails ? (isMobile ? '95%' : '42%') : (isMobile ? '85%' : '75%'),
-                                        maxWidth: isCenter && isShowingDetails ? (isMobile ? 500 : 560) : (isMobile ? 480 : 1100),
+                                        width: isCenter && isShowingDetails ? (isMobile ? '95%' : '48%') : (isMobile ? '85%' : '75%'),
+                                        maxWidth: isCenter && isShowingDetails ? (isMobile ? 500 : 800) : (isMobile ? 480 : 1100),
                                         scale: isCenter ? 1 : 0.6,
                                         opacity: isCenter ? 1 : 0.4,
                                         zIndex: isCenter ? 20 : 15,
@@ -311,9 +317,9 @@ export default function CollectionScreen() {
                                         className={`w-full h-auto object-contain drop-shadow-2xl select-none ${isMobile ? 'origin-center' : 'origin-top-left'}`}
                                         animate={{
                                             maxHeight: isCenter && isShowingDetails
-                                                ? (isMobile ? '32vh' : '46vh')
+                                                ? (isMobile ? '32vh' : '55vh')
                                                 : (isMobile ? '48vh' : '75vh'),
-                                            scale: isCenter && isShowingDetails ? (isMobile ? 1.3 : 1.25) : 1,
+                                            scale: isCenter && isShowingDetails ? (isMobile ? 1.3 : 1.1) : 1,
                                             opacity: isCenter ? 1 : 0.6,
                                         }}
                                         transition={SPRING}
@@ -477,7 +483,7 @@ export default function CollectionScreen() {
                                 animate={{ opacity: 1 }}
                                 exit={{ opacity: 0 }}
                                 transition={FADE}
-                                className={`z-30 ${isMobile ? 'relative flex flex-col px-4 pt-48 pb-10 gap-5 min-h-full' : 'relative h-full min-h-[640px] pb-8'}`}
+                                className={`z-30 relative flex flex-col min-h-full ${isMobile ? 'px-4 pt-48 pb-10 gap-5' : 'pb-6'}`}
                             >
                                 {/* Info panel — right on laptop, stacked on mobile */}
                                 <motion.div
@@ -487,7 +493,7 @@ export default function CollectionScreen() {
                                     transition={{ ...FADE, delay: 0.15 }}
                                     className={isMobile
                                         ? 'relative w-full flex flex-col flex-1'
-                                        : 'absolute top-[12%] xl:top-[15%] left-[46%] right-[4%] z-30 flex flex-col gap-8 xl:gap-12'}
+                                        : 'relative w-[48%] xl:w-[48%] ml-auto pt-[6%] xl:pt-[8%] flex flex-col gap-6 xl:gap-10 pr-[4%] z-30 flex-1'}
                                 >
                                     <div className={`flex items-start justify-between gap-4 ${isMobile ? 'w-full' : ''}`}>
                                         <div className="min-w-0 flex-1">
@@ -511,13 +517,13 @@ export default function CollectionScreen() {
                                     {isMobile && <div className="w-full h-[28vh] min-h-[200px]" />}
 
                                     {/* Bottom Content Container for Mobile */}
-                                    <div className={`${isMobile ? 'mt-auto pt-6' : 'flex flex-col gap-6 xl:gap-10'}`}>
+                                    <div className={`flex flex-col gap-8 md:gap-6 xl:gap-8 ${isMobile ? 'mt-auto pt-6' : ''}`}>
                                         <div>
                                             <div className="text-white text-3xl lg:text-3xl xl:text-5xl font-medium tracking-tight mb-1">{activeCar.price}</div>
                                             <div className="text-white/50 text-sm">EMI from {activeCar.emi} · Inclusive of buyer's fee</div>
                                         </div>
 
-                                        <div className="flex flex-wrap gap-4 lg:gap-6 xl:gap-12">
+                                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 lg:gap-6 xl:gap-12 w-full">
                                             <div className="flex flex-col items-start text-white">
                                                 <SpeedometerIcon />
                                                 <div className="text-base xl:text-lg font-medium mt-2">{activeCar.topSpeed}</div>
@@ -534,12 +540,14 @@ export default function CollectionScreen() {
                                                 <div className="text-[10px] text-white/60 uppercase tracking-widest">Torque</div>
                                             </div>
                                             <div className="flex flex-col items-start text-white">
-                                                <div className="text-base xl:text-lg font-medium mt-2 lg:mt-0">★ {activeCar.rating}</div>
+                                                <StarIcon />
+                                                <div className="text-base xl:text-lg font-medium mt-2">{activeCar.rating}</div>
                                                 <div className="text-[10px] text-white/60 uppercase tracking-widest">{activeCar.reviewCount} Reviews</div>
                                             </div>
                                         </div>
 
-                                        <div className="flex flex-wrap items-center gap-3 lg:gap-4 mt-2">
+                                        <div className="flex flex-wrap items-center gap-4 lg:gap-6 relative">
+                                            {isMobile && <div className="absolute -inset-x-10 -bottom-6 top-[-100px] bg-[#da2525] -z-10 pointer-events-none" />}
                                             <button
                                                 type="button"
                                                 className="bg-white hover:bg-gray-100 text-black rounded-full px-6 py-2.5 xl:px-8 xl:py-3 transition-colors text-sm font-bold tracking-wide shadow-lg shadow-black/10"
@@ -558,7 +566,7 @@ export default function CollectionScreen() {
                                 </motion.div>
 
                                 {/* Bottom detail cards */}
-                                <div className={`grid grid-cols-1 md:grid-cols-3 gap-3 px-4 md:px-[5%] ${isMobile ? 'relative w-full mt-2' : 'absolute bottom-6 left-0 right-0 z-30'}`}>
+                                <div className={`grid grid-cols-1 md:grid-cols-3 gap-3 px-4 md:px-[5%] ${isMobile ? 'relative w-full mt-2' : 'relative w-full mt-6 xl:mt-8 z-30'}`}>
                                     <DetailCard title="Key Features" delay={0.2}>
                                         <ul className="space-y-1.5">
                                             {activeCar.features.map((f) => (
