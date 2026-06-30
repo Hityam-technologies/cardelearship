@@ -119,16 +119,22 @@ export default function CollectionScreen() {
 
     useEffect(() => {
         const pending = readCollectionParams(searchParams);
-        if (pending.category) {
-            setActiveCategory(pending.category);
-            setActiveIndex(0);
-        }
+        const targetCategory = pending.category || 'All';
+
         if (pending.carId) {
-            const idx = COLLECTION_CARS.findIndex((c) => c.id === pending.carId);
+            const filteredList = COLLECTION_CARS.filter(car => targetCategory === 'All' || car.type === targetCategory);
+            const idx = filteredList.findIndex((c) => c.id === pending.carId);
             if (idx !== -1) {
-                setActiveCategory(pending.category || 'All');
+                setActiveCategory(targetCategory);
                 setActiveIndex(idx);
             }
+        } else {
+            setActiveCategory(prev => {
+                if (prev !== targetCategory) {
+                    setActiveIndex(0);
+                }
+                return targetCategory;
+            });
         }
     }, [searchParams]);
 
