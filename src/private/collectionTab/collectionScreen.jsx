@@ -177,6 +177,23 @@ export default function CollectionScreen() {
     return (
         <div className="w-full max-w-full min-h-screen bg-[#fafafa] p-2 sm:p-4 flex flex-col overflow-x-clip box-border font-sans">
             <div className={`w-full bg-[#111111] rounded-[20px] sm:rounded-[30px] lg:rounded-[40px] relative shrink-0 isolate h-[calc(100dvh-1rem)] sm:h-[calc(100dvh-2rem)] ${isShowingDetails ? 'min-h-[850px] lg:min-h-[640px] overflow-y-auto custom-scrollbar' : 'min-h-[640px] overflow-hidden [contain:paint]'}`}>
+                {/* Fixed background for scrollable view */}
+                <div className="sticky top-0 left-0 w-full h-0 pointer-events-none z-0">
+                    <motion.div
+                        className="absolute top-0 left-0 w-full h-[calc(100dvh-1rem)] sm:h-[calc(100dvh-2rem)] bg-[#da2525]"
+                        animate={{
+                            clipPath: isShowingDetails
+                                ? (isMobile
+                                    ? 'polygon(0% 72%, 100% 60%, 100% 100%, 0% 100%)'
+                                    : 'polygon(72% -20%, 95% -20%, 82% 120%, 58% 120%)')
+                                : (isMobile
+                                    ? 'polygon(55% -20%, 100% -20%, 100% 120%, 35% 120%)'
+                                    : 'polygon(65% -20%, 90% -20%, 75% 120%, 50% 120%)'),
+                        }}
+                        transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] }}
+                    />
+                </div>
+
                 <Header
                     viewMode={viewMode}
                     setViewMode={setViewMode}
@@ -191,21 +208,6 @@ export default function CollectionScreen() {
                     onSelectCar={(carId) => {
                         navigate(buildCollectionPath({ carId }), { replace: true });
                     }}
-                />
-
-                <motion.div
-                    className="absolute top-0 bottom-0 z-0 bg-[#da2525]"
-                    animate={{
-                        clipPath: isShowingDetails
-                            ? (isMobile
-                                ? 'polygon(0% 72%, 100% 60%, 100% 100%, 0% 100%)'
-                                : 'polygon(72% -20%, 95% -20%, 82% 120%, 58% 120%)')
-                            : (isMobile
-                                ? 'polygon(55% -20%, 100% -20%, 100% 120%, 35% 120%)'
-                                : 'polygon(65% -20%, 90% -20%, 75% 120%, 50% 120%)'),
-                    }}
-                    transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] }}
-                    style={{ width: '100%', height: '100%' }}
                 />
 
                 <LayoutGroup>
