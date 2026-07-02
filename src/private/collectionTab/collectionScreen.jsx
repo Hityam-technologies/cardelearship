@@ -405,9 +405,9 @@ export default function CollectionScreen() {
                                             <button
                                                 type="button"
                                                 onClick={handleViewDetails}
-                                                className="bg-transparent hover:bg-[#da2525] border-2 border-[#da2525] text-white rounded-full px-5 sm:px-8 py-2.5 sm:py-3 flex items-center gap-2 sm:gap-3 transition-colors group w-full sm:w-auto justify-center sm:justify-start"
+                                                className="bg-white hover:bg-gray-100 text-black rounded-full px-6 sm:px-8 lg:px-12 py-3 sm:py-3 lg:py-3.5 flex items-center gap-2 sm:gap-3 transition-colors group w-full sm:w-auto justify-center shadow-lg shadow-black/10"
                                             >
-                                                <span className="text-[14px] sm:text-[16px] font-medium tracking-wide">View Details</span>
+                                                <span className="text-[14px] sm:text-[16px] lg:text-[17px] font-bold tracking-wide">View Details</span>
                                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="transition-transform group-hover:translate-x-1 shrink-0">
                                                     <line x1="5" y1="12" x2="19" y2="12" />
                                                     <polyline points="12 5 19 12 12 19" />
@@ -555,7 +555,6 @@ export default function CollectionScreen() {
                                         </div>
 
                                         <div className="flex flex-wrap items-center gap-4 lg:gap-6 relative">
-                                            {isMobile && <div className="absolute -inset-x-10 -bottom-6 top-[-100px] bg-[#da2525] -z-10 pointer-events-none" />}
                                             <button
                                                 type="button"
                                                 className="bg-white hover:bg-gray-100 text-black rounded-full px-6 py-2.5 xl:px-8 xl:py-3 transition-colors text-sm font-bold tracking-wide shadow-lg shadow-black/10"

@@ -10,30 +10,6 @@ const ChevronDown = () => (
     </svg>
 );
 
-const QualityAssuredCard = ({ className = "" }) => (
-    <div className={`flex flex-col sm:flex-row sm:items-center justify-between gap-6 sm:gap-8 bg-white/5 backdrop-blur-xl border border-white/10 p-6 sm:p-8 rounded-[24px] w-full shadow-[0_20px_40px_rgba(0,0,0,0.5)] ${className}`}>
-        <div className="flex flex-col gap-3">
-            <div className="flex items-center gap-3">
-                <div className="w-[36px] h-[36px] rounded-full bg-red-600/20 flex items-center justify-center border border-red-500/30">
-                    <svg className="w-[18px] h-[18px] text-red-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                        <polyline points="9 12 11 14 15 10" />
-                    </svg>
-                </div>
-                <p className="font-michroma text-[12px] sm:text-[14px] text-white/80 tracking-[2px] uppercase m-0 font-medium">QUALITY ASSURED</p>
-            </div>
-            <div className="flex flex-col sm:ml-[48px]">
-                <span className="text-[11px] sm:text-[12px] font-bold text-white tracking-[1.5px] uppercase m-0 leading-relaxed">RIGOROUS</span>
-                <span className="text-[11px] sm:text-[12px] font-bold text-white/60 tracking-[1.5px] uppercase m-0 leading-relaxed">INSPECTION</span>
-            </div>
-        </div>
-        
-        <div className="flex items-center self-start sm:self-auto border-t border-white/10 sm:border-t-0 pt-4 sm:pt-0 sm:border-l sm:pl-8 w-full sm:w-auto">
-            <h3 className="font-michroma text-[42px] sm:text-[52px] text-white m-0 font-bold tracking-tight">150<span className="text-[20px] sm:text-[24px] text-red-500 ml-1">PT</span></h3>
-        </div>
-    </div>
-);
-
 const InventorySection = () => {
     const navigate = useNavigate();
     const inventoryCars = getInventoryPreview();
@@ -105,7 +81,6 @@ const InventorySection = () => {
                         </div>
                     </div>
 
-                    <QualityAssuredCard className="hidden xl:flex" />
                 </div>
                 
                 <div className="flex-1 flex flex-col border-t border-[#222] xl:border-t-0 min-w-0 pr-2">
@@ -216,8 +191,7 @@ const InventorySection = () => {
                         );
                     })}
                     
-                    {/* Mobile Only: Render the Quality Assured card below the inventory list */}
-                    <QualityAssuredCard className="xl:hidden mt-6 sm:mt-8" />
+
                 </div>
             </div>
         </div>
