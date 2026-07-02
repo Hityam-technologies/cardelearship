@@ -16,7 +16,7 @@ const Header = ({ viewMode, setViewMode, categories, activeCategory, setActiveCa
     return (
         <header className="absolute top-0 left-0 w-full z-50 pointer-events-none flex justify-between items-start">
             {/* Top Nav Bar */}
-            <div className="relative pointer-events-auto w-full lg:w-auto h-[64px] sm:h-[72px] lg:h-[90px] bg-white rounded-br-[20px] sm:rounded-br-[30px] lg:rounded-br-[40px] flex items-center justify-between lg:justify-start px-4 sm:px-6 lg:pl-6 xl:pl-8 lg:pr-6 xl:pr-10 drop-shadow-[0px_10px_20px_rgba(0,0,0,0.5)] lg:after:content-[''] lg:after:absolute lg:after:-right-[40px] lg:after:top-0 lg:after:w-[40px] lg:after:h-[40px] lg:after:bg-transparent lg:after:rounded-tl-[40px] lg:after:shadow-[-20px_-20px_0_20px_#ffffff] shrink-0">
+            <div className="relative pointer-events-auto w-[calc(100%-32px)] sm:w-[calc(100%-48px)] lg:w-auto mx-4 sm:mx-6 lg:mx-0 mt-4 sm:mt-6 lg:mt-0 h-[64px] sm:h-[72px] lg:h-[90px] bg-white rounded-[20px] sm:rounded-[24px] lg:rounded-none lg:rounded-br-[40px] flex items-center justify-between lg:justify-start px-5 sm:px-6 lg:pl-6 xl:pl-8 lg:pr-6 xl:pr-10 shadow-[0_10px_30px_rgba(0,0,0,0.15)] lg:drop-shadow-[0px_10px_20px_rgba(0,0,0,0.5)] lg:after:content-[''] lg:after:absolute lg:after:-right-[40px] lg:after:top-0 lg:after:w-[40px] lg:after:h-[40px] lg:after:bg-transparent lg:after:rounded-tl-[40px] lg:after:shadow-[-20px_-20px_0_20px_#ffffff] shrink-0">
                 <div className="font-michroma text-[22px] sm:text-[26px] lg:text-[28px] font-bold text-black lg:mr-6 xl:mr-[40px] shrink-0 mt-[2px]">ACN</div>
                 <nav className="hidden lg:flex items-center gap-4 xl:gap-6 2xl:gap-[40px]">
                     {NAV_TABS.map((link) => (
@@ -60,7 +60,7 @@ const Header = ({ viewMode, setViewMode, categories, activeCategory, setActiveCa
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -8 }}
                         transition={{ duration: 0.2 }}
-                        className="absolute top-[64px] sm:top-[72px] left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-black/5 px-4 py-4 lg:hidden pointer-events-auto"
+                        className="absolute top-[calc(64px+16px+8px)] sm:top-[calc(72px+24px+8px)] left-4 right-4 sm:left-6 sm:right-6 z-50 bg-white/95 backdrop-blur-md border border-black/5 rounded-[20px] px-4 py-4 shadow-2xl lg:hidden pointer-events-auto"
                     >
                         <nav className="flex flex-col gap-1">
                             {NAV_TABS.map((link) => (
@@ -97,7 +97,7 @@ const Header = ({ viewMode, setViewMode, categories, activeCategory, setActiveCa
 
             {/* Collection toolbar — below header on small screens only */}
             {location.pathname === ROUTES.COLLECTION && setViewMode && (
-                <div className="absolute top-[64px] sm:top-[72px] left-0 right-0 z-40 lg:hidden px-3 sm:px-4 pt-2 pb-3 bg-gradient-to-b from-black/70 to-transparent pointer-events-auto">
+                <div className="absolute top-[calc(64px+16px+16px)] sm:top-[calc(72px+24px+16px)] left-0 right-0 z-40 lg:hidden px-4 sm:px-6 pt-2 pb-3 pointer-events-auto">
                     {categories && categories.length > 0 && setActiveCategory && (
                         <div className="flex gap-2 overflow-x-auto scrollbar-none pb-2 -mx-1 px-1">
                             {categories.map((cat) => (
