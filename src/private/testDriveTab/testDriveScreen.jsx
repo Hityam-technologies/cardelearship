@@ -92,7 +92,7 @@ export default function TestDriveScreen() {
                 <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-[#da2525] rounded-full blur-[150px] opacity-20 pointer-events-none z-0" />
                 <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] bg-[#1a1a1a] rounded-full blur-[120px] opacity-80 pointer-events-none z-0" />
 
-                <div className="flex-1 w-full flex flex-col lg:flex-row relative z-10 pt-[60px] lg:pt-[70px] px-4 sm:px-6 lg:px-16 xl:px-24 pb-6 gap-6 lg:gap-8 items-center overflow-y-auto lg:overflow-visible">
+                <div className="flex-1 w-full flex flex-col lg:flex-row relative z-10 pt-[100px] sm:pt-[120px] lg:pt-[110px] px-4 sm:px-6 lg:px-16 xl:px-24 pb-6 gap-6 lg:gap-8 items-center overflow-y-auto lg:overflow-visible">
                     
                     {/* Left Side: Typography and Image */}
                     <div className="w-full lg:w-1/2 flex flex-col justify-center h-full relative">
@@ -102,7 +102,7 @@ export default function TestDriveScreen() {
                             transition={{ duration: 0.6, ease: "easeOut" }}
                             className="relative z-10"
                         >
-                            <h1 className="text-white font-michroma text-[32px] sm:text-[40px] lg:text-[48px] leading-[1.1] font-bold mb-4 tracking-tight uppercase [text-shadow:0_4px_20px_rgba(0,0,0,0.5)] mt-4 transition-all duration-300 line-clamp-3 max-w-[90vw] overflow-hidden text-ellipsis">
+                            <h1 className="text-white font-michroma text-[32px] sm:text-[40px] lg:text-[48px] leading-[1.1] font-bold mb-4 tracking-tight uppercase [text-shadow:0_4px_20px_rgba(0,0,0,0.5)] transition-all duration-300 line-clamp-3 max-w-[90vw] overflow-hidden text-ellipsis">
                                 {activeCar ? (
                                     <>
                                         <span className="block text-[20px] sm:text-[24px] lg:text-[28px] text-white/70 font-semibold tracking-widest mb-1">{activeCar.brand}</span>
