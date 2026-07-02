@@ -108,7 +108,7 @@ export default function HomeScreen() {
 
     return (
         <div className="w-full max-w-full min-h-screen bg-[#fafafa] p-2 sm:p-4 flex flex-col gap-6 sm:gap-8 md:gap-10 overflow-x-clip box-border">
-            <div className="w-full h-[calc(100svh-16px)] min-h-[600px] sm:h-auto sm:min-h-[620px] md:min-h-[680px] lg:h-[calc(100vh-2rem)] lg:min-h-[600px] bg-bg-dark rounded-[24px] sm:rounded-[30px] lg:rounded-[40px] relative overflow-hidden shrink-0 isolate [contain:paint]">
+            <div className="w-full h-[calc(100svh-16px)] sm:h-[calc(100svh-32px)] lg:h-[calc(100vh-2rem)] min-h-[500px] lg:min-h-[600px] bg-bg-dark rounded-[24px] sm:rounded-[30px] lg:rounded-[40px] relative overflow-hidden shrink-0 isolate [contain:paint]">
 
                 {/* Background Video */}
                 <video
@@ -346,7 +346,7 @@ export default function HomeScreen() {
                             </div>
 
                             {/* Interactive Spotlight Card - spans both columns on mobile */}
-                            <div className="col-span-1 sm:col-span-2 relative bg-gradient-to-r from-red-600 to-red-800 rounded-[24px] overflow-hidden h-[240px] sm:h-[280px] shadow-[0_15px_40px_rgba(204,0,0,0.2)] flex items-center justify-between p-6 sm:p-10">
+                            <div className="col-span-1 sm:col-span-2 relative bg-gradient-to-r from-red-600 to-red-800 rounded-[24px] overflow-hidden h-[240px] sm:h-[280px] flex items-center justify-between p-6 sm:p-10">
                                 <div className="z-20 max-w-[50%]">
                                     <span className="inline-block px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-[10px] text-white tracking-[2px] font-bold uppercase mb-3 border border-white/20">SPOTLIGHT</span>
                                     <h3 className="font-michroma text-[18px] sm:text-[28px] font-bold text-white leading-tight m-0">{spotlightCar.brand} {spotlightCar.model}</h3>
@@ -354,9 +354,9 @@ export default function HomeScreen() {
                                     <button
                                         type="button"
                                         onClick={() => goToCollection({ carId: spotlightCar.id, showDetails: true })}
-                                        className="mt-6 sm:mt-8 px-5 py-2.5 bg-white text-red-700 text-[11px] sm:text-[13px] font-bold uppercase tracking-[1px] rounded-[8px] hover:bg-gray-100 transition-colors shadow-lg flex items-center gap-2 cursor-pointer"
+                                        className="mt-6 sm:mt-8 px-5 py-2.5 bg-white text-red-700 text-[11px] sm:text-[12px] font-michroma font-bold uppercase tracking-[1px] rounded-[8px] hover:bg-gray-100 transition-colors shadow-lg flex items-center gap-2 cursor-pointer"
                                     >
-                                        Explore Details
+                                        EXPLORE DETAILS
                                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                                             <polyline points="9 18 15 12 9 6"></polyline>
                                         </svg>
