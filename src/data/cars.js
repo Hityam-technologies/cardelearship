@@ -68,7 +68,7 @@ export const COLLECTION_CARS = [
         topSpeed: '190 Km/h',
         maxPower: '204 Hp',
         torque: '500 Nm',
-        logo: '/images/brands/toyota.svg',
+        logo: '',
         image: '/fortuner.png',
         color: 'Attitude Black',
         type: 'Premium SUV',

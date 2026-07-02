@@ -107,7 +107,7 @@ export default function HomeScreen() {
 
     return (
         <div className="w-full max-w-full min-h-screen bg-[#fafafa] p-2 sm:p-4 flex flex-col gap-6 sm:gap-8 md:gap-10 overflow-x-clip box-border">
-            <div className="w-full min-h-[560px] sm:min-h-[620px] md:min-h-[680px] lg:h-[calc(100vh-2rem)] lg:min-h-[600px] bg-bg-dark rounded-[20px] sm:rounded-[30px] lg:rounded-[40px] relative overflow-hidden shrink-0 isolate [contain:paint]">
+            <div className="w-full h-[calc(100svh-16px)] min-h-[600px] sm:h-auto sm:min-h-[620px] md:min-h-[680px] lg:h-[calc(100vh-2rem)] lg:min-h-[600px] bg-bg-dark rounded-[24px] sm:rounded-[30px] lg:rounded-[40px] relative overflow-hidden shrink-0 isolate [contain:paint]">
 
                 {/* Background Video */}
                 <video
@@ -126,16 +126,16 @@ export default function HomeScreen() {
 
                 {/* Main Content Texts */}
                 <motion.div
-                    initial={{ opacity: 0, x: -50 }}
-                    animate={{ opacity: 1, x: 0 }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.2 }}
-                    className="absolute top-[38%] sm:top-[34%] lg:top-[30%] left-4 sm:left-8 lg:left-[80px] right-4 sm:right-8 lg:right-auto text-white z-[5] max-w-[520px]"
+                    className="absolute top-[28%] sm:top-[34%] lg:top-[30%] left-4 sm:left-8 lg:left-[80px] right-4 sm:right-8 lg:right-auto text-white z-[5] max-w-[520px]"
                 >
-                    <h1 className="font-michroma text-[28px] sm:text-[32px] md:text-[40px] lg:text-[48px] xl:text-[56px] mb-6 sm:mb-8 lg:mb-[40px] leading-[1.2] font-normal [text-shadow:0_4px_20px_rgba(0,0,0,0.8),0_2px_5px_rgba(0,0,0,0.5)]">DRIVE YOUR<br />DREAM TODAY</h1>
-                    <div className="flex drop-shadow-[0_10px_20px_rgba(0,0,0,0.6)] w-fit max-w-full">
-                        <button type="button" onClick={() => navigate(ROUTES.COLLECTION)} className="font-michroma bg-white text-black border-none py-3 sm:py-4 pr-6 sm:pr-10 pl-5 sm:pl-8 text-[12px] sm:text-[14px] font-normal cursor-pointer rounded-l hover:bg-[#f0f0f0] [clip-path:polygon(0_0,100%_0,calc(100%-15px)_100%,0_100%)]">GET STARTED</button>
-                        <button type="button" onClick={() => navigate(ROUTES.COLLECTION)} aria-label="Get started" className="bg-primary-red text-white border-none w-[48px] sm:w-[60px] min-h-[44px] sm:min-h-[48px] flex items-center justify-center cursor-pointer rounded-r hover:bg-[#a00000] [clip-path:polygon(15px_0,100%_0,100%_100%,0_100%)] -ml-[10px] transition-colors duration-300 shrink-0">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <h1 className="font-michroma text-[38px] sm:text-[32px] md:text-[40px] lg:text-[48px] xl:text-[56px] mb-5 sm:mb-8 lg:mb-[40px] leading-[1.1] sm:leading-[1.2] font-normal [text-shadow:0_4px_30px_rgba(0,0,0,0.9),0_2px_10px_rgba(0,0,0,0.6)] tracking-tight">DRIVE YOUR<br />DREAM TODAY</h1>
+                    <div className="flex drop-shadow-[0_15px_25px_rgba(0,0,0,0.5)] w-fit max-w-full group">
+                        <button type="button" onClick={() => navigate(ROUTES.COLLECTION)} className="font-michroma flex items-center bg-white/95 backdrop-blur-md text-black border-none h-[50px] sm:h-[56px] pr-6 sm:pr-10 pl-5 sm:pl-8 text-[13px] sm:text-[14px] font-bold tracking-[1px] cursor-pointer rounded-l hover:bg-white [clip-path:polygon(0_0,100%_0,calc(100%-15px)_100%,0_100%)] transition-colors">GET STARTED</button>
+                        <button type="button" onClick={() => navigate(ROUTES.COLLECTION)} aria-label="Get started" className="bg-[#cc0000] text-white border-none w-[54px] sm:w-[60px] h-[50px] sm:h-[56px] flex items-center justify-center cursor-pointer rounded-r hover:bg-[#b30000] [clip-path:polygon(15px_0,100%_0,100%_100%,0_100%)] -ml-[10px] transition-colors duration-300 shrink-0">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="animate-arrow-slide">
                                 <polyline points="13 17 18 12 13 7"></polyline>
                                 <polyline points="6 17 11 12 6 7"></polyline>
                             </svg>
@@ -172,22 +172,32 @@ export default function HomeScreen() {
                 </div>
 
                 {/* Bottom Right Customer Area */}
-                <div className="absolute bottom-0 left-0 right-0 sm:left-auto sm:right-0 w-full sm:max-w-[440px] min-h-[120px] sm:h-[150px] bg-white rounded-t-[24px] sm:rounded-tl-[40px] sm:rounded-tr-none flex items-center px-4 sm:pr-[30px] sm:pl-[25px] py-3 sm:py-0 z-10 shadow-[-10px_-10px_30px_rgba(0,0,0,0.4)] sm:before:content-[''] sm:before:absolute sm:before:right-0 sm:before:-top-[30px] sm:before:w-[30px] sm:before:h-[30px] sm:before:bg-[radial-gradient(circle_at_top_left,transparent_30px,#ffffff_30px)] sm:before:pointer-events-none sm:after:content-[''] sm:after:absolute sm:after:-left-[30px] sm:after:bottom-0 sm:after:w-[30px] sm:after:h-[30px] sm:after:bg-[radial-gradient(circle_at_top_left,transparent_30px,#ffffff_30px)] sm:after:pointer-events-none cursor-pointer" onClick={() => goToCollection({ carId: featuredCar.id, showDetails: true })} onKeyDown={(e) => e.key === 'Enter' && goToCollection({ carId: featuredCar.id, showDetails: true })} role="button" tabIndex={0}>
-                    <div className="relative w-[100px] h-[72px] sm:w-[170px] sm:h-[110px] mr-3 sm:mr-[20px] rounded-[12px] sm:rounded-[14px] overflow-hidden bg-[#f5f5f5] shadow-[-3px_6px_15px_rgba(0,0,0,0.3)] shrink-0">
-                        <img className="w-full h-full object-contain" src={featuredCar.image} alt={`${featuredCar.brand} ${featuredCar.model}`} loading="lazy" />
+                <div
+                    className="absolute bottom-4 left-4 right-4 sm:bottom-0 sm:left-auto sm:right-0 sm:w-full sm:max-w-[440px] min-h-[110px] sm:min-h-[120px] sm:h-[150px] bg-white/95 backdrop-blur-xl sm:bg-white rounded-[20px] sm:rounded-none sm:rounded-tl-[40px] flex items-center p-3 sm:px-4 sm:pr-[30px] sm:pl-[25px] sm:py-0 z-10 shadow-[0_10px_40px_rgba(0,0,0,0.3)] sm:shadow-[-10px_-10px_30px_rgba(0,0,0,0.4)] sm:before:content-[''] sm:before:absolute sm:before:right-0 sm:before:-top-[30px] sm:before:w-[30px] sm:before:h-[30px] sm:before:bg-[radial-gradient(circle_at_top_left,transparent_30px,#ffffff_30px)] sm:before:pointer-events-none sm:after:content-[''] sm:after:absolute sm:after:-left-[30px] sm:after:bottom-0 sm:after:w-[30px] sm:after:h-[30px] sm:after:bg-[radial-gradient(circle_at_top_left,transparent_30px,#ffffff_30px)] sm:after:pointer-events-none cursor-pointer border border-white/40 sm:border-none transition-transform hover:scale-[1.02] sm:hover:scale-100"
+                    onClick={() => goToCollection({ carId: featuredCar.id, showDetails: true })}
+                    onKeyDown={(e) => e.key === 'Enter' && goToCollection({ carId: featuredCar.id, showDetails: true })}
+                    role="button"
+                    tabIndex={0}
+                >
+                    <div className="relative w-[110px] h-[76px] sm:w-[170px] sm:h-[110px] mr-3 sm:mr-[20px] rounded-[14px] overflow-hidden bg-gradient-to-br from-[#f5f5f5] to-[#e0e0e0] shadow-inner shrink-0 flex items-center justify-center p-2">
+                        <img className="w-full h-full object-contain drop-shadow-md" src={featuredCar.image} alt={`${featuredCar.brand} ${featuredCar.model}`} loading="lazy" />
                     </div>
-                    <div className="flex flex-col grow justify-center min-w-0">
-                        <div className="mb-1 sm:mb-[6px] drop-shadow-[0_2px_4px_rgba(204,0,0,0.3)]">
-                            <svg className="w-[22px] h-[22px] sm:w-[28px] sm:h-[28px]" viewBox="0 0 24 24" fill="none" stroke="#d32f2f" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <line x1="2" y1="12" x2="22" y2="12"></line>
-                                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-                            </svg>
+                    <div className="flex flex-col grow justify-center min-w-0 pr-1">
+                        <div className="flex items-center gap-2 mb-1.5 sm:mb-[6px]">
+                            <div className="drop-shadow-[0_2px_4px_rgba(204,0,0,0.4)] bg-red-50 text-[#d32f2f] rounded-full p-1 sm:p-0 sm:bg-transparent">
+                                <svg className="w-[14px] h-[14px] sm:w-[28px] sm:h-[28px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="2" y1="12" x2="22" y2="12"></line>
+                                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                                </svg>
+                            </div>
+                            <p className="font-michroma text-[9px] sm:text-[11px] text-[#777] tracking-[1.5px] m-0 leading-none">FEATURED</p>
                         </div>
-                        <p className="font-michroma text-[10px] sm:text-[11px] text-[#777] mb-1 sm:mb-[6px] tracking-[1px] m-0">FEATURED — {featuredCar.brand.toUpperCase()}</p>
-                        <div className="flex items-center gap-2 sm:gap-[12px] flex-wrap">
-                            <h2 className="font-michroma text-[16px] sm:text-[20px] xl:text-[22px] text-black m-0 [text-shadow:0_2px_5px_rgba(0,0,0,0.1)] font-normal shrink-0 truncate">{featuredCar.model}</h2>
-                            <span className="text-[#d32f2f] font-michroma text-[12px] sm:text-[13px]">{featuredCar.price}</span>
+                        <h2 className="font-michroma text-[16px] sm:text-[20px] xl:text-[22px] text-black m-0 font-bold shrink-0 truncate leading-tight">{featuredCar.model}</h2>
+                        <div className="flex items-center gap-1.5 mt-1">
+                            <span className="text-[#888] text-[10px] sm:hidden uppercase font-medium">{featuredCar.brand}</span>
+                            <span className="hidden sm:inline-block text-[#ccc] mx-1">•</span>
+                            <span className="text-[#d32f2f] font-michroma text-[12px] sm:text-[13px] tracking-wide">{featuredCar.price}</span>
                         </div>
                     </div>
                 </div>
@@ -195,12 +205,12 @@ export default function HomeScreen() {
             </div>
 
             {/* About Us Section */}
-            <section className="w-full max-w-[1400px] mx-auto py-10 md:py-12 px-4 sm:px-8 xl:px-10 overflow-hidden shrink-0">
+            <section className="w-full max-w-[1400px] mx-auto py-2 md:py-4 px-4 sm:px-8 xl:px-10 overflow-hidden shrink-0">
                 <div className="flex flex-col xl:flex-row xl:items-stretch xl:gap-[72px] min-w-0">
-                    {/* Left Column — reel top, global sourcing bottom */}
-                    <div className="flex flex-col justify-between xl:w-[38%] xl:max-w-[460px] xl:min-h-[640px] gap-14 xl:gap-0">
+                    {/* Left Column — reel top, card bottom */}
+                    <div className="flex flex-col justify-between xl:w-[38%] xl:max-w-[460px] xl:min-h-[640px] gap-12 xl:gap-5">
                         {/* Reel */}
-                        <div className="flex flex-col gap-5">
+                        <div className="flex flex-col">
                             <div className="relative w-full">
                                 <div className="rounded-[16px] overflow-hidden bg-gray-100 relative">
                                     <img src="/images/feature_reel.png" alt="Feature Reel" className="w-full h-[180px] sm:h-[220px] md:h-[240px] object-cover" loading="lazy" />
@@ -212,101 +222,171 @@ export default function HomeScreen() {
                                     </svg>
                                 </div>
                             </div>
-                            <h3 className="font-michroma text-[14px] font-bold text-black tracking-[1px] uppercase m-0">PAY REELS BY FEATURES</h3>
                         </div>
 
-                        {/* Global Sourcing */}
-                        <div className="flex flex-col gap-3">
-                            <div className="text-[#d32f2f]">
-                                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                                    <circle cx="12" cy="12" r="10"></circle>
-                                    <ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(90 12 12)"></ellipse>
-                                    <line x1="2" y1="12" x2="22" y2="12"></line>
-                                    <line x1="12" y1="2" x2="12" y2="22"></line>
-                                </svg>
+                        {/* Book Test Drive Card */}
+                        <div className="group/card relative bg-[#111] rounded-[24px] overflow-hidden text-left p-6 sm:p-8 flex flex-col justify-between shadow-[0_15px_40px_rgba(0,0,0,0.15)] transition-transform duration-500 hover:-translate-y-2 border border-white/5 h-full min-h-[280px]">
+                            {/* Abstract background elements */}
+                            <div className="absolute -right-12 -top-12 w-48 h-48 bg-[#cc0000]/20 rounded-full blur-[50px] pointer-events-none transition-transform duration-700 group-hover/card:scale-150"></div>
+                            <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMiIgZmlsbD0iI2ZmZmZmZiIgZmlsbC1vcGFjaXR5PSIwLjA1Ii8+PC9zdmc+')] opacity-50 mix-blend-overlay z-0 pointer-events-none"></div>
+
+                            <div className="relative z-10 flex-1 flex flex-col">
+                                <div className="flex items-center gap-3 mb-8">
+                                    <div className="w-[44px] h-[44px] rounded-full bg-white/10 flex items-center justify-center border border-white/10 text-white backdrop-blur-md shadow-inner">
+                                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                                            <circle cx="12" cy="12" r="10"></circle>
+                                            <circle cx="12" cy="12" r="3"></circle>
+                                            <line x1="12" y1="15" x2="12" y2="22"></line>
+                                            <line x1="20" y1="8" x2="14" y2="10.5"></line>
+                                            <line x1="4" y1="8" x2="10" y2="10.5"></line>
+                                        </svg>
+                                    </div>
+                                    <span className="font-michroma text-[10px] text-white/70 tracking-[2px] font-bold uppercase mt-1">EXPERIENCE</span>
+                                </div>
+
+                                <div className="flex-1 flex flex-col justify-center">
+                                    <h3 className="font-michroma text-[28px] sm:text-[32px] font-bold text-white leading-[1.15] m-0 mb-4 drop-shadow-sm">
+                                        Book a<br />Test Drive
+                                    </h3>
+
+                                    <p className="text-white/60 text-[11px] sm:text-[12px] leading-[1.8] max-w-[280px] font-normal tracking-[0.5px] uppercase m-0 mb-8">
+                                        FEEL THE POWER AND LUXURY FIRSTHAND. SCHEDULE YOUR EXCLUSIVE DRIVE TODAY.
+                                    </p>
+                                </div>
                             </div>
-                            <h2 className="font-michroma text-[20px] font-bold tracking-[1.5px] m-0 uppercase text-black leading-tight">GLOBAL SOURCING</h2>
-                            <p className="text-[#888] text-[12px] leading-[1.7] max-w-[300px] font-normal tracking-[0.5px] uppercase m-0">
-                                HAND-PICKED FROM JAPAN, UK & UAE – QUALITY WITHOUT COMPROMISE.
-                            </p>
+
+                            <button
+                                type="button"
+                                onClick={() => goToTestDrive()}
+                                className="relative z-10 flex items-center justify-between w-full bg-white text-black pl-6 pr-2 py-2 rounded-[16px] font-bold uppercase text-[11px] sm:text-[12px] tracking-[1px] hover:bg-[#cc0000] hover:text-white transition-all duration-300 group/btn shadow-[0_4px_15px_rgba(255,255,255,0.1)] hover:shadow-[0_8px_25px_rgba(204,0,0,0.3)] cursor-pointer border-none"
+                            >
+                                Schedule Now
+                                <div className="w-[40px] h-[40px] rounded-[12px] bg-black/5 group-hover/btn:bg-white/20 flex items-center justify-center transition-colors">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="translate-x-0 group-hover/btn:translate-x-1 transition-transform">
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                        <polyline points="12 5 19 12 12 19"></polyline>
+                                    </svg>
+                                </div>
+                            </button>
                         </div>
                     </div>
 
                     {/* Right Column — about us top, cards bottom */}
-                    <div className="flex flex-col justify-between flex-1 min-w-0 xl:min-h-[640px] gap-14 xl:gap-0 mt-4 xl:mt-0">
+                    {/* Right Column — about us top, cards bottom */}
+                    <div className="flex flex-col flex-1 min-w-0 xl:min-h-[640px] gap-8 mt-10 xl:mt-0">
                         {/* About Us */}
-                        <div className="flex flex-col gap-3">
-                            
-                            <h1 className="font-michroma text-[34px] md:text-[44px] leading-[1.15] font-normal uppercase text-black m-0">
-                                Built for those<br />who choose differently
+                        <div className="flex flex-col gap-4 max-w-[600px]">
+                            <h1 className="font-michroma text-[32px] sm:text-[40px] md:text-[48px] leading-[1.1] font-bold uppercase text-black m-0 tracking-tight">
+                                Built for those<br />who choose differently.
                             </h1>
-                            <p className="text-[#888] text-[12px] leading-[1.7] max-w-[520px] tracking-[0.5px] uppercase m-0">
+                            <p className="text-[#666] text-[13px] sm:text-[14px] leading-[1.8] tracking-[0.5px] uppercase m-0 font-medium border-l-2 border-[#cc0000] pl-4">
                                 WORLD-CLASS VEHICLES, TOTAL TRANSPARENCY, AND ABSOLUTELY ZERO COMPROMISE ON QUALITY.
                             </p>
                         </div>
 
-                        {/* Cards and Navigation */}
-                        <div className="flex flex-row flex-wrap items-end gap-4 w-full">
-                            <button
-                                type="button"
-                                onClick={() => goToCollection({ carId: fastestCar.id, showDetails: true })}
-                                className="bg-white border border-[#e0e0e0] rounded-[20px] pt-7 px-6 pb-0 w-[calc(50%-8px)] sm:w-[210px] h-[320px] flex flex-col items-center relative overflow-hidden cursor-pointer text-left hover:border-[#d32f2f]/40 transition-colors"
-                            >
-                                <span className="text-[10px] text-[#999] tracking-[2px] font-bold uppercase">TOP SPEED</span>
-                                <span className="font-michroma text-[24px] mt-1 font-normal text-black text-center whitespace-nowrap">{fastestCar.topSpeed}</span>
-                                <img src={fastestCar.image} alt={fastestCar.model} className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[170px] object-contain" />
-                            </button>
+                        {/* Completely Redesigned Showcase Grid */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full h-full">
+                            {/* Offer Card 1 - Financing */}
+                            <div className="group relative bg-[#111] rounded-[24px] overflow-hidden text-left min-h-[260px] sm:min-h-[280px] shadow-lg transition-transform duration-500 hover:-translate-y-1 p-0 border-none flex flex-col">
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/60 to-transparent z-10 pointer-events-none"></div>
+                                {/* Abstract/Pattern background instead of a specific car */}
+                                <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMiIgZmlsbD0iI2ZmZmZmZiIgZmlsbC1vcGFjaXR5PSIwLjEiLz48L3N2Zz4=')] opacity-20 z-0 mix-blend-overlay"></div>
+                                <div className="absolute inset-0 bg-gradient-to-tr from-red-900/30 to-transparent z-0"></div>
 
-                            <button
-                                type="button"
-                                onClick={() => goToCollection({ carId: torqueCar.id, showDetails: true })}
-                                className="bg-[#ececec] rounded-[20px] pt-7 px-6 pb-0 w-[calc(50%-8px)] sm:w-[210px] h-[320px] flex flex-col items-center relative overflow-hidden cursor-pointer text-left hover:ring-2 hover:ring-[#d32f2f]/30 transition-all"
-                            >
-                                <span className="text-[10px] text-[#999] tracking-[2px] font-bold uppercase">TORQUE</span>
-                                <span className="font-michroma text-[24px] mt-1 font-normal text-black text-center whitespace-nowrap">{torqueCar.torque}</span>
-                                <img
-                                    src={torqueCar.image}
-                                    alt={torqueCar.model}
-                                    className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[170px] object-contain"
-                                />
-                            </button>
+                                <div className="relative z-20 p-6 sm:p-8 flex flex-col justify-between h-full grow">
+                                    <div>
+                                        <div className="flex items-center gap-2 mb-3">
+                                            <span className="text-[10px] text-white/80 tracking-[2px] font-bold uppercase">EASY FINANCING</span>
+                                        </div>
+                                        <span className="font-michroma text-[26px] sm:text-[32px] font-bold text-white leading-tight block">Lowest EMI<br />Options</span>
+                                    </div>
+                                    <div className="mt-6">
+                                        <span className="text-[12px] text-white/70 font-medium block mb-4 max-w-[200px] leading-relaxed">Drive home your dream car with instant approval & zero hidden charges.</span>
+                                        <button onClick={() => navigate(ROUTES.COLLECTION)} className="bg-white/10 hover:bg-white/20 text-white backdrop-blur-md border border-white/20 px-4 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-[1px] transition-colors cursor-pointer">
+                                            Apply Now
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
 
-                            <div className="flex flex-col justify-between items-end w-full sm:w-[220px] sm:h-[320px] gap-4 sm:gap-0 shrink-0">
-                                <div className="flex gap-2">
+                            {/* Offer Card 2 - Special Deals */}
+                            <div className="group relative bg-gradient-to-br from-[#f8f8f8] to-[#eaeaea] rounded-[24px] overflow-hidden text-left min-h-[260px] sm:min-h-[280px] shadow-sm transition-transform duration-500 hover:-translate-y-1 border border-gray-200 p-0 flex flex-col">
+                                <div className="absolute top-0 right-0 w-32 h-32 bg-red-500/10 rounded-full blur-3xl -mr-10 -mt-10"></div>
+
+                                <div className="relative z-20 p-6 sm:p-8 flex flex-col justify-between h-full grow">
+                                    <div>
+                                        <div className="flex items-center gap-2 mb-3">
+                                            <div className="w-[6px] h-[6px] rounded-full bg-black"></div>
+                                            <span className="text-[10px] text-gray-500 tracking-[2px] font-bold uppercase">FESTIVE OFFERS</span>
+                                        </div>
+                                        <span className="font-michroma text-[26px] sm:text-[32px] font-bold text-black leading-tight block">Up to ₹1L<br />Benefits</span>
+                                    </div>
+
+                                    <div className="flex justify-between items-end mt-6">
+                                        <div className="flex-1">
+                                            <span className="text-[12px] text-gray-600 font-medium block mb-4 max-w-[150px] leading-relaxed">On selected premium SUVs & Sedans this month.</span>
+                                            <button onClick={() => navigate(ROUTES.COLLECTION)} className="bg-black hover:bg-red-700 text-white px-4 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-[1px] transition-colors cursor-pointer shadow-md">
+                                                View Offers
+                                            </button>
+                                        </div>
+                                        {/* A subtle graphic or icon instead of a huge car */}
+                                        <div className="w-[80px] h-[80px] rounded-full bg-white shadow-sm flex items-center justify-center shrink-0 border border-gray-100 group-hover:scale-110 transition-transform duration-500">
+                                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#cc0000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                                                <polyline points="20 12 20 22 4 22 4 12"></polyline>
+                                                <rect x="2" y="7" width="20" height="5"></rect>
+                                                <line x1="12" y1="22" x2="12" y2="7"></line>
+                                                <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path>
+                                                <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Interactive Spotlight Card - spans both columns on mobile */}
+                            <div className="col-span-1 sm:col-span-2 relative bg-gradient-to-r from-red-600 to-red-800 rounded-[24px] overflow-hidden h-[240px] sm:h-[280px] shadow-[0_15px_40px_rgba(204,0,0,0.2)] flex items-center justify-between p-6 sm:p-10">
+                                <div className="z-20 max-w-[50%]">
+                                    <span className="inline-block px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-[10px] text-white tracking-[2px] font-bold uppercase mb-3 border border-white/20">SPOTLIGHT</span>
+                                    <h3 className="font-michroma text-[18px] sm:text-[28px] font-bold text-white leading-tight m-0">{spotlightCar.brand} {spotlightCar.model}</h3>
+
+                                    <button
+                                        type="button"
+                                        onClick={() => goToCollection({ carId: spotlightCar.id, showDetails: true })}
+                                        className="mt-6 sm:mt-8 px-5 py-2.5 bg-white text-red-700 text-[11px] sm:text-[13px] font-bold uppercase tracking-[1px] rounded-[8px] hover:bg-gray-100 transition-colors shadow-lg flex items-center gap-2 cursor-pointer"
+                                    >
+                                        Explore Details
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                            <polyline points="9 18 15 12 9 6"></polyline>
+                                        </svg>
+                                    </button>
+                                </div>
+
+                                <img src={spotlightCar.image} alt={spotlightCar.model} className="absolute right-[-10%] sm:right-4 top-1/2 -translate-y-1/2 w-[70%] sm:w-[55%] object-contain drop-shadow-[0_20px_30px_rgba(0,0,0,0.4)] z-10" />
+
+                                {/* Subtle background patterns */}
+                                <div className="absolute right-0 top-0 w-full h-full bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMiIgZmlsbD0iI2ZmZmZmZiIgZmlsbC1vcGFjaXR5PSIwLjEiLz48L3N2Zz4=')] opacity-30 z-0 mix-blend-overlay"></div>
+
+                                {/* Controls */}
+                                <div className="absolute top-4 right-4 sm:top-6 sm:right-6 flex gap-2 z-20">
                                     <button
                                         type="button"
                                         onClick={() => cycleSpotlight(-1)}
-                                        style={{ transform: 'skewX(-15deg)' }}
-                                        className="w-[50px] h-[36px] border border-[#cc0000] rounded-[5px] flex items-center justify-center bg-white cursor-pointer text-[#cc0000] transition-all hover:bg-red-50/50"
+                                        className="w-[36px] h-[36px] sm:w-[40px] sm:h-[40px] rounded-full flex items-center justify-center bg-black/20 hover:bg-black/40 backdrop-blur-md text-white border border-white/10 transition-colors cursor-pointer"
                                     >
-                                        <span style={{ transform: 'skewX(15deg)' }} className="flex items-center justify-center">
-                                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                                                <polyline points="11 17 6 12 11 7"></polyline>
-                                                <polyline points="18 17 13 12 18 7"></polyline>
-                                            </svg>
-                                        </span>
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                            <polyline points="15 18 9 12 15 6"></polyline>
+                                        </svg>
                                     </button>
                                     <button
                                         type="button"
                                         onClick={() => cycleSpotlight(1)}
-                                        style={{ transform: 'skewX(-15deg)' }}
-                                        className="w-[50px] h-[36px] border-none rounded-[5px] flex items-center justify-center bg-[#cc0000] text-white cursor-pointer transition-all hover:bg-[#b30000]"
+                                        className="w-[36px] h-[36px] sm:w-[40px] sm:h-[40px] rounded-full flex items-center justify-center bg-black/20 hover:bg-black/40 backdrop-blur-md text-white border border-white/10 transition-colors cursor-pointer"
                                     >
-                                        <span style={{ transform: 'skewX(15deg)' }} className="flex items-center justify-center">
-                                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                                                <polyline points="13 17 18 12 13 7"></polyline>
-                                                <polyline points="6 17 11 12 6 7"></polyline>
-                                            </svg>
-                                        </span>
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                            <polyline points="9 18 15 12 9 6"></polyline>
+                                        </svg>
                                     </button>
                                 </div>
-                                <button
-                                    type="button"
-                                    onClick={() => goToCollection({ carId: spotlightCar.id, showDetails: true })}
-                                    className="rounded-[16px] overflow-hidden w-full sm:w-[220px] h-[140px] border-none p-0 cursor-pointer bg-[#ececec]"
-                                >
-                                    <img src={spotlightCar.image} alt={spotlightCar.model} className="w-full h-full object-contain" />
-                                </button>
                             </div>
                         </div>
                     </div>
@@ -323,87 +403,110 @@ export default function HomeScreen() {
             <TestimonialSection />
 
             {/* Brands Section */}
-            <section className="w-full max-w-[1400px] mx-auto pt-12 sm:pt-14 md:pt-16 pb-2 md:pb-4 flex flex-col items-center overflow-hidden shrink-0">
-                <h2 className="font-michroma text-[18px] sm:text-[24px] lg:text-[32px] leading-[1.25] font-bold uppercase text-black text-center max-w-[900px] mb-12 sm:mb-14 px-6 tracking-[0.06em]">
-                    The brands people actually<br className="hidden sm:block" /> dream about — all in one place
-                </h2>
-                <div className="w-full flex justify-center px-6 overflow-x-auto py-4 -my-4 scrollbar-none">
-                    <div className="flex items-center justify-center flex-nowrap min-w-max py-1">
-                        {brands.slice(0, 5).map((brand, index) => (
+            <section className="relative w-full max-w-[1400px] mx-auto pt-4 sm:pt-6 pb-2 flex flex-col items-center overflow-hidden shrink-0">
+                <div className="flex flex-col items-center mb-10 sm:mb-14 relative z-10">
+                    <div className="flex items-center gap-3 mb-4">
+                        <div className="w-8 sm:w-12 h-[2px] bg-red-600/30"></div>
+                        <span className="text-red-600 font-michroma text-[10px] sm:text-[11px] font-bold tracking-[3px] uppercase">PARTNERS</span>
+                        <div className="w-8 sm:w-12 h-[2px] bg-red-600/30"></div>
+                    </div>
+                    <h2 className="font-michroma text-[24px] sm:text-[32px] lg:text-[40px] leading-[1.15] font-bold uppercase text-black text-center max-w-[900px] px-4 sm:px-6 tracking-tight">
+                        The brands people actually<br className="hidden sm:block" /> dream about — all in one place
+                    </h2>
+                </div>
+
+                <div className="w-full flex justify-center px-4 sm:px-6 relative z-10">
+                    <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 lg:gap-8 max-w-[1200px]">
+                        {brands.slice(0, 5).map((brand) => (
                             <button
                                 type="button"
                                 key={brand.name}
                                 onClick={() => goToBrand(brand.name)}
-                                className="relative flex items-center justify-center w-[136px] h-[136px] sm:w-[156px] sm:h-[156px] bg-[#f3f3f3] rounded-full border-[6px] border-white -ml-[30px] sm:-ml-[34px] first:ml-0 shrink-0 shadow-sm cursor-pointer transition-transform duration-300 hover:scale-110 p-0"
-                                style={{ zIndex: index + 1 }}
+                                className="group relative flex flex-col items-center justify-center w-[130px] h-[100px] sm:w-[180px] sm:h-[130px] bg-white rounded-[24px] border border-gray-200/60 shrink-0 shadow-[0_10px_30px_rgba(0,0,0,0.03)] cursor-pointer transition-all duration-500 hover:shadow-[0_20px_40px_rgba(204,0,0,0.12)] hover:-translate-y-2 hover:border-red-200 p-0 overflow-hidden"
                             >
+                                <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-white opacity-100"></div>
+                                <div className="absolute -right-8 -top-8 w-24 h-24 bg-red-500/5 rounded-full blur-2xl group-hover:bg-red-500/10 transition-colors duration-500"></div>
+
                                 {brand.logo ? (
-                                    <img src={brand.logo} alt={brand.name} className={`${brand.logoClass} w-auto h-auto object-contain`} loading="lazy" />
+                                    <img src={brand.logo} alt={brand.name} className={`${brand.logoClass} w-[50%] h-[50%] object-contain grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500 relative z-10 group-hover:scale-110`} loading="lazy" />
                                 ) : (
-                                    <span className="font-michroma text-[14px] text-black uppercase">{brand.name.slice(0, 3)}</span>
+                                    <span className="font-michroma text-[14px] sm:text-[18px] text-gray-400 group-hover:text-black uppercase font-bold transition-colors duration-300 relative z-10">{brand.name}</span>
                                 )}
                             </button>
                         ))}
                         <button
                             type="button"
                             onClick={() => navigate(ROUTES.COLLECTION)}
-                            className="relative flex flex-col items-center justify-center w-[136px] h-[136px] sm:w-[156px] sm:h-[156px] bg-[#f3f3f3] rounded-full border-[6px] border-white -ml-[30px] sm:-ml-[34px] shrink-0 text-center cursor-pointer shadow-sm transition-transform duration-300 hover:scale-110"
-                            style={{ zIndex: brands.length + 1 }}
+                            className="group relative flex flex-col items-center justify-center w-[130px] h-[100px] sm:w-[180px] sm:h-[130px] bg-gradient-to-br from-[#111] to-[#000] rounded-[24px] shrink-0 text-center cursor-pointer shadow-[0_10px_30px_rgba(0,0,0,0.15)] transition-all duration-500 hover:shadow-[0_20px_40px_rgba(204,0,0,0.25)] hover:-translate-y-2 overflow-hidden border border-white/5"
                         >
-                            <span className="font-michroma text-[20px] sm:text-[24px] font-normal text-black leading-none">{stats.brandCount}+</span>
-                            <span className="font-michroma text-[8px] sm:text-[9px] text-[#888] font-normal tracking-[0.1em] uppercase mt-1.5 leading-tight">More<br />Brands</span>
+                            <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMiIgZmlsbD0iI2ZmZmZmZiIgZmlsbC1vcGFjaXR5PSIwLjA1Ii8+PC9zdmc+')] opacity-20 mix-blend-overlay"></div>
+                            <div className="absolute -right-12 -top-12 w-32 h-32 bg-red-600/20 rounded-full blur-[30px] group-hover:bg-red-600/40 transition-colors duration-500"></div>
+
+                            <span className="relative z-10 font-michroma text-[28px] sm:text-[36px] font-bold text-white leading-none group-hover:text-white transition-colors duration-300 drop-shadow-md group-hover:-translate-y-2">{stats.brandCount}+</span>
+                            <span className="relative z-10 font-sans text-[10px] sm:text-[11px] text-white/60 font-bold tracking-[0.15em] uppercase mt-2 leading-tight group-hover:text-white transition-colors duration-300 group-hover:-translate-y-2 opacity-100 group-hover:opacity-0">Explore<br />More</span>
+
+                            <div className="absolute bottom-6 opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#cc0000" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    <polyline points="12 5 19 12 12 19"></polyline>
+                                </svg>
+                            </div>
                         </button>
                     </div>
                 </div>
             </section>
 
             {/* FAQ Section */}
-            <section className="w-full py-10 md:py-14 px-4 sm:px-6 flex flex-col items-center shrink-0 -mt-2 md:-mt-4">
-                <div className="w-full max-w-[780px] flex flex-col items-center">
+            <section className="relative w-full py-4 md:py-6 px-4 sm:px-6 flex flex-col items-center shrink-0 -mt-2 md:-mt-4 overflow-hidden">
+                <div className="relative z-10 w-full max-w-[780px] flex flex-col items-center">
                     {/* Header */}
-                    <div className="flex flex-col items-center text-center gap-2 mb-8 sm:mb-10">
-                        <span className="text-[#999] font-michroma text-[10px] sm:text-[11px] font-normal tracking-[2px] uppercase">[ FAQ_ ]</span>
-                        <h2 className="font-michroma text-[17px] sm:text-[22px] lg:text-[28px] leading-[1.15] font-bold uppercase text-black m-0 tracking-[0.05em] px-4">
+                    <div className="flex flex-col items-center text-center mb-10 sm:mb-14 relative z-10">
+                        <div className="flex items-center gap-3 mb-4">
+                            <div className="w-8 sm:w-12 h-[2px] bg-red-600/30"></div>
+                            <span className="text-red-600 font-michroma text-[10px] sm:text-[11px] font-bold tracking-[3px] uppercase">FAQ</span>
+                            <div className="w-8 sm:w-12 h-[2px] bg-red-600/30"></div>
+                        </div>
+                        <h2 className="font-michroma text-[24px] sm:text-[32px] lg:text-[40px] leading-[1.15] font-bold uppercase text-black m-0 tracking-tight px-4">
                             Let us clear things up
                         </h2>
-                        <p className="text-[#aaa] text-[10px] sm:text-[11px] leading-[1.7] tracking-[0.35px] uppercase m-0 mt-1 max-w-[460px] font-normal px-4">
+                        <p className="text-black/60 text-[11px] sm:text-[12px] leading-[1.8] tracking-[0.5px] uppercase m-0 mt-4 max-w-[460px] font-medium px-4">
                             WE ARE ALWAYS HERE TO HELP. NO QUESTION IS TOO SMALL.
                         </p>
                     </div>
 
                     {/* Accordion */}
-                    <div className="w-full flex flex-col gap-4 mb-4">
+                    <div className="w-full flex flex-col gap-4 mb-6 sm:mb-8">
                         {FAQ_ITEMS.map((item) => {
                             const isOpen = openFaqId === item.id;
                             return (
                                 <div
                                     key={item.id}
-                                    className={`w-full rounded-[20px] transition-colors duration-300 overflow-hidden ${isOpen
-                                        ? 'bg-[#f5f5f5]'
-                                        : 'bg-white border border-[#e5e5e5]'
+                                    className={`w-full rounded-[24px] transition-all duration-300 overflow-hidden ${isOpen
+                                        ? 'bg-gradient-to-br from-[#f8f8f8] to-[#f0f0f0] shadow-sm border border-transparent'
+                                        : 'bg-white border border-[#e5e5e5] hover:border-[#ccc]'
                                         }`}
                                 >
                                     <button
                                         type="button"
                                         onClick={() => toggleFaq(item.id)}
-                                        className={`w-full flex items-center justify-between gap-6 bg-transparent border-none cursor-pointer text-left px-6 sm:px-7 ${isOpen ? 'pt-5 pb-3 sm:pt-6 sm:pb-3' : 'py-5 sm:py-6'
+                                        className={`w-full flex items-center justify-between gap-6 bg-transparent border-none cursor-pointer text-left px-6 sm:px-8 ${isOpen ? 'pt-6 pb-4 sm:pt-7 sm:pb-4' : 'py-6 sm:py-7'
                                             }`}
                                     >
-                                        <span className="font-michroma text-[13px] sm:text-[14px] font-bold uppercase text-black leading-[1.55] pr-4 [-webkit-text-stroke:0.5px_black]">
+                                        <span className={`font-michroma text-[14px] sm:text-[15px] uppercase leading-[1.5] pr-4 transition-colors ${isOpen ? 'text-[#cc0000] font-bold' : 'text-black font-semibold'}`}>
                                             {item.question}
                                         </span>
                                         <span
-                                            className={`shrink-0 w-[36px] h-[36px] sm:w-[40px] sm:h-[40px] rounded-full flex items-center justify-center transition-colors duration-300 ${isOpen
-                                                ? 'bg-[#c62828] text-white'
-                                                : 'bg-white border border-black text-black'
+                                            className={`shrink-0 w-[40px] h-[40px] sm:w-[44px] sm:h-[44px] rounded-full flex items-center justify-center transition-all duration-300 shadow-sm ${isOpen
+                                                ? 'bg-[#cc0000] text-white rotate-180'
+                                                : 'bg-white border border-gray-200 text-black'
                                                 }`}
                                         >
                                             {isOpen ? (
-                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round">
+                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
                                                     <line x1="5" y1="12" x2="19" y2="12" />
                                                 </svg>
                                             ) : (
-                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round">
+                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
                                                     <line x1="12" y1="5" x2="12" y2="19" />
                                                     <line x1="5" y1="12" x2="19" y2="12" />
                                                 </svg>
@@ -413,11 +516,11 @@ export default function HomeScreen() {
                                     <AnimatePresence>
                                         {isOpen && (
                                             <motion.p
-                                                initial={{ opacity: 0, height: 0 }}
-                                                animate={{ opacity: 1, height: "auto" }}
-                                                exit={{ opacity: 0, height: 0 }}
+                                                initial={{ opacity: 0, height: 0, y: -10 }}
+                                                animate={{ opacity: 1, height: "auto", y: 0 }}
+                                                exit={{ opacity: 0, height: 0, y: -10 }}
                                                 transition={{ duration: 0.3 }}
-                                                className="font-michroma text-[11px] sm:text-[12px] font-normal uppercase text-black leading-[1.75] tracking-[0.02em] m-0 px-7 sm:px-8 pb-7 sm:pb-8 max-w-[640px]"
+                                                className="font-michroma text-[12px] sm:text-[13px] font-normal uppercase text-[#555] leading-[1.8] tracking-[0.02em] m-0 px-6 sm:px-8 pb-6 sm:pb-8 max-w-[640px]"
                                             >
                                                 {item.answer}
                                             </motion.p>
@@ -429,35 +532,39 @@ export default function HomeScreen() {
                     </div>
 
                     {/* Contact CTA */}
-                    <div className="relative w-full mt-1 rounded-[24px] sm:rounded-[28px] overflow-hidden">
-                        <div className="relative bg-[#ebebeb] px-7 sm:px-9 pt-7 sm:pt-9 pb-8 sm:pb-9">
-                            <div className="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-5">
+                    <div className="relative w-full mt-2 rounded-[24px] sm:rounded-[32px] overflow-hidden shadow-lg border border-gray-100">
+                        <div className="relative bg-gradient-to-br from-[#f8f8f8] to-[#e8e8e8] px-6 sm:px-10 pt-8 sm:pt-10 pb-10 sm:pb-12">
+                            <div className="flex items-center gap-3 sm:gap-5 mb-5 sm:mb-6">
                                 <div className="flex shrink-0">
-                                    <img className="w-[36px] h-[36px] sm:w-[40px] sm:h-[40px] rounded-full border-2 border-[#ebebeb] object-cover relative z-[3] shadow-sm" src="https://i.pravatar.cc/100?img=33" alt="Team 1" />
-                                    <img className="w-[36px] h-[36px] sm:w-[40px] sm:h-[40px] rounded-full border-2 border-[#ebebeb] -ml-3 object-cover relative z-[2] shadow-sm" src="https://i.pravatar.cc/100?img=47" alt="Team 2" />
-                                    <img className="w-[36px] h-[36px] sm:w-[40px] sm:h-[40px] rounded-full border-2 border-[#ebebeb] -ml-3 object-cover relative z-[1] shadow-sm" src="https://i.pravatar.cc/100?img=12" alt="Team 3" />
+                                    <img className="w-[40px] h-[40px] sm:w-[48px] sm:h-[48px] rounded-full border-[3px] border-[#f0f0f0] object-cover relative z-[3] shadow-sm" src="https://i.pravatar.cc/100?img=33" alt="Team 1" />
+                                    <img className="w-[40px] h-[40px] sm:w-[48px] sm:h-[48px] rounded-full border-[3px] border-[#f0f0f0] -ml-4 object-cover relative z-[2] shadow-sm" src="https://i.pravatar.cc/100?img=47" alt="Team 2" />
+                                    <img className="w-[40px] h-[40px] sm:w-[48px] sm:h-[48px] rounded-full border-[3px] border-[#f0f0f0] -ml-4 object-cover relative z-[1] shadow-sm" src="https://i.pravatar.cc/100?img=12" alt="Team 3" />
                                 </div>
-                                <h3 className="font-sans text-[20px] sm:text-[24px] font-medium text-black m-0 normal-case tracking-tight">
-                                    Need more clarity?
+                                <h3 className="font-michroma text-[18px] sm:text-[24px] font-bold text-black m-0 tracking-tight uppercase">
+                                    Need clarity?
                                 </h3>
                             </div>
 
-                            <p className="text-[#555] text-[11px] sm:text-[12px] leading-[1.6] tracking-[0.02em] uppercase m-0 font-normal max-w-[480px]">
-                                STILL NOT SURE? OUR TEAM IS JUST ONE CALL AWAY — READY TO HELP<br className="hidden sm:block" /> YOU WITH ANYTHING YOU NEED.
+                            <p className="text-[#666] text-[11px] sm:text-[13px] leading-[1.7] tracking-[0.03em] uppercase m-0 font-medium max-w-[480px]">
+                                STILL NOT SURE? OUR TEAM IS JUST ONE CALL AWAY — READY TO HELP YOU WITH ANYTHING.
                             </p>
 
-                            <div className="mt-6 sm:mt-8 min-h-[30px] flex items-end">
+                            <div className="mt-8 sm:mt-10 min-h-[30px] flex items-end">
                                 <a
-                                    href="mailto:hello@neurofly.com"
-                                    className="text-[#d32f2f] font-sans text-[11px] sm:text-[12px] font-bold tracking-[0.5px] uppercase no-underline hover:opacity-80"
+                                    href="mailto:hello@acncars.com"
+                                    className="text-[#cc0000] font-sans text-[12px] sm:text-[14px] font-bold tracking-[1px] uppercase no-underline hover:text-[#990000] transition-colors flex items-center gap-2"
                                 >
-                                    HELLO@NEUROFLY.COM —
+                                    HELLO@ACNCARS.COM
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                        <polyline points="12 5 19 12 12 19"></polyline>
+                                    </svg>
                                 </a>
                             </div>
 
                             {/* Custom rounded cut-out mask using SVG */}
                             <svg
-                                className="absolute bottom-0 right-0 w-[250px] sm:w-[275px] h-[65px] sm:h-[75px] pointer-events-none"
+                                className="absolute bottom-0 right-0 w-[220px] sm:w-[300px] h-[60px] sm:h-[85px] pointer-events-none"
                                 viewBox="0 0 275 75"
                                 preserveAspectRatio="none"
                             >
@@ -466,30 +573,30 @@ export default function HomeScreen() {
                         </div>
 
                         {/* Buttons Container */}
-                        <div className="absolute bottom-3 sm:bottom-4 right-4 sm:right-6 flex z-10 items-center gap-[6px]">
+                        <div className="absolute bottom-3 sm:bottom-5 right-4 sm:right-6 flex z-10 items-center gap-[6px]">
                             {/* CONTACT US BUTTON */}
                             <div
-                                className="bg-black p-[1px] rounded-l-[6px] flex items-center justify-center relative shadow-sm"
-                                style={{ clipPath: 'polygon(0 0, 100% 0, calc(100% - 14px) 100%, 0 100%)' }}
+                                className="bg-[#cc0000] p-[2px] rounded-l-[8px] flex items-center justify-center relative shadow-lg"
+                                style={{ clipPath: 'polygon(0 0, 100% 0, calc(100% - 15px) 100%, 0 100%)' }}
                             >
                                 <button
                                     type="button"
                                     onClick={goToAbout}
-                                    className="bg-white text-black h-[38px] sm:h-[42px] pl-5 pr-7 text-[10px] sm:text-[11px] font-bold cursor-pointer hover:bg-[#f0f0f0] transition-colors flex items-center justify-center rounded-l-[5px] font-sans uppercase tracking-[0.05em]"
+                                    className="bg-white text-black h-[40px] sm:h-[46px] pl-6 pr-8 text-[11px] sm:text-[12px] font-bold cursor-pointer hover:bg-gray-50 transition-colors flex items-center justify-center rounded-l-[6px] font-sans uppercase tracking-[0.1em]"
                                     style={{ clipPath: 'polygon(0 0, 100% 0, calc(100% - 14px) 100%, 0 100%)' }}
                                 >
-                                    CONTACT US
+                                    CONTACT
                                 </button>
                             </div>
 
-                            {/* BLACK CHEVRON BUTTON */}
+                            {/* RED CHEVRON BUTTON */}
                             <button
                                 type="button"
                                 onClick={goToAbout}
-                                className="bg-black text-white h-[40px] sm:h-[44px] w-[42px] sm:w-[48px] flex items-center justify-center cursor-pointer hover:bg-[#222] transition-colors rounded-[6px] skew-x-[-20deg] shadow-sm"
+                                className="bg-[#cc0000] text-white h-[44px] sm:h-[50px] w-[46px] sm:w-[54px] flex items-center justify-center cursor-pointer hover:bg-[#aa0000] transition-colors rounded-[8px] skew-x-[-20deg] shadow-lg"
                             >
                                 <div className="skew-x-[20deg] flex items-center justify-center ml-1">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="animate-arrow-slide">
                                         <polyline points="13 17 18 12 13 7" />
                                         <polyline points="6 17 11 12 6 7" />
                                     </svg>
@@ -616,17 +723,17 @@ export default function HomeScreen() {
                             </p>
 
                             {/* Premium Input Row */}
-                            <div className="flex items-center mt-5 w-full max-w-[540px] min-h-[56px] sm:h-[60px] relative z-10 bg-white/5 border border-white/10 rounded-full backdrop-blur-md p-1.5 transition-all focus-within:bg-white/10 focus-within:border-white/30 flex-col sm:flex-row h-auto sm:h-[60px] gap-2 sm:gap-0">
+                            <div className="flex items-center mt-6 w-full max-w-[540px] relative z-10 bg-white/[0.03] border border-white/10 rounded-[20px] sm:rounded-full backdrop-blur-md p-2 transition-all focus-within:bg-white/[0.08] focus-within:border-white/30 flex-col sm:flex-row gap-3 sm:gap-0 sm:h-[64px]">
                                 <input
                                     type="email"
                                     placeholder="TYPE E-MAIL HERE"
-                                    className="flex-1 w-full bg-transparent px-5 sm:px-6 py-3 sm:py-0 text-[12px] sm:text-[13px] text-white placeholder-[#666] focus:outline-none tracking-[0.05em] min-h-[44px] sm:min-h-0 sm:h-full"
+                                    className="flex-1 w-full bg-white/5 sm:bg-transparent rounded-[14px] sm:rounded-none px-6 py-4 sm:py-0 text-[13px] sm:text-[14px] text-white placeholder-[#777] focus:outline-none tracking-[0.05em] h-[52px] sm:h-full"
                                 />
-                                <button type="button" className="w-full sm:w-auto sm:h-full bg-[#cc0000] hover:bg-[#aa0000] text-white rounded-full px-6 sm:px-8 py-3 sm:py-0 text-[11px] sm:text-[12px] font-bold tracking-[0.1em] flex items-center justify-center gap-2 transition-colors duration-300 shadow-lg min-h-[44px]">
+                                <button type="button" className="w-full sm:w-auto sm:h-full bg-[#cc0000] hover:bg-[#b30000] text-white rounded-[14px] sm:rounded-full px-8 py-4 sm:py-0 text-[12px] sm:text-[13px] font-bold tracking-[0.1em] flex items-center justify-center gap-3 transition-colors duration-300 shadow-lg h-[52px]">
                                     <span>SUBSCRIBE</span>
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="hidden sm:block">
-                                        <polyline points="5 12 19 12" />
-                                        <polyline points="12 5 19 12 12 19" />
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                        <polyline points="12 5 19 12 12 19"></polyline>
                                     </svg>
                                 </button>
                             </div>

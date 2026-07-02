@@ -73,7 +73,7 @@ const OfferSection = () => {
     const col2 = OFFER_CARDS.slice(2, 4);
 
     return (
-        <section className="w-full max-w-[1400px] mx-auto py-10 md:py-12 px-4 sm:px-8 xl:px-10 overflow-hidden shrink-0">
+        <section className="w-full max-w-[1400px] mx-auto py-2 md:py-4 px-4 sm:px-8 xl:px-10 overflow-hidden shrink-0">
             <div className="flex flex-col xl:flex-row xl:items-start gap-12 xl:gap-16 min-w-0">
                 <div className="xl:w-[45%] xl:max-w-[660px] shrink-0 min-w-0 w-full">
                     <div className="flex flex-col sm:flex-row gap-4 sm:gap-0 items-stretch sm:items-start">
@@ -93,13 +93,14 @@ const OfferSection = () => {
                 <div className="xl:flex-1 flex flex-col min-w-0 xl:pt-1">
                     <div className="flex flex-col gap-3 max-w-[520px]">
                         <span className="text-[#888] font-michroma text-[11px] font-bold tracking-[2px] uppercase">
-                            [ WHAT WE OFFER_ ]
+                            WHAT WE OFFER
                         </span>
-                        <h2 className="font-michroma text-[30px] sm:text-[38px] lg:text-[44px] leading-[1.12] font-normal uppercase text-black m-0 tracking-wide">
-                            Everything we do is<br />built<br />around you
+                        <h2 className="font-michroma text-[32px] sm:text-[40px] md:text-[48px] leading-[1.1] font-bold uppercase text-black m-0 tracking-tight">
+                            Everything we<br />do is built<br />
+                            around you
                         </h2>
-                        <p className="text-[#999] text-[11px] sm:text-[12px] leading-[1.8] tracking-[0.4px] uppercase m-0 mt-1 max-w-[480px]">
-                            WE DON&apos;T JUST SELL CARS. WE BUILD RELATIONSHIPS THAT LAST LONG AFTER DELIVERY.
+                        <p className="text-[#888] text-[13px] sm:text-[14px] leading-[1.8] tracking-[1px] uppercase m-0 mt-3 max-w-[440px] border-l-2 border-red-600/50 pl-4 font-medium">
+                            WE DON&apos;T JUST SELL CARS · WE BUILD RELATIONSHIPS THAT LAST LONG AFTER DELIVERY
                         </p>
                     </div>
 

@@ -7,6 +7,20 @@
   --color-text-muted: #999999;
   --font-michroma: "Michroma", sans-serif;
   --font-sans: "Electrolize", sans-serif;
+  
+  --animate-arrow-slide: arrowSlide 1s ease-in-out infinite;
+  @keyframes arrowSlide {
+    0% { transform: translateX(0); }
+    50% { transform: translateX(4px); }
+    100% { transform: translateX(0); }
+  }
+
+  --animate-arrow-slide-left: arrowSlideLeft 1s ease-in-out infinite;
+  @keyframes arrowSlideLeft {
+    0% { transform: translateX(0); }
+    50% { transform: translateX(-4px); }
+    100% { transform: translateX(0); }
+  }
 }
 
 *,

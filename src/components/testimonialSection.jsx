@@ -100,8 +100,8 @@ const TestimonialCard = ({ name, role, text, rating, image, isBlue, carName, onC
     }, [name, role]);
 
     return (
-        <motion.div 
-            ref={cardRef} 
+        <motion.div
+            ref={cardRef}
             whileHover={{ y: -8, scale: 1.01 }}
             transition={{ type: "spring", stiffness: 300 }}
             className={`relative w-[min(280px,82vw)] sm:w-[280px] md:w-[300px] h-[260px] sm:h-[320px] shrink-0 snap-start ${onClick ? 'cursor-pointer' : ''}`}
@@ -221,7 +221,7 @@ const TestimonialSection = () => {
         >
             {/* Dark overlay for readability */}
             <div className="absolute inset-0 bg-black/80 pointer-events-none z-0" />
-            
+
             {/* Wavy Background Glow */}
             <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[120px] pointer-events-none z-0" />
             <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-red-500/5 rounded-full blur-[120px] pointer-events-none z-0" />
@@ -232,12 +232,12 @@ const TestimonialSection = () => {
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 xl:mb-10">
                     <div className="flex flex-col gap-3 max-w-[700px]">
                         <span className="text-primary-red font-michroma text-[11px] font-bold tracking-[2px] uppercase">
-                            [ TESTIMONIAL_ ]
+                            TESTIMONIALS
                         </span>
-                        <h2 className="font-michroma text-[28px] sm:text-[36px] lg:text-[40px] leading-[1.2] font-normal uppercase text-white m-0 tracking-wide">
+                        <h2 className="font-michroma text-[32px] sm:text-[40px] md:text-[48px] leading-[1.1] font-bold uppercase text-white m-0 tracking-tight">
                             Every review is a story<br />we are proud of
                         </h2>
-                        <p className="text-text-muted text-[11px] sm:text-[12px] leading-[1.8] tracking-[0.4px] uppercase m-0 mt-1">
+                        <p className="text-white/60 text-[13px] sm:text-[14px] leading-[1.8] tracking-[1px] uppercase m-0 mt-3 max-w-[440px] border-l-2 border-red-600/50 pl-4 font-medium">
                             REAL REVIEWS FROM CUSTOMERS WHO DROVE HOME THEIR DREAM CARS.
                         </p>
                     </div>
@@ -248,12 +248,12 @@ const TestimonialSection = () => {
                             onClick={handleScrollLeftClick}
                             style={{ transform: 'skewX(-15deg)' }}
                             className={`w-[50px] h-[36px] border-none rounded-[8px] flex items-center justify-center cursor-pointer transition-all ${canScrollLeft
-                                    ? 'bg-primary-red text-white hover:bg-primary-red/90'
-                                    : 'bg-white text-black hover:bg-white/90'
+                                ? 'bg-primary-red text-white hover:bg-primary-red/90'
+                                : 'bg-white text-black hover:bg-white/90'
                                 }`}
                         >
                             <span style={{ transform: 'skewX(15deg)' }} className="flex items-center justify-center">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="animate-arrow-slide-left">
                                     <polyline points="11 17 6 12 11 7"></polyline>
                                     <polyline points="18 17 13 12 18 7"></polyline>
                                 </svg>
@@ -263,12 +263,12 @@ const TestimonialSection = () => {
                             onClick={handleScrollRightClick}
                             style={{ transform: 'skewX(-15deg)' }}
                             className={`w-[50px] h-[36px] border-none rounded-[8px] flex items-center justify-center cursor-pointer transition-all ${canScrollRight
-                                    ? 'bg-primary-red text-white hover:bg-primary-red/90'
-                                    : 'bg-white text-black hover:bg-white/90'
+                                ? 'bg-primary-red text-white hover:bg-primary-red/90'
+                                : 'bg-white text-black hover:bg-white/90'
                                 }`}
                         >
                             <span style={{ transform: 'skewX(15deg)' }} className="flex items-center justify-center">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="animate-arrow-slide">
                                     <polyline points="13 17 18 12 13 7"></polyline>
                                     <polyline points="6 17 11 12 6 7"></polyline>
                                 </svg>
