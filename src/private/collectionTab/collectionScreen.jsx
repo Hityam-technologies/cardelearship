@@ -85,6 +85,9 @@ function DetailCard({ title, badge, children, delay = 0 }) {
     );
 }
 
+let cachedCars = null;
+let cachedCategories = null;
+
 export default function CollectionScreen() {
     const navigate = useNavigate();
     const location = useLocation();
@@ -118,6 +121,12 @@ export default function CollectionScreen() {
 
     useEffect(() => {
         const fetchBackendData = async () => {
+            if (cachedCars && cachedCategories) {
+                setCars(cachedCars);
+                setCategories(cachedCategories);
+                setIsLoading(false);
+                return;
+            }
             try {
                 const [carsRes, catRes] = await Promise.all([
                     fetch('http://localhost:5000/api/cars'),
@@ -133,8 +142,12 @@ export default function CollectionScreen() {
                 }));
 
                 const catData = await catRes.json();
-                setCars(processedCarsData);
-                setCategories(['All', ...catData]);
+                
+                cachedCars = processedCarsData;
+                cachedCategories = ['All', ...catData];
+                
+                setCars(cachedCars);
+                setCategories(cachedCategories);
             } catch (error) {
                 console.error("Error fetching data:", error);
             } finally {
