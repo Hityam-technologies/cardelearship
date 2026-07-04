@@ -395,7 +395,7 @@ export default function CollectionScreen() {
                         {/* Carousel Cars */}
                         <AnimatePresence initial={false}>
                             {(isShowingDetails && activeCar ? 
-                                (activeCar.images || [activeCar.image]).map((img, idx) => ({
+                                (activeCar.images?.length > 0 ? activeCar.images : [activeCar.image]).map((img, idx) => ({
                                     key: idx === 0 ? activeCar.id : `${activeCar.id}-img-${idx}`,
                                     image: img,
                                     offset: idx - activeDetailImageIndex,
