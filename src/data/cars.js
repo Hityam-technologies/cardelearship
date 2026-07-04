@@ -1,3 +1,4 @@
+
 export const COLLECTION_CARS = [
     {
         id: 4,
@@ -359,14 +360,23 @@ export const COLLECTION_CARS = [
             { label: 'Boot Space', value: '358 L' },
         ],
     }
-];
+].map(car => ({
+    ...car,
+    image: car.image?.startsWith('http') ? car.image : `http://localhost:5000${car.image}`,
+    logo: car.logo?.startsWith('http') ? car.logo : (car.logo ? `http://localhost:5000${car.logo}` : '')
+}));
 
 export const BRAND_LOGOS = {
-    Tata: '/images/brands/tata.svg',
-    Mahindra: '/images/brands/mahindra.png',
-    'Maruti Suzuki': '/images/brands/suzuki.jpg',
-    Hyundai: '/images/brands/hyundai.svg',
-    Kia: '/images/brands/kia.svg',
+    Tata: 'http://localhost:5000/images/brands/tata.png',
+    Mahindra: 'http://localhost:5000/images/brands/mahindra.png',
+    'Maruti Suzuki': 'http://localhost:5000/images/brands/suzuki.png',
+    Hyundai: 'http://localhost:5000/images/brands/hyundai.png',
+    Kia: 'http://localhost:5000/images/brands/kia.png',
+    Toyota: 'http://localhost:5000/images/brands/toyota.png',
+    Honda: 'http://localhost:5000/images/brands/honda.png',
+    MG: 'http://localhost:5000/images/brands/mg.png',
+    Audi: 'http://localhost:5000/images/brands/audi.png',
+    Bentley: 'http://localhost:5000/images/brands/bentley.png',
 };
 
 export const TESTIMONIALS = [
@@ -433,7 +443,7 @@ export function getCategories(cars = COLLECTION_CARS) {
 }
 
 export function getCategoryDetails(cars = COLLECTION_CARS) {
-    const details = { All: { image: '/gloster.png', desc: CATEGORY_DESCRIPTIONS.All } };
+    const details = { All: { image: 'http://localhost:5000/gloster.png', desc: CATEGORY_DESCRIPTIONS.All } };
 
     cars.forEach((car) => {
         if (!details[car.type]) {

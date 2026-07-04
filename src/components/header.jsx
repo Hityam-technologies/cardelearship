@@ -6,12 +6,29 @@ import { NAV_TABS, ROUTES } from '../utils/navigation';
 
 const CATEGORY_DETAILS = getCategoryDetails();
 
-const Header = ({ viewMode, setViewMode, categories, activeCategory, setActiveCategory, cars, onSelectCar }) => {
+const Header = ({ viewMode, setViewMode, categories, activeCategory, setActiveCategory, cars, onSelectCar, setFilterOpen, isFilterOpen, activeFilters }) => {
     const location = useLocation();
     const navigate = useNavigate();
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
+
+    const hasActiveFilters = Boolean(
+        activeFilters && (
+            (activeFilters.search && activeFilters.search.trim() !== '') ||
+            (activeFilters.brands && activeFilters.brands.length > 0) ||
+            (activeFilters.bodyTypes && activeFilters.bodyTypes.length > 0) ||
+            (activeFilters.fuelTypes && activeFilters.fuelTypes.length > 0) ||
+            (activeFilters.transmissions && activeFilters.transmissions.length > 0) ||
+            (activeFilters.colors && activeFilters.colors.length > 0) ||
+            (activeFilters.seats && activeFilters.seats.length > 0) ||
+            (activeFilters.maxPrice && Number(activeFilters.maxPrice) < 50000000) ||
+            (activeFilters.sort && activeFilters.sort !== 'relevance')
+        )
+    );
+
+    const isCategoryActive = activeCategory && activeCategory !== 'All';
+    const isSearchActive = searchQuery.trim().length > 0;
 
     return (
         <header className="absolute top-0 left-0 w-full z-50 pointer-events-none flex justify-between items-start">
@@ -97,7 +114,7 @@ const Header = ({ viewMode, setViewMode, categories, activeCategory, setActiveCa
 
             {/* Collection toolbar — below header on small screens only */}
             {location.pathname === ROUTES.COLLECTION && setViewMode && (
-                <div className="absolute top-[calc(64px+16px+16px)] sm:top-[calc(72px+24px+16px)] left-0 right-0 z-40 lg:hidden px-4 sm:px-6 pt-2 pb-3 pointer-events-auto">
+                <div className={`absolute top-[calc(64px+16px+16px)] sm:top-[calc(72px+24px+16px)] left-0 right-0 z-40 lg:hidden px-4 sm:px-6 pt-2 pb-3 pointer-events-auto transition-all duration-300 ${isFilterOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
                     {categories && categories.length > 0 && setActiveCategory && (
                         <div className="flex gap-2 overflow-x-auto scrollbar-none pb-2 -mx-1 px-1">
                             {categories.map((cat) => (
@@ -114,7 +131,8 @@ const Header = ({ viewMode, setViewMode, categories, activeCategory, setActiveCa
                     )}
                     <div className="flex items-center gap-2 sm:gap-3">
                         <div className="relative flex-1 min-w-0 flex items-center group">
-                            <div className="absolute left-3 text-white/50 group-focus-within:text-white transition-colors pointer-events-none">
+                            <span className={`absolute inset-0 rounded-full animate-pulse pointer-events-none ${isSearchActive ? 'shadow-[0_0_15px_rgba(218,37,37,0.8)]' : 'shadow-[0_0_15px_rgba(255,255,255,0.6)]'}`}></span>
+                            <div className={`absolute left-3 transition-colors pointer-events-none z-20 ${isSearchActive ? 'text-[#da2525]' : 'text-white/50 group-focus-within:text-white'}`}>
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                                     <circle cx="11" cy="11" r="8" />
                                     <line x1="21" y1="21" x2="16.65" y2="16.65" />
@@ -125,7 +143,7 @@ const Header = ({ viewMode, setViewMode, categories, activeCategory, setActiveCa
                                 placeholder="Search cars..."
                                 value={searchQuery || ''}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="w-full bg-black/40 backdrop-blur-md border border-white/10 text-white text-[12px] sm:text-[13px] font-medium tracking-wide rounded-full py-2.5 pl-9 pr-4 focus:outline-none focus:border-white/40 focus:bg-black/60 transition-all placeholder:text-white/40 min-h-[40px]"
+                                className={`relative z-10 w-full bg-black/40 backdrop-blur-md border text-white text-[12px] sm:text-[13px] font-medium tracking-wide rounded-full py-2.5 pl-9 pr-4 focus:outline-none focus:bg-black/60 transition-all placeholder:text-white/40 min-h-[40px] ${isSearchActive ? 'border-[#da2525]' : 'border-white'}`}
                             />
                             <AnimatePresence>
                                 {searchQuery.trim().length > 0 && (
@@ -169,11 +187,12 @@ const Header = ({ viewMode, setViewMode, categories, activeCategory, setActiveCa
                                 )}
                             </AnimatePresence>
                         </div>
-                        <div className="flex bg-black/40 backdrop-blur-md border border-white/20 rounded-full p-1 gap-1 shrink-0">
+                        <div className="relative flex bg-black/40 backdrop-blur-md border border-white rounded-full p-1 gap-1 shrink-0">
+                            <span className="absolute inset-0 rounded-full shadow-[0_0_15px_rgba(255,255,255,0.6)] animate-pulse pointer-events-none"></span>
                             <button
                                 type="button"
                                 onClick={() => setViewMode('carousel')}
-                                className={`w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 ${viewMode === 'carousel' ? 'bg-white text-black' : 'text-white hover:bg-white/10'}`}
+                                className={`relative z-10 w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 ${viewMode === 'carousel' ? 'bg-white text-black' : 'text-white hover:bg-white/10'}`}
                                 aria-label="Carousel View"
                             >
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -184,7 +203,7 @@ const Header = ({ viewMode, setViewMode, categories, activeCategory, setActiveCa
                             <button
                                 type="button"
                                 onClick={() => setViewMode('grid')}
-                                className={`w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 ${viewMode === 'grid' ? 'bg-white text-black' : 'text-white hover:bg-white/10'}`}
+                                className={`relative z-10 w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 ${viewMode === 'grid' ? 'bg-white text-black' : 'text-white hover:bg-white/10'}`}
                                 aria-label="Grid View"
                             >
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -195,12 +214,23 @@ const Header = ({ viewMode, setViewMode, categories, activeCategory, setActiveCa
                                 </svg>
                             </button>
                         </div>
+                        <button
+                            type="button"
+                            onClick={() => setFilterOpen && setFilterOpen(true)}
+                            className={`relative w-10 h-10 bg-black/40 backdrop-blur-md border ${hasActiveFilters ? 'border-[#da2525] text-[#da2525]' : 'border-white text-white'} rounded-full flex items-center justify-center hover:bg-white/10 transition-all ml-1 shrink-0`}
+                            aria-label="Open Filters"
+                        >
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="relative z-10">
+                                <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+                            </svg>
+                            <span className={`absolute inset-0 rounded-full animate-pulse pointer-events-none ${hasActiveFilters ? 'shadow-[0_0_15px_rgba(218,37,37,0.8)]' : 'shadow-[0_0_15px_rgba(255,255,255,0.6)]'}`}></span>
+                        </button>
                     </div>
                 </div>
             )}
 
             {/* Top Right Header Buttons — laptop/desktop collection tools */}
-            <div className="relative pointer-events-auto hidden lg:flex items-center gap-3 mt-[30px] pr-4 lg:pr-4 xl:pr-8 2xl:pr-[120px] shrink min-w-0 justify-end z-[55]">
+            <div className={`relative pointer-events-auto hidden lg:flex items-center gap-3 mt-[30px] pr-4 lg:pr-4 xl:pr-8 2xl:pr-[120px] shrink min-w-0 justify-end z-[55] transition-all duration-300 ${isFilterOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
                 {location.pathname === ROUTES.COLLECTION && setViewMode && (
                     <>                        {/* Category Dropdown */}
                         {categories && categories.length > 0 && (
@@ -208,12 +238,15 @@ const Header = ({ viewMode, setViewMode, categories, activeCategory, setActiveCa
                                 <button
                                     type="button"
                                     onClick={() => setCategoryDropdownOpen(!categoryDropdownOpen)}
-                                    className="flex items-center gap-3 bg-black/40 backdrop-blur-md border border-white/20 text-white text-[14px] font-medium tracking-wide rounded-full py-3 px-6 hover:bg-black/60 hover:border-white/40 transition-all"
+                                    className={`relative flex items-center gap-3 bg-black/40 backdrop-blur-md border ${isCategoryActive ? 'border-[#da2525] text-[#da2525]' : 'border-white text-white'} text-[14px] font-medium tracking-wide rounded-full py-3 px-6 hover:bg-black/60 transition-all`}
                                 >
-                                    <span>{activeCategory || 'Category'}</span>
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={`transition-transform duration-300 ${categoryDropdownOpen ? 'rotate-180' : ''}`}>
-                                        <polyline points="6 9 12 15 18 9"></polyline>
-                                    </svg>
+                                    <span className={`absolute inset-0 rounded-full animate-pulse pointer-events-none ${isCategoryActive ? 'shadow-[0_0_15px_rgba(218,37,37,0.8)]' : 'shadow-[0_0_15px_rgba(255,255,255,0.6)]'}`}></span>
+                                    <span className="relative z-10 flex items-center gap-3">
+                                        <span>{activeCategory || 'Category'}</span>
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={`transition-transform duration-300 ${categoryDropdownOpen ? 'rotate-180' : ''}`}>
+                                            <polyline points="6 9 12 15 18 9"></polyline>
+                                        </svg>
+                                    </span>
                                 </button>
 
                                 <AnimatePresence>
@@ -263,7 +296,8 @@ const Header = ({ viewMode, setViewMode, categories, activeCategory, setActiveCa
 
                         {/* Search Box */}
                         <div className="relative hidden lg:flex items-center group">
-                            <div className="absolute left-4 text-white/50 group-focus-within:text-white transition-colors">
+                            <span className={`absolute inset-0 rounded-full animate-pulse pointer-events-none ${isSearchActive ? 'shadow-[0_0_15px_rgba(218,37,37,0.8)]' : 'shadow-[0_0_15px_rgba(255,255,255,0.6)]'}`}></span>
+                            <div className={`absolute left-4 transition-colors z-20 pointer-events-none ${isSearchActive ? 'text-[#da2525]' : 'text-white/50 group-focus-within:text-white'}`}>
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                                     <circle cx="11" cy="11" r="8"></circle>
                                     <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
@@ -274,7 +308,7 @@ const Header = ({ viewMode, setViewMode, categories, activeCategory, setActiveCa
                                 placeholder="Search Cars..."
                                 value={searchQuery || ''}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="bg-black/20 backdrop-blur-md border border-white/10 text-white text-[14px] font-medium tracking-wide rounded-full py-3 pl-12 pr-5 w-[130px] xl:w-[180px] 2xl:w-[280px] focus:outline-none focus:border-white/40 focus:bg-black/40 focus:ring-2 focus:ring-white/10 focus:shadow-[0_0_15px_rgba(255,255,255,0.1)] transition-all placeholder:text-white/40"
+                                className={`relative z-10 bg-black/40 backdrop-blur-md border text-white text-[14px] font-medium tracking-wide rounded-full py-3 pl-12 pr-5 w-[130px] xl:w-[180px] 2xl:w-[280px] focus:outline-none focus:bg-black/60 transition-all placeholder:text-white/40 ${isSearchActive ? 'border-[#da2525]' : 'border-white'}`}
                             />
                             
                             {/* Search Dropdown */}
@@ -322,11 +356,12 @@ const Header = ({ viewMode, setViewMode, categories, activeCategory, setActiveCa
                         </div>
 
                         {/* View Toggler */}
-                        <div className="flex bg-black/40 backdrop-blur-md border border-white/20 rounded-full p-1.5 gap-1.5">
+                        <div className="relative flex bg-black/40 backdrop-blur-md border border-white rounded-full p-1.5 gap-1.5">
+                            <span className="absolute inset-0 rounded-full shadow-[0_0_15px_rgba(255,255,255,0.6)] animate-pulse pointer-events-none"></span>
                             <button
                                 type="button"
                                 onClick={() => setViewMode('carousel')}
-                                className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${viewMode === 'carousel' ? 'bg-white text-black' : 'text-white hover:bg-white/10'}`}
+                                className={`relative z-10 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${viewMode === 'carousel' ? 'bg-white text-black' : 'text-white hover:bg-white/10'}`}
                                 aria-label="Carousel View"
                             >
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -337,7 +372,7 @@ const Header = ({ viewMode, setViewMode, categories, activeCategory, setActiveCa
                             <button
                                 type="button"
                                 onClick={() => setViewMode('grid')}
-                                className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${viewMode === 'grid' ? 'bg-white text-black' : 'text-white hover:bg-white/10'}`}
+                                className={`relative z-10 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${viewMode === 'grid' ? 'bg-white text-black' : 'text-white hover:bg-white/10'}`}
                                 aria-label="Grid View"
                             >
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -348,6 +383,19 @@ const Header = ({ viewMode, setViewMode, categories, activeCategory, setActiveCa
                                 </svg>
                             </button>
                         </div>
+
+                        {/* Filter Button */}
+                        <button
+                            type="button"
+                            onClick={() => setFilterOpen && setFilterOpen(true)}
+                            className={`relative bg-black/40 backdrop-blur-md border ${hasActiveFilters ? 'border-[#da2525] text-[#da2525]' : 'border-white text-white'} rounded-full p-2.5 hover:bg-white/10 transition-all flex items-center justify-center ml-1`}
+                            aria-label="Open Filters"
+                        >
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="relative z-10">
+                                <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+                            </svg>
+                            <span className={`absolute inset-0 rounded-full animate-pulse pointer-events-none ${hasActiveFilters ? 'shadow-[0_0_18px_rgba(218,37,37,0.8)]' : 'shadow-[0_0_18px_rgba(255,255,255,0.6)]'}`}></span>
+                        </button>
                     </>
                 )}
             </div>
