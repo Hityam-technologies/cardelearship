@@ -93,6 +93,7 @@ export default function CollectionScreen() {
     const location = useLocation();
     const [searchParams] = useSearchParams();
     const [activeIndex, setActiveIndex] = useState(0);
+    const [activeDetailImageIndex, setActiveDetailImageIndex] = useState(0);
     const [viewMode, setViewMode] = useState('carousel');
     const [activeCategory, setActiveCategory] = useState('All');
     const isMobile = useIsMobile();
@@ -138,7 +139,8 @@ export default function CollectionScreen() {
                 const processedCarsData = carsData.map(car => ({
                     ...car,
                     image: car.image?.startsWith('http') ? car.image : `http://localhost:5000${car.image}`,
-                    logo: car.logo?.startsWith('http') ? car.logo : (car.logo ? `http://localhost:5000${car.logo}` : '')
+                    logo: car.logo?.startsWith('http') ? car.logo : (car.logo ? `http://localhost:5000${car.logo}` : ''),
+                    images: car.images?.map(img => img?.startsWith('http') ? img : `http://localhost:5000${img}`)
                 }));
 
                 const catData = await catRes.json();
@@ -195,6 +197,12 @@ export default function CollectionScreen() {
 
     const urlCarId = searchParams.get('carId') ? Number(searchParams.get('carId')) : null;
     const isShowingDetails = searchParams.get('details') === 'true' && activeCar && urlCarId === activeCar.id;
+
+    useEffect(() => {
+        if (!isShowingDetails) {
+            setActiveDetailImageIndex(0);
+        }
+    }, [isShowingDetails]);
 
     const goNext = useCallback(() => {
         setActiveIndex((prev) => {
@@ -262,6 +270,10 @@ export default function CollectionScreen() {
         const handleKeyDown = (e) => {
             if (isShowingDetails) {
                 if (e.key === 'Escape') handleCloseDetails();
+                if (activeCar?.images?.length > 1) {
+                    if (e.key === 'ArrowRight') setActiveDetailImageIndex(p => Math.min(activeCar.images.length - 1, p + 1));
+                    if (e.key === 'ArrowLeft') setActiveDetailImageIndex(p => Math.max(0, p - 1));
+                }
                 return;
             }
             if (e.key === 'ArrowRight') goNext();
@@ -269,7 +281,7 @@ export default function CollectionScreen() {
         };
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [goNext, goPrev, isShowingDetails, handleCloseDetails]);
+    }, [goNext, goPrev, isShowingDetails, handleCloseDetails, activeCar]);
 
     const leftCar = currentActiveIndex > 0 ? filteredCars[currentActiveIndex - 1] : null;
     const rightCar = currentActiveIndex < totalCars - 1 ? filteredCars[currentActiveIndex + 1] : null;
@@ -283,12 +295,12 @@ export default function CollectionScreen() {
     }
 
     return (
-        <div className="w-full max-w-full min-h-screen bg-[#fafafa] p-2 sm:p-4 flex flex-col overflow-x-clip box-border font-sans">
+        <div className="w-full max-w-full min-h-screen bg-[#fafafa] p-2 sm:p-4 flex flex-col overflow-hidden box-border font-sans">
             <div className={`w-full bg-[#111111] rounded-[20px] sm:rounded-[30px] lg:rounded-[40px] flex overflow-hidden relative shrink-0 isolate h-[calc(100dvh-1rem)] sm:h-[calc(100dvh-2rem)] ${isShowingDetails ? 'min-h-[850px] lg:min-h-[640px]' : 'min-h-[640px]'}`}>
                 <motion.div
                     layout
                     transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-                    className={`flex-1 min-w-0 relative h-full ${isShowingDetails ? 'overflow-y-auto custom-scrollbar' : '[contain:paint]'}`}
+                    className={`flex-1 min-w-0 relative h-full ${isShowingDetails ? 'overflow-y-auto overflow-x-hidden custom-scrollbar' : '[contain:paint]'}`}
                 >
                     {/* Fixed background for scrollable view */}
                     <div className="sticky top-0 left-0 w-full h-0 pointer-events-none z-0">
@@ -382,45 +394,67 @@ export default function CollectionScreen() {
 
                         {/* Carousel Cars */}
                         <AnimatePresence initial={false}>
-                            {filteredCars.map((car, index) => {
-                                if (viewMode !== 'carousel' && !isShowingDetails) return null;
-                                const offset = index - currentActiveIndex;
-                                const isCenter = offset === 0;
+                            {(isShowingDetails && activeCar ? 
+                                (activeCar.images || [activeCar.image]).map((img, idx) => ({
+                                    key: idx === 0 ? activeCar.id : `${activeCar.id}-img-${idx}`,
+                                    image: img,
+                                    offset: idx - activeDetailImageIndex,
+                                    isCenter: idx === activeDetailImageIndex,
+                                    brand: activeCar.brand,
+                                    isHidden: false,
+                                }))
+                            :
+                                filteredCars.map((car, idx) => {
+                                    const offset = idx - currentActiveIndex;
+                                    return {
+                                        key: car.id,
+                                        image: car.image,
+                                        offset,
+                                        isCenter: offset === 0,
+                                        brand: car.brand,
+                                        isHidden: viewMode !== 'carousel' || (isTablet && offset !== 0) || Math.abs(offset) > 1
+                                    };
+                                })
+                            ).map((item) => {
+                                if (item.isHidden || (isShowingDetails && Math.abs(item.offset) > 1 && !item.isCenter)) return null;
 
-                                if (isTablet && !isCenter && !isShowingDetails) return null;
-                                if (Math.abs(offset) > 1 || (isShowingDetails && !isCenter)) {
-                                    return null;
-                                }
+                                const { offset, isCenter } = item;
 
                                 return (
                                     <motion.div
-                                        key={car.id}
+                                        key={item.key}
                                         className={`absolute flex items-center justify-center origin-center ${isCenter ? (isShowingDetails ? 'pointer-events-none z-20' : 'cursor-pointer pointer-events-auto z-20') : 'pointer-events-none z-10'}`}
                                         initial={{
-                                            top: isMobile ? '40%' : '50%',
-                                            left: '50%',
-                                            x: offset > 0 ? '20%' : offset < 0 ? '-120%' : '-50%',
-                                            y: isMobile ? '-40%' : '-36%',
-                                            scale: 0.6,
+                                            top: isShowingDetails ? (isMobile ? '45%' : '40%') : (isMobile ? '40%' : '50%'),
+                                            left: isShowingDetails ? (isMobile ? '50%' : '1%') : '50%',
+                                            x: isShowingDetails 
+                                                ? (offset > 0 ? (isMobile ? '0%' : '20%') : (isMobile ? '-100%' : '-20%'))
+                                                : (offset > 0 ? '20%' : offset < 0 ? '-120%' : '-50%'),
+                                            y: isShowingDetails ? '-50%' : (isMobile ? '-40%' : '-36%'),
+                                            scale: isShowingDetails ? 0.8 : 0.6,
                                             opacity: 0,
-                                            width: isMobile ? '85%' : '75%',
-                                            maxWidth: isMobile ? 480 : 1100,
+                                            width: isShowingDetails ? (isMobile ? '95%' : '48%') : (isMobile ? '85%' : '75%'),
+                                            maxWidth: isShowingDetails ? (isMobile ? 500 : 800) : (isMobile ? 480 : 1100),
                                         }}
                                         animate={{
-                                            top: isCenter && isShowingDetails ? (isMobile ? '45%' : '40%') : '50%',
-                                            left: isCenter && isShowingDetails ? (isMobile ? '50%' : '1%') : '50%',
-                                            x: isCenter ? (isShowingDetails ? (isMobile ? '-50%' : '0%') : '-50%') : (offset > 0 ? '20%' : '-120%'),
-                                            y: isCenter && isShowingDetails ? '-50%' : (isMobile ? '-40%' : '-38%'),
-                                            width: isCenter && isShowingDetails ? (isMobile ? '95%' : '48%') : (isMobile ? '85%' : '75%'),
-                                            maxWidth: isCenter && isShowingDetails ? (isMobile ? 500 : 800) : (isMobile ? 480 : 1100),
-                                            scale: isCenter ? 1 : 0.6,
-                                            opacity: isCenter ? 1 : 0.4,
+                                            top: isShowingDetails ? (isMobile ? '45%' : '40%') : '50%',
+                                            left: isShowingDetails ? (isMobile ? '50%' : '1%') : '50%',
+                                            x: isShowingDetails 
+                                                ? (isCenter ? (isMobile ? '-50%' : '0%') : (offset > 0 ? (isMobile ? '0%' : '20%') : (isMobile ? '-100%' : '-20%')))
+                                                : (isCenter ? '-50%' : (offset > 0 ? '20%' : '-120%')),
+                                            y: isShowingDetails ? '-50%' : (isMobile ? '-40%' : '-38%'),
+                                            width: isShowingDetails ? (isMobile ? '95%' : '48%') : (isMobile ? '85%' : '75%'),
+                                            maxWidth: isShowingDetails ? (isMobile ? 500 : 800) : (isMobile ? 480 : 1100),
+                                            scale: isCenter ? 1 : (isShowingDetails ? 0.9 : 0.6),
+                                            opacity: isCenter ? 1 : (isShowingDetails ? 0 : 0.4),
                                             zIndex: isCenter ? 20 : 15,
                                         }}
                                         exit={{
                                             opacity: 0,
-                                            scale: 0.4,
-                                            x: offset > 0 ? '20%' : '-120%',
+                                            scale: isShowingDetails ? 0.8 : 0.4,
+                                            x: isShowingDetails 
+                                                ? (offset > 0 ? (isMobile ? '0%' : '20%') : (isMobile ? '-100%' : '-20%'))
+                                                : (offset > 0 ? '20%' : '-120%'),
                                         }}
                                         transition={SPRING}
                                         onClick={() => {
@@ -430,14 +464,14 @@ export default function CollectionScreen() {
                                         }}
                                     >
                                         <motion.img
-                                            src={car.image}
-                                            alt={car.brand}
+                                            src={item.image}
+                                            alt={item.brand}
                                             className={`w-full h-auto object-contain drop-shadow-2xl select-none ${isMobile ? 'origin-center' : 'origin-top-left'}`}
                                             animate={{
-                                                maxHeight: isCenter && isShowingDetails
+                                                maxHeight: isShowingDetails
                                                     ? (isMobile ? '32vh' : '55vh')
                                                     : (isMobile ? '48vh' : '75vh'),
-                                                scale: isCenter && isShowingDetails ? (isMobile ? 1.3 : 1.1) : 1,
+                                                scale: isShowingDetails ? (isCenter ? (isMobile ? 1.3 : 1.1) : (isMobile ? 1.2 : 1.05)) : 1,
                                                 opacity: isCenter ? 1 : 0.6,
                                             }}
                                             transition={SPRING}
@@ -446,9 +480,9 @@ export default function CollectionScreen() {
                                         <motion.div
                                             className="absolute left-1/2 -translate-x-1/2 bg-white/5 blur-[40px] rounded-[100%] pointer-events-none"
                                             animate={{
-                                                width: isCenter && isShowingDetails ? '60%' : '80%',
-                                                height: isCenter && isShowingDetails ? 32 : 48,
-                                                bottom: isCenter && isShowingDetails ? -12 : -24,
+                                                width: isShowingDetails ? '60%' : '80%',
+                                                height: isShowingDetails ? 32 : 48,
+                                                bottom: isShowingDetails ? -12 : -24,
                                                 opacity: isCenter ? 1 : 0,
                                             }}
                                             transition={SPRING}
@@ -456,6 +490,41 @@ export default function CollectionScreen() {
                                     </motion.div>
                                 );
                             })}
+                        </AnimatePresence>
+
+                        {/* Detail Images Nav */}
+                        <AnimatePresence>
+                            {isShowingDetails && activeCar?.images?.length > 1 && (
+                                <motion.div
+                                    key="detail-nav-arrows"
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    exit={{ opacity: 0 }}
+                                    transition={FADE}
+                                >
+                                    <button
+                                        onClick={() => setActiveDetailImageIndex(p => Math.max(0, p - 1))}
+                                        disabled={activeDetailImageIndex === 0}
+                                        className={`absolute ${isMobile ? 'left-2 sm:left-4 md:left-10' : 'left-2 sm:left-4 md:left-[1%] xl:left-[2%]'} top-[45%] md:top-[40%] -translate-y-1/2 z-40 text-white transition-all duration-300 ${activeDetailImageIndex === 0 ? 'opacity-30 cursor-not-allowed' : 'opacity-100 hover:opacity-70 hover:-translate-x-2 cursor-pointer'}`}
+                                        aria-label="Previous detail image"
+                                    >
+                                        <svg className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                                            <polyline points="15 18 9 12 15 6" />
+                                        </svg>
+                                    </button>
+                                    
+                                    <button
+                                        onClick={() => setActiveDetailImageIndex(p => Math.min(activeCar.images.length - 1, p + 1))}
+                                        disabled={activeDetailImageIndex === activeCar.images.length - 1}
+                                        className={`absolute ${isMobile ? 'right-2 sm:right-4 md:right-10' : 'left-[46%] xl:left-[47%]'} top-[45%] md:top-[40%] -translate-y-1/2 z-40 text-white transition-all duration-300 ${activeDetailImageIndex === activeCar.images.length - 1 ? 'opacity-30 cursor-not-allowed' : 'opacity-100 hover:opacity-70 hover:translate-x-2 cursor-pointer'}`}
+                                        aria-label="Next detail image"
+                                    >
+                                        <svg className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                                            <polyline points="9 18 15 12 9 6" />
+                                        </svg>
+                                    </button>
+                                </motion.div>
+                            )}
                         </AnimatePresence>
 
                         {/* Nav arrows — hidden in detail view */}
@@ -686,7 +755,7 @@ export default function CollectionScreen() {
                                     <div className={`grid grid-cols-1 md:grid-cols-3 gap-3 px-4 md:px-[5%] ${isMobile ? 'relative w-full mt-2' : 'relative w-full mt-6 xl:mt-8 z-30'}`}>
                                         <DetailCard title="Key Features" delay={0.2}>
                                             <ul className="space-y-1.5">
-                                                {activeCar.features.map((f) => (
+                                                {(activeCar.features || []).map((f) => (
                                                     <li key={f} className="flex items-center gap-2 text-xs text-white/80">
                                                         <span className="text-[#da2525] font-bold">✓</span> {f}
                                                     </li>
@@ -700,7 +769,7 @@ export default function CollectionScreen() {
                                                 <span className="text-sm text-white/50 font-normal ml-1">({activeCar.reviewCount} reviews)</span>
                                             </div>
                                             <ul className="space-y-1">
-                                                {activeCar.safetyFeatures.map((s) => (
+                                                {(activeCar.safetyFeatures || []).map((s) => (
                                                     <li key={s} className="text-xs text-white/70 flex items-center gap-2">
                                                         <span className="w-1.5 h-1.5 rounded-full bg-[#da2525] shrink-0" /> {s}
                                                     </li>
@@ -710,7 +779,7 @@ export default function CollectionScreen() {
 
                                         <DetailCard title="Specifications" delay={0.36}>
                                             <div className="grid grid-cols-2 gap-2 mb-3">
-                                                {activeCar.specs.map((s) => (
+                                                {(activeCar.specs || []).map((s) => (
                                                     <div key={s.label} className="bg-white/5 rounded-lg px-2 py-1.5">
                                                         <div className="text-[10px] text-white/50">{s.label}</div>
                                                         <div className="text-xs text-white font-medium">{s.value}</div>
