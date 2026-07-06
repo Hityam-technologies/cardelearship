@@ -6,7 +6,7 @@ import { NAV_TABS, ROUTES } from '../utils/navigation';
 
 const CATEGORY_DETAILS = getCategoryDetails();
 
-const Header = ({ viewMode, setViewMode, categories, activeCategory, setActiveCategory, cars, onSelectCar, setFilterOpen, isFilterOpen, activeFilters }) => {
+const Header = ({ viewMode, setViewMode, categories, activeCategory, setActiveCategory, cars, onSelectCar, setFilterOpen, isFilterOpen, activeFilters, isShowingDetails }) => {
     const location = useLocation();
     const navigate = useNavigate();
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -114,7 +114,7 @@ const Header = ({ viewMode, setViewMode, categories, activeCategory, setActiveCa
 
             {/* Collection toolbar — below header on small screens only */}
             {location.pathname === ROUTES.COLLECTION && setViewMode && (
-                <div className={`absolute top-[calc(64px+16px+16px)] sm:top-[calc(72px+24px+16px)] left-0 right-0 z-40 lg:hidden px-4 sm:px-6 pt-2 pb-3 pointer-events-auto transition-all duration-300 ${isFilterOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+                <div className={`absolute top-[calc(64px+16px+16px)] sm:top-[calc(72px+24px+16px)] left-0 right-0 z-40 lg:hidden px-4 sm:px-6 pt-2 pb-3 pointer-events-auto transition-all duration-300 ${(isFilterOpen || isShowingDetails) ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
                     {categories && categories.length > 0 && setActiveCategory && (
                         <div className="flex gap-2 overflow-x-auto scrollbar-none pb-2 -mx-1 px-1">
                             {categories.map((cat) => (
@@ -230,7 +230,7 @@ const Header = ({ viewMode, setViewMode, categories, activeCategory, setActiveCa
             )}
 
             {/* Top Right Header Buttons — laptop/desktop collection tools */}
-            <div className={`relative pointer-events-auto hidden lg:flex items-center gap-3 mt-[30px] pr-4 lg:pr-4 xl:pr-8 2xl:pr-[120px] shrink min-w-0 justify-end z-[55] transition-all duration-300 ${isFilterOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+            <div className={`relative pointer-events-auto hidden lg:flex items-center gap-3 mt-[30px] pr-4 lg:pr-4 xl:pr-8 2xl:pr-[120px] shrink min-w-0 justify-end z-[55] transition-all duration-300 ${(isFilterOpen || isShowingDetails) ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
                 {location.pathname === ROUTES.COLLECTION && setViewMode && (
                     <>                        {/* Category Dropdown */}
                         {categories && categories.length > 0 && (
@@ -238,7 +238,7 @@ const Header = ({ viewMode, setViewMode, categories, activeCategory, setActiveCa
                                 <button
                                     type="button"
                                     onClick={() => setCategoryDropdownOpen(!categoryDropdownOpen)}
-                                    className={`relative flex items-center gap-3 bg-black/40 backdrop-blur-md border ${isCategoryActive ? 'border-[#da2525] text-[#da2525]' : 'border-white text-white'} text-[14px] font-medium tracking-wide rounded-full py-3 px-6 hover:bg-black/60 transition-all`}
+                                    className={`relative flex items-center gap-3 bg-black/40 backdrop-blur-md border text-white text-[14px] font-medium tracking-wide rounded-full py-3 px-6 hover:bg-black/60 transition-all ${isCategoryActive ? 'border-[#da2525]' : 'border-white'}`}
                                 >
                                     <span className={`absolute inset-0 rounded-full animate-pulse pointer-events-none ${isCategoryActive ? 'shadow-[0_0_15px_rgba(218,37,37,0.8)]' : 'shadow-[0_0_15px_rgba(255,255,255,0.6)]'}`}></span>
                                     <span className="relative z-10 flex items-center gap-3">

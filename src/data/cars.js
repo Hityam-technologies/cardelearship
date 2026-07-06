@@ -1,3 +1,4 @@
+import { getImageUrl } from '../api/config';
 
 export const COLLECTION_CARS = [
     {
@@ -362,21 +363,21 @@ export const COLLECTION_CARS = [
     }
 ].map(car => ({
     ...car,
-    image: car.image?.startsWith('http') ? car.image : `http://localhost:5000${car.image}`,
-    logo: car.logo?.startsWith('http') ? car.logo : (car.logo ? `http://localhost:5000${car.logo}` : '')
+    image: getImageUrl(car.image),
+    logo: getImageUrl(car.logo)
 }));
 
 export const BRAND_LOGOS = {
-    Tata: 'http://localhost:5000/images/brands/tata.png',
-    Mahindra: 'http://localhost:5000/images/brands/mahindra.png',
-    'Maruti Suzuki': 'http://localhost:5000/images/brands/suzuki.png',
-    Hyundai: 'http://localhost:5000/images/brands/hyundai.png',
-    Kia: 'http://localhost:5000/images/brands/kia.png',
-    Toyota: 'http://localhost:5000/images/brands/toyota.png',
-    Honda: 'http://localhost:5000/images/brands/honda.png',
-    MG: 'http://localhost:5000/images/brands/mg.png',
-    Audi: 'http://localhost:5000/images/brands/audi.png',
-    Bentley: 'http://localhost:5000/images/brands/bentley.png',
+    Tata: getImageUrl('/images/brands/tata.png'),
+    Mahindra: getImageUrl('/images/brands/mahindra.png'),
+    'Maruti Suzuki': getImageUrl('/images/brands/suzuki.png'),
+    Hyundai: getImageUrl('/images/brands/hyundai.png'),
+    Kia: getImageUrl('/images/brands/kia.png'),
+    Toyota: getImageUrl('/images/brands/toyota.png'),
+    Honda: getImageUrl('/images/brands/honda.png'),
+    MG: getImageUrl('/images/brands/mg.png'),
+    Audi: getImageUrl('/images/brands/audi.png'),
+    Bentley: getImageUrl('/images/brands/bentley.png'),
 };
 
 export const TESTIMONIALS = [
@@ -443,7 +444,7 @@ export function getCategories(cars = COLLECTION_CARS) {
 }
 
 export function getCategoryDetails(cars = COLLECTION_CARS) {
-    const details = { All: { image: 'http://localhost:5000/gloster.png', desc: CATEGORY_DESCRIPTIONS.All } };
+    const details = { All: { image: getImageUrl('/gloster.png'), desc: CATEGORY_DESCRIPTIONS.All } };
 
     cars.forEach((car) => {
         if (!details[car.type]) {

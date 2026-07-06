@@ -15,13 +15,13 @@ const CONTACT_ITEMS = [
     },
     {
         label: 'Phone',
-        content: '+91-9234545678',
-        href: 'tel:+919234545678',
+        content: '+91-7731049275',
+        href: 'tel:+917731049275',
     },
     {
         label: 'Email',
         content: 'acncars.in@gmail.com',
-        href: 'mailto:acncars.in@gmail.com',
+        href: 'mailto:abccars.in@gmail.com',
     },
 ];
 

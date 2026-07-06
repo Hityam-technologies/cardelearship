@@ -36,6 +36,8 @@ const FADE = { duration: 0.4, ease: [0.4, 0, 0.2, 1] };
 
 import { readCollectionParams, navigateToTestDrive, buildCollectionPath } from '../../utils/navigation';
 import { useIsMobile, useIsTablet } from '../../hooks/useMediaQuery';
+import { fetchCars, fetchCategories } from '../../api/carsApi';
+import { getImageUrl } from '../../api/config';
 
 function BrandInfo({ car, isCenter }) {
     if (!car) return null;
@@ -94,6 +96,7 @@ export default function CollectionScreen() {
     const [searchParams] = useSearchParams();
     const [activeIndex, setActiveIndex] = useState(0);
     const [activeDetailImageIndex, setActiveDetailImageIndex] = useState(0);
+    const [isFullscreenImage, setIsFullscreenImage] = useState(false);
     const [viewMode, setViewMode] = useState('carousel');
     const [activeCategory, setActiveCategory] = useState('All');
     const isMobile = useIsMobile();
@@ -129,21 +132,18 @@ export default function CollectionScreen() {
                 return;
             }
             try {
-                const [carsRes, catRes] = await Promise.all([
-                    fetch('http://localhost:5000/api/cars'),
-                    fetch('http://localhost:5000/api/categories')
+                const [carsData, catData] = await Promise.all([
+                    fetchCars(),
+                    fetchCategories()
                 ]);
-                const carsData = await carsRes.json();
 
                 // Prepend backend URL to images so they load from the backend assets
                 const processedCarsData = carsData.map(car => ({
                     ...car,
-                    image: car.image?.startsWith('http') ? car.image : `http://localhost:5000${car.image}`,
-                    logo: car.logo?.startsWith('http') ? car.logo : (car.logo ? `http://localhost:5000${car.logo}` : ''),
-                    images: car.images?.map(img => img?.startsWith('http') ? img : `http://localhost:5000${img}`)
+                    image: getImageUrl(car.image),
+                    logo: getImageUrl(car.logo),
+                    images: car.images?.map(img => getImageUrl(img))
                 }));
-
-                const catData = await catRes.json();
                 
                 cachedCars = processedCarsData;
                 cachedCategories = ['All', ...catData];
@@ -201,6 +201,8 @@ export default function CollectionScreen() {
     useEffect(() => {
         if (!isShowingDetails) {
             setActiveDetailImageIndex(0);
+        } else {
+            setIsFilterOpen(false);
         }
     }, [isShowingDetails]);
 
@@ -268,6 +270,14 @@ export default function CollectionScreen() {
 
     useEffect(() => {
         const handleKeyDown = (e) => {
+            if (isFullscreenImage) {
+                if (e.key === 'Escape') setIsFullscreenImage(false);
+                if (activeCar?.images?.length > 1) {
+                    if (e.key === 'ArrowRight') setActiveDetailImageIndex(p => Math.min(activeCar.images.length - 1, p + 1));
+                    if (e.key === 'ArrowLeft') setActiveDetailImageIndex(p => Math.max(0, p - 1));
+                }
+                return;
+            }
             if (isShowingDetails) {
                 if (e.key === 'Escape') handleCloseDetails();
                 if (activeCar?.images?.length > 1) {
@@ -281,7 +291,7 @@ export default function CollectionScreen() {
         };
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [goNext, goPrev, isShowingDetails, handleCloseDetails, activeCar]);
+    }, [goNext, goPrev, isShowingDetails, handleCloseDetails, activeCar, isFullscreenImage]);
 
     const leftCar = currentActiveIndex > 0 ? filteredCars[currentActiveIndex - 1] : null;
     const rightCar = currentActiveIndex < totalCars - 1 ? filteredCars[currentActiveIndex + 1] : null;
@@ -336,6 +346,7 @@ export default function CollectionScreen() {
                         setFilterOpen={setIsFilterOpen}
                         isFilterOpen={isFilterOpen}
                         activeFilters={activeFilters}
+                        isShowingDetails={isShowingDetails}
                     />
 
                     <LayoutGroup>
@@ -423,9 +434,9 @@ export default function CollectionScreen() {
                                 return (
                                     <motion.div
                                         key={item.key}
-                                        className={`absolute flex items-center justify-center origin-center ${isCenter ? (isShowingDetails ? 'pointer-events-none z-20' : 'cursor-pointer pointer-events-auto z-20') : 'pointer-events-none z-10'}`}
+                                        className={`absolute flex items-center justify-center origin-center ${isCenter ? (isShowingDetails ? 'cursor-zoom-in pointer-events-auto z-20' : 'cursor-pointer pointer-events-auto z-20') : 'pointer-events-none z-10'}`}
                                         initial={{
-                                            top: isShowingDetails ? (isMobile ? '45%' : '40%') : (isMobile ? '40%' : '50%'),
+                                            top: isShowingDetails ? (isMobile ? '38%' : '40%') : (isMobile ? '40%' : '50%'),
                                             left: isShowingDetails ? (isMobile ? '50%' : '1%') : '50%',
                                             x: isShowingDetails 
                                                 ? (offset > 0 ? (isMobile ? '0%' : '20%') : (isMobile ? '-100%' : '-20%'))
@@ -437,7 +448,7 @@ export default function CollectionScreen() {
                                             maxWidth: isShowingDetails ? (isMobile ? 500 : 800) : (isMobile ? 480 : 1100),
                                         }}
                                         animate={{
-                                            top: isShowingDetails ? (isMobile ? '45%' : '40%') : '50%',
+                                            top: isShowingDetails ? (isMobile ? '38%' : '40%') : '50%',
                                             left: isShowingDetails ? (isMobile ? '50%' : '1%') : '50%',
                                             x: isShowingDetails 
                                                 ? (isCenter ? (isMobile ? '-50%' : '0%') : (offset > 0 ? (isMobile ? '0%' : '20%') : (isMobile ? '-100%' : '-20%')))
@@ -460,6 +471,8 @@ export default function CollectionScreen() {
                                         onClick={() => {
                                             if (!isShowingDetails && isCenter) {
                                                 setActiveIndex(currentActiveIndex);
+                                            } else if (isShowingDetails && isCenter) {
+                                                setIsFullscreenImage(true);
                                             }
                                         }}
                                     >
@@ -670,7 +683,7 @@ export default function CollectionScreen() {
                                     animate={{ opacity: 1 }}
                                     exit={{ opacity: 0 }}
                                     transition={FADE}
-                                    className={`z-30 relative flex flex-col min-h-full ${isMobile ? 'px-4 pt-48 pb-10 gap-5' : 'pb-6'}`}
+                                    className={`z-30 relative flex flex-col min-h-full pointer-events-none ${isMobile ? 'px-4 pt-24 pb-10 gap-5' : 'pb-6'}`}
                                 >
                                     {/* Info panel — right on laptop, stacked on mobile */}
                                     <motion.div
@@ -679,11 +692,11 @@ export default function CollectionScreen() {
                                         exit={{ opacity: 0, x: 30 }}
                                         transition={{ ...FADE, delay: 0.15 }}
                                         className={isMobile
-                                            ? 'relative w-full flex flex-col flex-1'
-                                            : 'relative w-[48%] xl:w-[48%] ml-auto pt-[6%] xl:pt-[8%] flex flex-col gap-6 xl:gap-10 pr-[4%] z-30 flex-1'}
+                                            ? 'relative w-full flex flex-col flex-1 pointer-events-auto'
+                                            : 'relative w-[48%] xl:w-[48%] ml-auto pt-[6%] xl:pt-[8%] flex flex-col gap-6 xl:gap-10 pr-[4%] z-30 flex-1 pointer-events-auto'}
                                     >
                                         <div className={`flex items-start justify-between gap-4 ${isMobile ? 'w-full' : ''}`}>
-                                            <div className="min-w-0 flex-1">
+                                            <div className={`min-w-0 flex-1 ${isMobile ? 'mt-12' : ''}`}>
                                                 <div className="text-white text-2xl md:text-3xl lg:text-3xl xl:text-4xl font-medium tracking-wide mb-1">{activeCar.brand}</div>
                                                 <div className="text-white/60 text-sm tracking-wider mb-2">{activeCar.model}</div>
                                                 <div className="text-white/40 text-xs">{activeCar.color} · {activeCar.engine} · {activeCar.fuelType}</div>
@@ -691,9 +704,9 @@ export default function CollectionScreen() {
                                             <button
                                                 type="button"
                                                 onClick={handleCloseDetails}
-                                                className="shrink-0 text-white/70 hover:text-white text-sm flex items-center gap-1.5 border border-white/20 rounded-full px-4 py-2 transition-colors hover:border-white/40 hover:bg-white/5"
+                                                className="shrink-0 bg-white hover:bg-gray-100 text-black rounded-full px-5 py-2 xl:px-6 xl:py-2.5 transition-colors text-sm font-bold tracking-wide shadow-lg shadow-black/10 flex items-center gap-2"
                                             >
-                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                                                     <polyline points="18 15 12 9 6 15" />
                                                 </svg>
                                                 Close Details
@@ -752,7 +765,7 @@ export default function CollectionScreen() {
                                     </motion.div>
 
                                     {/* Bottom detail cards */}
-                                    <div className={`grid grid-cols-1 md:grid-cols-3 gap-3 px-4 md:px-[5%] ${isMobile ? 'relative w-full mt-2' : 'relative w-full mt-6 xl:mt-8 z-30'}`}>
+                                    <div className={`grid grid-cols-1 md:grid-cols-3 gap-3 px-4 md:px-[5%] pointer-events-auto ${isMobile ? 'relative w-full mt-2' : 'relative w-full mt-6 xl:mt-8 z-30'}`}>
                                         <DetailCard title="Key Features" delay={0.2}>
                                             <ul className="space-y-1.5">
                                                 {(activeCar.features || []).map((f) => (
@@ -906,6 +919,78 @@ export default function CollectionScreen() {
                                             <p className="text-sm">Try adjusting your search or category filters.</p>
                                         </div>
                                     )}
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
+                        <AnimatePresence>
+                            {isFullscreenImage && activeCar && (
+                                <motion.div
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    exit={{ opacity: 0 }}
+                                    className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-xl"
+                                >
+                                    <button
+                                        onClick={() => setIsFullscreenImage(false)}
+                                        className="absolute top-4 right-4 sm:top-8 sm:right-8 z-50 text-white/70 hover:text-white bg-black/20 hover:bg-black/40 rounded-full p-2 transition-colors"
+                                    >
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                            <line x1="18" y1="6" x2="6" y2="18" />
+                                            <line x1="6" y1="6" x2="18" y2="18" />
+                                        </svg>
+                                    </button>
+                                    
+                                    <div className="relative w-full h-full flex items-center justify-center overflow-hidden">
+                                        <AnimatePresence initial={false}>
+                                            {(activeCar.images?.length > 0 ? activeCar.images : [activeCar.image]).map((img, idx) => {
+                                                const isCenter = idx === activeDetailImageIndex;
+                                                const offset = idx - activeDetailImageIndex;
+                                                
+                                                if (Math.abs(offset) > 1) return null;
+                                                
+                                                return (
+                                                    <motion.div
+                                                        key={`fs-${idx}`}
+                                                        className="absolute w-full h-full flex items-center justify-center p-4 sm:p-12"
+                                                        initial={{ x: offset > 0 ? '100%' : '-100%', opacity: 0 }}
+                                                        animate={{ x: isCenter ? '0%' : (offset > 0 ? '100%' : '-100%'), opacity: isCenter ? 1 : 0 }}
+                                                        exit={{ x: offset > 0 ? '100%' : '-100%', opacity: 0 }}
+                                                        transition={SPRING}
+                                                    >
+                                                        <img
+                                                            src={img}
+                                                            alt={activeCar.brand}
+                                                            className="max-w-full max-h-full object-contain drop-shadow-2xl"
+                                                            draggable={false}
+                                                        />
+                                                    </motion.div>
+                                                );
+                                            })}
+                                        </AnimatePresence>
+                                        
+                                        {activeCar.images?.length > 1 && (
+                                            <>
+                                                <button
+                                                    onClick={() => setActiveDetailImageIndex(p => Math.max(0, p - 1))}
+                                                    disabled={activeDetailImageIndex === 0}
+                                                    className={`absolute left-4 sm:left-12 z-50 text-white transition-all duration-300 p-4 rounded-full bg-black/20 hover:bg-black/40 backdrop-blur-md ${activeDetailImageIndex === 0 ? 'opacity-30 cursor-not-allowed' : 'opacity-100 hover:scale-110 cursor-pointer'}`}
+                                                >
+                                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                        <polyline points="15 18 9 12 15 6" />
+                                                    </svg>
+                                                </button>
+                                                <button
+                                                    onClick={() => setActiveDetailImageIndex(p => Math.min(activeCar.images.length - 1, p + 1))}
+                                                    disabled={activeDetailImageIndex === activeCar.images.length - 1}
+                                                    className={`absolute right-4 sm:right-12 z-50 text-white transition-all duration-300 p-4 rounded-full bg-black/20 hover:bg-black/40 backdrop-blur-md ${activeDetailImageIndex === activeCar.images.length - 1 ? 'opacity-30 cursor-not-allowed' : 'opacity-100 hover:scale-110 cursor-pointer'}`}
+                                                >
+                                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                        <polyline points="9 18 15 12 9 6" />
+                                                    </svg>
+                                                </button>
+                                            </>
+                                        )}
+                                    </div>
                                 </motion.div>
                             )}
                         </AnimatePresence>

@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 const FilterSidebar = ({ isOpen, onClose, activeFilters, setActiveFilters, cars, isMobile }) => {
     // Extract unique values for dynamic filters from cars data
     const availableBrands = useMemo(() => [...new Set(cars.map(c => c.brand))].sort(), [cars]);
-    const availableBodyTypes = useMemo(() => [...new Set(cars.map(c => c.type))].sort(), [cars]);
     const availableFuelTypes = useMemo(() => [...new Set(cars.map(c => c.fuelType))].filter(Boolean).sort(), [cars]);
     const availableColors = useMemo(() => [...new Set(cars.map(c => c.color))].filter(Boolean).sort(), [cars]);
     const availableTransmissions = ['Automatic', 'Manual']; // Assuming standard values, can be derived if in data
@@ -96,23 +95,7 @@ const FilterSidebar = ({ isOpen, onClose, activeFilters, setActiveFilters, cars,
                         {/* Filter Content */}
                         <div className="flex-1 overflow-y-auto px-6 pt-6 pb-16 space-y-8 custom-scrollbar">
 
-                            {/* Search */}
-                            <div className="space-y-3">
-                                <label className="text-white/60 text-xs font-bold uppercase tracking-wider">Search</label>
-                                <div className="relative">
-                                    <svg className="absolute left-3 top-1/2 -translate-y-1/2 text-white/40" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                        <circle cx="11" cy="11" r="8" />
-                                        <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                                    </svg>
-                                    <input
-                                        type="text"
-                                        placeholder="Search by brand or model..."
-                                        value={activeFilters.search || ''}
-                                        onChange={(e) => setActiveFilters({ ...activeFilters, search: e.target.value })}
-                                        className="w-full bg-[#2a2a2a] border border-[#3a3a3a] rounded-xl py-3 pl-10 pr-4 text-white text-sm focus:outline-none focus:border-[#da2525] focus:bg-[#333] transition-colors"
-                                    />
-                                </div>
-                            </div>
+
 
                             {/* Sort */}
                             <div className="space-y-3">
@@ -159,26 +142,7 @@ const FilterSidebar = ({ isOpen, onClose, activeFilters, setActiveFilters, cars,
                                 </div>
                             )}
 
-                            {/* Body Type */}
-                            {availableBodyTypes.length > 0 && (
-                                <div className="space-y-3">
-                                    <label className="text-white/60 text-xs font-bold uppercase tracking-wider">Body Type</label>
-                                    <div className="grid grid-cols-3 gap-3">
-                                        {availableBodyTypes.map(type => (
-                                            <button
-                                                key={type}
-                                                onClick={() => toggleArrayFilter('bodyTypes', type)}
-                                                className={`py-3 px-2 rounded-xl text-xs font-medium transition-all duration-200 border flex flex-col items-center justify-center gap-1 ${(activeFilters.bodyTypes || []).includes(type)
-                                                        ? 'bg-[#da2525]/10 text-[#da2525] border-[#da2525]'
-                                                        : 'bg-[#2a2a2a] text-white/70 border-[#3a3a3a] hover:border-[#555] hover:bg-[#333]'
-                                                    }`}
-                                            >
-                                                {type}
-                                            </button>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
+
 
                             {/* Max Price */}
                             <div className="space-y-4">
