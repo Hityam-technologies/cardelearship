@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 
-const MAP_EMBED_URL = 'https://maps.google.com/maps?q=Acn+cars&t=k&z=17&output=embed';
+const MAP_EMBED_URL = 'https://maps.google.com/maps?q=123+cars&t=k&z=17&output=embed';
 
 const DealershipMap = ({ className = '' }) => {
     const mapRef = useRef(null);
@@ -31,7 +31,7 @@ const DealershipMap = ({ className = '' }) => {
         >
             {showMap ? (
                 <iframe
-                    title="ACN Showroom Location Map"
+                    title="123 Showroom Location Map"
                     src={MAP_EMBED_URL}
                     width="100%"
                     height="100%"

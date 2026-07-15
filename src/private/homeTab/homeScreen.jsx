@@ -29,8 +29,8 @@ const FooterLink = ({ children, onClick }) => (
 const FAQ_ITEMS = [
     {
         id: '01',
-        question: 'IS ACN A TRUSTED DEALERSHIP?',
-        answer: 'YES — ACN IS A FULLY CERTIFIED DEALERSHIP WITH YEARS OF EXPERIENCE SERVING HAPPY CUSTOMERS ACROSS INDIA.',
+        question: 'IS 123 A TRUSTED DEALERSHIP?',
+        answer: 'YES — 123 IS A FULLY CERTIFIED DEALERSHIP WITH YEARS OF EXPERIENCE SERVING HAPPY CUSTOMERS ACROSS INDIA.',
     },
     {
         id: '02',
@@ -553,10 +553,10 @@ export default function HomeScreen() {
 
                             <div className="mt-8 sm:mt-10 min-h-[30px] flex items-end">
                                 <a
-                                    href="mailto:hello@acncars.com"
+                                    href="mailto:hello@123cars.com"
                                     className="text-[#cc0000] font-sans text-[12px] sm:text-[14px] font-bold tracking-[1px] uppercase no-underline hover:text-[#990000] transition-colors flex items-center gap-2"
                                 >
-                                    HELLO@ACNCARS.COM
+                                    HELLO@123CARS.COM
                                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                                         <line x1="5" y1="12" x2="19" y2="12"></line>
                                         <polyline points="12 5 19 12 12 19"></polyline>
@@ -631,7 +631,7 @@ export default function HomeScreen() {
                     <div className="lg:col-span-5 flex flex-col gap-10">
                         <div>
                             <div className="font-michroma text-[36px] sm:text-[44px] font-bold leading-none tracking-tight bg-gradient-to-r from-white to-[#888] bg-clip-text text-transparent w-fit">
-                                ACN.
+                                123.
                             </div>
                             <p className="text-[#888] text-[12px] sm:text-[13px] leading-[1.8] font-normal uppercase tracking-[0.05em] max-w-[360px] mt-6">
                                 EVERY WEEK WE SHARE THE LATEST ARRIVALS, BEST DEALS, AND EXCLUSIVE OFFERS.
@@ -661,8 +661,8 @@ export default function HomeScreen() {
                                         <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
                                         <polyline points="22,6 12,13 2,6" />
                                     </svg>
-                                    <a href="mailto:acncars.in@gmail.com" className="text-[11px] sm:text-[12px] uppercase no-underline hover:text-white transition-colors m-0 text-[#aaa]">
-                                        acncars.in@gmail.com
+                                    <a href="mailto:123cars.in@gmail.com" className="text-[11px] sm:text-[12px] uppercase no-underline hover:text-white transition-colors m-0 text-[#aaa]">
+                                        123cars.in@gmail.com
                                     </a>
                                 </div>
                             </div>
@@ -754,7 +754,7 @@ export default function HomeScreen() {
                 {/* Massive Background Text watermark */}
                 <div className="absolute -bottom-[20px] sm:-bottom-[40px] lg:-bottom-[60px] left-0 w-full flex justify-center pointer-events-none select-none overflow-hidden z-0">
                     <div className="font-michroma text-[25vw] lg:text-[22vw] font-bold text-white/[0.02] leading-[0.75] tracking-tighter whitespace-nowrap mix-blend-screen">
-                        ACN
+                        123
                     </div>
                 </div>
             </footer>

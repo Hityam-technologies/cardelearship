@@ -384,7 +384,7 @@ export const TESTIMONIALS = [
     {
         name: 'Esther Howard',
         role: 'Businessman',
-        text: 'Bought my Toyota Fortuner from ACN and the experience was smooth from start to finish. Transparent pricing and a spotless car.',
+        text: 'Bought my Toyota Fortuner from 123 and the experience was smooth from start to finish. Transparent pricing and a spotless car.',
         carId: 3,
         isBlue: true,
     },

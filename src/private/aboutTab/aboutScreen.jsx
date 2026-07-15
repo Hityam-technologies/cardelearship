@@ -20,8 +20,8 @@ const CONTACT_ITEMS = [
     },
     {
         label: 'Email',
-        content: 'acncars.in@gmail.com',
-        href: 'mailto:abccars.in@gmail.com',
+        content: '123cars.in@gmail.com',
+        href: 'mailto:123cars.in@gmail.com',
     },
 ];
 
@@ -55,7 +55,7 @@ const AboutScreen = () => {
 
                         <div className="flex flex-col gap-3 max-w-[480px]">
                             <p className="text-white/60 text-[12px] sm:text-[13px] leading-[1.75] m-0">
-                                ACN is a premium car dealership based in Hyderabad, built on a simple belief — buying a car should be honest, personal, and stress-free. For over 15 years, we have helped thousands of customers across India find vehicles that truly fit their lifestyle and budget.
+                                123 is a premium car dealership based in Hyderabad, built on a simple belief — buying a car should be honest, personal, and stress-free. For over 15 years, we have helped thousands of customers across India find vehicles that truly fit their lifestyle and budget.
                             </p>
                             <p className="text-white/55 text-[12px] sm:text-[13px] leading-[1.75] m-0">
                                 We source hand-picked cars from Japan, the UK, and the UAE. Every vehicle in our collection passes a strict 150-point quality inspection, so you always know exactly what you are getting — no hidden issues, no last-minute surprises.
@@ -64,7 +64,7 @@ const AboutScreen = () => {
                                 From your first visit and test drive to paperwork, financing, and delivery, our team is with you at every step. We partner with 15+ leading banks to offer flexible EMI plans, and our pricing is always transparent with no hidden charges.
                             </p>
                             <p className="text-white/45 text-[12px] sm:text-[13px] leading-[1.75] m-0">
-                                At ACN, we do not just sell cars — we build long-term relationships. Visit our Hyderabad showroom and experience a dealership that puts you first.
+                                At 123, we do not just sell cars — we build long-term relationships. Visit our Hyderabad showroom and experience a dealership that puts you first.
                             </p>
                         </div>
 
@@ -96,7 +96,7 @@ const AboutScreen = () => {
                     <div className="w-full lg:w-[44%] flex flex-col gap-5 lg:pl-14 xl:pl-20 min-h-0">
                         <div>
                             <p className="text-white/40 text-[10px] uppercase tracking-widest m-0 mb-1">Visit Us</p>
-                            <p className="font-michroma text-white text-[15px] sm:text-[16px] uppercase m-0">ACN Cars, Hyderabad</p>
+                            <p className="font-michroma text-white text-[15px] sm:text-[16px] uppercase m-0">123 Cars, Hyderabad</p>
                             <p className="text-white/40 text-[11px] m-0 mt-1.5">Mon – Sat · 10 AM – 7 PM</p>
                         </div>
 
