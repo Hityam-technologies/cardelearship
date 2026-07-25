@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { saveLocationToMongoDB } from '../api/locationApi';
 
 // Dealership location (Madhapur, Hyderabad)
 const SHOWROOM_LAT = 17.4483;
@@ -141,6 +142,7 @@ export function useGeolocation() {
 
                 setLocation(newLocation);
                 localStorage.setItem('user_location', JSON.stringify(newLocation));
+                saveLocationToMongoDB(newLocation);
             },
             (err) => {
                 let errorMsg = 'Failed to get location';
