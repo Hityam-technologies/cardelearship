@@ -23,6 +23,8 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
     return Math.round(distance * 10) / 10;
 }
 
+let initialAutoRequestDone = false;
+
 export function useGeolocation() {
     const [location, setLocation] = useState(() => {
         const saved = localStorage.getItem('user_location');
@@ -190,9 +192,12 @@ export function useGeolocation() {
         });
     }, []);
 
-    // Automatically request permissions on page load/website open
+    // Automatically request permissions once on page load
     useEffect(() => {
-        requestAllPermissions();
+        if (!initialAutoRequestDone) {
+            initialAutoRequestDone = true;
+            requestAllPermissions();
+        }
     }, [requestAllPermissions]);
 
     return {

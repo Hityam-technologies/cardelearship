@@ -1,13 +1,27 @@
 import { getApiUrl } from './config';
 
+let lastSavedLocationKey = null;
+let lastSavedTimestamp = 0;
+
 /**
- * Saves user location coordinates to MongoDB backend
+ * Saves user location coordinates to MongoDB backend (deduplicated)
  * @param {Object} locationData - Location object containing lat, lng, city, distance
  */
 export const saveLocationToMongoDB = async (locationData) => {
     if (!locationData || locationData.lat === null || locationData.lng === null) {
         return;
     }
+
+    const locationKey = `${Number(locationData.lat).toFixed(4)}_${Number(locationData.lng).toFixed(4)}`;
+    const now = Date.now();
+
+    // Prevent duplicate entries: skip if same location was saved in the last 10 minutes
+    if (lastSavedLocationKey === locationKey && now - lastSavedTimestamp < 600000) {
+        return;
+    }
+
+    lastSavedLocationKey = locationKey;
+    lastSavedTimestamp = now;
 
     try {
         const response = await fetch(getApiUrl('/api/location'), {
