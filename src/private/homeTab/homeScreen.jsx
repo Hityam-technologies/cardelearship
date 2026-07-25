@@ -6,6 +6,7 @@ import InventorySection from '../../components/inventorySection';
 import OfferSection from '../../components/offerSection';
 import TestimonialSection from '../../components/testimonialSection';
 import Header from '../../components/header';
+import { useGeolocation } from '../../hooks/useGeolocation';
 import {
     COLLECTION_CARS,
     getUniqueBrands,
@@ -49,8 +50,94 @@ const FAQ_ITEMS = [
     },
 ];
 
+const GreetingSlider = ({ geo }) => {
+    const slides = useMemo(() => {
+        const list = [
+            {
+                id: 1,
+                tag: 'WELCOME TO 123 CARS',
+                title: 'DRIVE YOUR DREAM TODAY',
+                subtitle: "Hyderabad's premier luxury car dealership",
+            },
+            {
+                id: 2,
+                tag: 'PREMIUM SELECTION',
+                title: 'WORLD-CLASS VEHICLES',
+                subtitle: 'Handpicked quality cars with 150-point inspection',
+            },
+        ];
+        if (geo.granted && geo.distance !== null) {
+            list.push({
+                id: 3,
+                tag: 'NEARBY SHOWROOM',
+                title: `YOU ARE ${geo.distance} KM AWAY`,
+                subtitle: `You can visit our Madhapur showroom today — only ${geo.distance} km from ${geo.city || 'your location'}!`,
+                isDistance: true,
+            });
+        } else {
+            list.push({
+                id: 3,
+                tag: 'VISIT OUR SHOWROOM',
+                title: 'VISIT US IN HYDERABAD',
+                subtitle: 'Survey No. 19, Madhapur, Hyderabad • Open Mon-Sat',
+                isDistance: false,
+            });
+        }
+        return list;
+    }, [geo.granted, geo.distance, geo.city]);
+
+    const [index, setIndex] = useState(0);
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setIndex((prev) => (prev + 1) % slides.length);
+        }, 4000);
+        return () => clearInterval(timer);
+    }, [slides.length]);
+
+    const active = slides[index % slides.length];
+
+    return (
+        <div className="mb-4 sm:mb-6">
+            {/* Slide title & subtitle with AnimatePresence */}
+            <div className="relative min-h-[120px] sm:min-h-[140px] lg:min-h-[160px] flex flex-col justify-start">
+                <AnimatePresence mode="wait">
+                    <motion.div
+                        key={active.id}
+                        initial={{ opacity: 0, y: 15 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -15 }}
+                        transition={{ duration: 0.5, ease: "easeOut" }}
+                    >
+                        <h1 className="font-michroma text-[32px] sm:text-[36px] md:text-[44px] lg:text-[50px] leading-[1.1] font-bold text-white uppercase [text-shadow:0_4px_30px_rgba(0,0,0,0.9),0_2px_10px_rgba(0,0,0,0.6)] tracking-tight">
+                            {active.title}
+                        </h1>
+                        <p className="text-white/80 text-[12px] sm:text-[14px] font-medium tracking-wide mt-2 max-w-[480px] drop-shadow-md">
+                            {active.subtitle}
+                        </p>
+                    </motion.div>
+                </AnimatePresence>
+            </div>
+
+            {/* Slide Dots */}
+            <div className="flex gap-2 mt-2">
+                {slides.map((s, i) => (
+                    <button
+                        key={s.id}
+                        type="button"
+                        onClick={() => setIndex(i)}
+                        className={`h-1.5 rounded-full transition-all duration-300 border-none cursor-pointer p-0 ${i === index % slides.length ? 'w-8 bg-[#da2525]' : 'w-2 bg-white/40 hover:bg-white/70'}`}
+                        aria-label={`Slide ${i + 1}`}
+                    />
+                ))}
+            </div>
+        </div>
+    );
+};
+
 export default function HomeScreen() {
     const navigate = useNavigate();
+    const geo = useGeolocation();
     const [openFaqId, setOpenFaqId] = useState('01');
     const [spotlightIndex, setSpotlightIndex] = useState(0);
     const [isVideoOpen, setIsVideoOpen] = useState(false);
@@ -132,7 +219,7 @@ export default function HomeScreen() {
                     transition={{ duration: 0.8, delay: 0.2 }}
                     className="absolute top-[28%] sm:top-[34%] lg:top-[30%] left-4 sm:left-8 lg:left-[80px] right-4 sm:right-8 lg:right-auto text-white z-[5] max-w-[520px]"
                 >
-                    <h1 className="font-michroma text-[38px] sm:text-[32px] md:text-[40px] lg:text-[48px] xl:text-[56px] mb-5 sm:mb-8 lg:mb-[40px] leading-[1.1] sm:leading-[1.2] font-normal [text-shadow:0_4px_30px_rgba(0,0,0,0.9),0_2px_10px_rgba(0,0,0,0.6)] tracking-tight">DRIVE YOUR<br />DREAM TODAY</h1>
+                    <GreetingSlider geo={geo} />
                     <div className="flex drop-shadow-[0_15px_25px_rgba(0,0,0,0.5)] w-fit max-w-full group">
                         <button type="button" onClick={() => navigate(ROUTES.COLLECTION)} className="font-michroma flex items-center bg-white/95 backdrop-blur-md text-black border-none h-[50px] sm:h-[56px] pr-6 sm:pr-10 pl-5 sm:pl-8 text-[13px] sm:text-[14px] font-bold tracking-[1px] cursor-pointer rounded-l hover:bg-white [clip-path:polygon(0_0,100%_0,calc(100%-15px)_100%,0_100%)] transition-colors">GET STARTED</button>
                         <button type="button" onClick={() => navigate(ROUTES.COLLECTION)} aria-label="Get started" className="bg-[#cc0000] text-white border-none w-[54px] sm:w-[60px] h-[50px] sm:h-[56px] flex items-center justify-center cursor-pointer rounded-r hover:bg-[#b30000] [clip-path:polygon(15px_0,100%_0,100%_100%,0_100%)] -ml-[10px] transition-colors duration-300 shrink-0">

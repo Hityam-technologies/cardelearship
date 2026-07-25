@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { getCategoryDetails } from '../data/cars';
 import { NAV_TABS, ROUTES } from '../utils/navigation';
+import { useGeolocation } from '../hooks/useGeolocation';
 
 const CATEGORY_DETAILS = getCategoryDetails();
 
@@ -12,6 +13,7 @@ const Header = ({ viewMode, setViewMode, categories, activeCategory, setActiveCa
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
+    const geo = useGeolocation();
 
     const hasActiveFilters = Boolean(
         activeFilters && (
@@ -46,6 +48,32 @@ const Header = ({ viewMode, setViewMode, categories, activeCategory, setActiveCa
                             {link.label}
                         </button>
                     ))}
+                    
+                    {/* Location Badge Button */}
+                    <button
+                        type="button"
+                        onClick={() => {
+                            if (geo.granted && geo.lat && geo.lng) {
+                                window.open(
+                                    `https://www.google.com/maps/dir/?api=1&origin=${geo.lat},${geo.lng}&destination=${geo.showroomCoords.lat},${geo.showroomCoords.lng}`,
+                                    '_blank',
+                                    'noopener,noreferrer'
+                                );
+                            } else {
+                                geo.requestAllPermissions();
+                            }
+                        }}
+                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/5 hover:bg-black/10 border border-black/10 text-black text-[11px] font-bold tracking-wider transition-colors ml-2 cursor-pointer shrink-0"
+                        title={geo.granted ? "Get directions to Madhapur showroom" : "Detect location & allow notifications"}
+                    >
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#da2525" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={geo.loading ? "animate-spin" : ""}>
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                            <circle cx="12" cy="10" r="3" />
+                        </svg>
+                        <span className="truncate max-w-[130px]">
+                            {geo.loading ? 'Locating...' : geo.granted ? `${geo.city} (${geo.distance}km)` : 'Location'}
+                        </span>
+                    </button>
                 </nav>
                 <button
                     type="button"
@@ -93,6 +121,35 @@ const Header = ({ viewMode, setViewMode, categories, activeCategory, setActiveCa
                                     {link.label}
                                 </button>
                             ))}
+                            <div className="pt-2 mt-1 border-t border-black/10">
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        setMobileMenuOpen(false);
+                                        if (geo.granted && geo.lat && geo.lng) {
+                                            window.open(
+                                                `https://www.google.com/maps/dir/?api=1&origin=${geo.lat},${geo.lng}&destination=${geo.showroomCoords.lat},${geo.showroomCoords.lng}`,
+                                                '_blank',
+                                                'noopener,noreferrer'
+                                            );
+                                        } else {
+                                            geo.requestAllPermissions();
+                                        }
+                                    }}
+                                    className="w-full flex items-center justify-between font-michroma text-left bg-black/5 border border-black/10 cursor-pointer text-black text-[12px] font-bold tracking-[1px] py-3 px-3 rounded-xl hover:bg-black/10 transition-colors"
+                                >
+                                    <span className="flex items-center gap-2">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#da2525" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                                            <circle cx="12" cy="10" r="3" />
+                                        </svg>
+                                        {geo.granted ? geo.city : 'Detect Location'}
+                                    </span>
+                                    {geo.granted && (
+                                        <span className="text-[#da2525] text-[11px] font-mono">{geo.distance} km away</span>
+                                    )}
+                                </button>
+                            </div>
                         </nav>
                     </motion.div>
                 )}

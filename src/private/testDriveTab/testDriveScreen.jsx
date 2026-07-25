@@ -4,14 +4,17 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Header from '../../components/header';
 import { COLLECTION_CARS } from '../../data/cars';
 import { readTestDriveParams } from '../../utils/navigation';
+import { useGeolocation } from '../../hooks/useGeolocation';
 
 export default function TestDriveScreen() {
     const [searchParams] = useSearchParams();
+    const geo = useGeolocation();
     const [formData, setFormData] = useState({
         name: '',
         phone: '',
         email: '',
         date: '',
+        location: '',
         carId: ''
     });
 
@@ -234,6 +237,37 @@ export default function TestDriveScreen() {
                                         value={formData.email}
                                         onChange={handleChange}
                                         placeholder="john@example.com" 
+                                        className="w-full bg-black/40 border border-white/10 rounded-[12px] sm:rounded-[16px] px-4 py-3 sm:py-3.5 text-white text-[13px] placeholder-white/20 focus:outline-none focus:border-white/30 focus:bg-black/60 transition-colors"
+                                    />
+                                </div>
+
+                                <div className="flex flex-col gap-1.5">
+                                    <div className="flex justify-between items-center ml-1">
+                                        <label className="text-white/70 text-[10px] sm:text-[11px] font-bold uppercase tracking-wider">Pickup / City Location</label>
+                                        <button
+                                            type="button"
+                                            onClick={() => {
+                                                if (geo.granted && geo.city) {
+                                                    setFormData((prev) => ({ ...prev, location: geo.city }));
+                                                } else {
+                                                    geo.requestLocation();
+                                                }
+                                            }}
+                                            className="text-[#da2525] hover:text-white text-[10px] font-bold tracking-wider uppercase transition-colors bg-transparent border-none cursor-pointer flex items-center gap-1"
+                                        >
+                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className={geo.loading ? "animate-spin" : ""}>
+                                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                                                <circle cx="12" cy="10" r="3" />
+                                            </svg>
+                                            {geo.loading ? 'Locating...' : geo.granted ? 'Use My Location' : 'Detect Location'}
+                                        </button>
+                                    </div>
+                                    <input 
+                                        type="text" 
+                                        name="location"
+                                        value={formData.location || (geo.granted ? geo.city : '')}
+                                        onChange={handleChange}
+                                        placeholder="e.g. Madhapur, Hyderabad" 
                                         className="w-full bg-black/40 border border-white/10 rounded-[12px] sm:rounded-[16px] px-4 py-3 sm:py-3.5 text-white text-[13px] placeholder-white/20 focus:outline-none focus:border-white/30 focus:bg-black/60 transition-colors"
                                     />
                                 </div>
